@@ -1,27 +1,19 @@
 //
-//  DCGoodsCountDownCell.m
-//  CDDMall
+//  ADStarGoodsCell.m
+//  AdelMall
 //
-//  Created by apple on 2017/6/5.
-//  Copyright © 2017年 RocketsChen. All rights reserved.
-//
+//  Created by 张锐凌 on 2018/3/26.
+//  Copyright © 2018年 Adel. All rights reserved.
+//  明星产品Cell
 
-#import "DCGoodsCountDownCell.h"
-
-// Controllers
-
-// Models
-//#import "DCRecommendItem.h"
+#import "ADStarGoodsCell.h"
 #import "ADGoodsTempModel.h"
 // Views
 #import "DCGoodsSurplusCell.h"
 // Vendors
 #import <MJExtension.h>
-// Categories
 
-// Others
-
-@interface DCGoodsCountDownCell ()<UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout>
+@interface ADStarGoodsCell()<UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout>
 
 /* collection */
 @property (strong , nonatomic)UICollectionView *collectionView;
@@ -37,7 +29,7 @@
 
 static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 
-@implementation DCGoodsCountDownCell
+@implementation ADStarGoodsCell
 
 #pragma mark - lazyload
 - (UICollectionView *)collectionView
@@ -94,9 +86,9 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
     self.backgroundColor = [UIColor whiteColor];
     self.collectionView.backgroundColor = self.backgroundColor;
     
-//    NSArray *countDownArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"CountDownShop.plist" ofType:nil]];
-//    _countDownItem = [DCRecommendItem mj_objectArrayWithKeyValuesArray:countDownArray];
-
+    //    NSArray *countDownArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"CountDownShop.plist" ofType:nil]];
+    //    _countDownItem = [DCRecommendItem mj_objectArrayWithKeyValuesArray:countDownArray];
+    
     
     _bottomLineView = [[UIView alloc] init];
     _bottomLineView.backgroundColor = kBACKGROUNDCOLOR;
@@ -105,8 +97,8 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 }
 
 -(void)loadData{
-    [RequestTool getGoodsForFlashSale:nil withSuccessBlock:^(NSDictionary *result) {
-        NSLog(@"抢购result = %@",result);
+    [RequestTool getStarGoods:nil withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"明星result = %@",result);
         [self withNSDictionary:result];
     } withFailBlock:^(NSString *msg) {
         NSLog(@"msg = %@",msg);
@@ -115,9 +107,9 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 
 -(void)withNSDictionary:(NSDictionary *)dict
 {
-//    NSArray *dataInfo = dict[@"data"][@"resultList"];
-//    _tempItem = [ADGoodsTempModel mj_objectArrayWithKeyValuesArray:dataInfo];
-//    [self.collectionView reloadData];
+    NSArray *dataInfo = dict[@"data"][@"goodsList"];
+    _tempItem = [ADGoodsTempModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - 布局
@@ -131,7 +123,7 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return _tempItem.count;
-//    return _countDownItem.count;
+    //    return _countDownItem.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -144,7 +136,7 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 #pragma mark - <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSLog(@"点击了计时商品%zd",indexPath.row);
+    NSLog(@"点击了明星产品%zd",indexPath.row);
     [self lookDetailForGoods];
 }
 
@@ -153,5 +145,6 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 {
     !_lookDetailBlock ? : _lookDetailBlock();
 }
+
 
 @end

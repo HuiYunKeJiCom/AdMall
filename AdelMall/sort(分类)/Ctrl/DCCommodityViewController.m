@@ -106,6 +106,16 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
     [self setUpTab];
     
     [self setUpData];
+    [self requestAllOrder:NO];
+}
+
+- (void)requestAllOrder:(BOOL)more{
+    
+    [RequestTool getGoodsCategory:@{@"parentId":@"25"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"分类result = %@",result);
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"msg = %@",msg);
+    }];
 }
 
 #pragma mark - initizlize
@@ -148,54 +158,6 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
     
     
 }
-
-
-/*
-#pragma mark - 设置导航条
-- (void)setUpNav
-{
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -15;
-    
-    UIButton *button = [[UIButton alloc] init];
-    [button setImage:[UIImage imageNamed:@"mshop_message_gray_icon"] forState:UIControlStateNormal];
-    [button setImage:[UIImage imageNamed:@"mshop_message_gray_icon"] forState:UIControlStateHighlighted];
-    button.frame = CGRectMake(0, 0, 44, 44);
-    [button addTarget:self action:@selector(messButtonBarItemClick) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
-    self.navigationItem.rightBarButtonItems = @[negativeSpacer, backButton];
-    
-    _topSearchView = [[UIView alloc] init];
-    _topSearchView.backgroundColor = RGBA(240, 240, 240, 1);
-    _topSearchView.layer.cornerRadius = 16;
-    [_topSearchView.layer masksToBounds];
-    _topSearchView.frame = CGRectMake(50, 6, ScreenW - 110, 32);
-    self.navigationItem.titleView = _topSearchView;
-    
-    _searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_searchButton setTitle:@"搜索商品/店铺" forState:0];
-    [_searchButton setTitleColor:[UIColor lightGrayColor] forState:0];
-    _searchButton.titleLabel.font = PFR13Font;
-    [_searchButton setImage:[UIImage imageNamed:@"group_home_search_gray"] forState:0];
-    [_searchButton adjustsImageWhenHighlighted];
-    _searchButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    _searchButton.titleEdgeInsets = UIEdgeInsetsMake(0, 2 * DCMargin, 0, 0);
-    _searchButton.imageEdgeInsets = UIEdgeInsetsMake(0, DCMargin, 0, 0);
-    [_searchButton addTarget:self action:@selector(searchButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    _searchButton.frame = CGRectMake(0, 0, _topSearchView.dc_width - 2 * DCMargin, _topSearchView.dc_height);
-    [_topSearchView addSubview:_searchButton];
-    
-    
-    _voiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _voiceButton.adjustsImageWhenHighlighted = NO;
-    _voiceButton.frame = CGRectMake(_topSearchView.dc_width - 40, 0, 35, _topSearchView.dc_height);
-    [_voiceButton addTarget:self action:@selector(voiceButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [_voiceButton setImage:[UIImage imageNamed:@"icon_voice_search"] forState:0];
-    [_topSearchView addSubview:_voiceButton];
-    
-}
-*/
 
 #pragma mark - <UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

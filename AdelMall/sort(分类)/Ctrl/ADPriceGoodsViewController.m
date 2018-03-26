@@ -40,6 +40,13 @@
     [self.goodsTable updateLoadState:more];
     
     WEAKSELF
+    [RequestTool getGoodsList:@{@"orderBy":@"store_price"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"result = %@",result);
+        [weakSelf handleTransferResult:result more:more];
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"msg = %@",msg);
+    }];
+    
     //    NSLog(@"类型type = %ld",(long)weak_self.type);
     //    [RequestTool appTransferList:@{k_Type:@(self.type),
     //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
@@ -57,19 +64,21 @@
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
     
-    NSArray *dataArr = @[@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"}];
-    //    if ([result isKindOfClass:[NSDictionary class]]) {
-    //        NSArray *dataInfo = result[@"data"];
-    //        if ([dataInfo isKindOfClass:[NSArray class]]) {
-    //            dataArr = dataInfo;
-    //        }
-    //    }
+    NSArray *dataArr = @[@{@"id":@"123456",@"goods_name":@"ADEL爱迪尔4920B",@"goods_choice_type":@"智能指纹锁",@"goods_price":@"1968.00"},@{@"id":@"123456",@"goods_name":@"ADEL爱迪尔4920B",@"goods_choice_type":@"智能指纹锁",@"goods_price":@"1968.00"},@{@"id":@"123456",@"goods_name":@"ADEL爱迪尔4920B",@"goods_choice_type":@"智能指纹锁",@"goods_price":@"1968.00"},@{@"id":@"123456",@"goods_name":@"ADEL爱迪尔4920B",@"goods_choice_type":@"智能指纹锁",@"goods_price":@"1968.00"}];
+//    NSArray *dataArr = [NSArray array];
+//        if ([result isKindOfClass:[NSDictionary class]]) {
+//            NSArray *dataInfo = result[@"data"];
+//            if ([dataInfo isKindOfClass:[NSArray class]]) {
+//                dataArr = dataInfo;
+//            }
+//        }
     
     [self.goodsTable.data removeAllObjects];
     for (NSDictionary *dic in dataArr) {
         
         ADGoodsModel *model = [ADGoodsModel mj_objectWithKeyValues:dic];
         [self.goodsTable.data addObject:model];
+        NSLog(@"model = %@",model.mj_keyValues);
     }
     
     [self.goodsTable updatePage:more];

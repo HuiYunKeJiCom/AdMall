@@ -13,7 +13,8 @@
 // Models
 
 // Views
-#import "DCRecommendItem.h"
+//#import "DCRecommendItem.h"
+#import "ADGoodsTempModel.h"
 // Vendors
 #import <UIImageView+WebCache.h>
 // Categories
@@ -28,8 +29,8 @@
 @property (strong , nonatomic)UILabel *priceLabel;
 /* 剩余 */
 @property (strong , nonatomic)UILabel *stockLabel;
-/* 属性 */
-@property (strong , nonatomic)UILabel *natureLabel;
+///* 属性 */
+//@property (strong , nonatomic)UILabel *natureLabel;
 
 @end
 
@@ -64,12 +65,12 @@
     _stockLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_stockLabel];
     
-    _natureLabel = [[UILabel alloc] init];
-    _natureLabel.textAlignment = NSTextAlignmentCenter;
-    _natureLabel.backgroundColor = [UIColor redColor];
-    _natureLabel.font = PFR10Font;
-    _natureLabel.textColor = [UIColor whiteColor];
-    [_goodsImageView addSubview:_natureLabel];
+//    _natureLabel = [[UILabel alloc] init];
+//    _natureLabel.textAlignment = NSTextAlignmentCenter;
+//    _natureLabel.backgroundColor = [UIColor redColor];
+//    _natureLabel.font = PFR10Font;
+//    _natureLabel.textColor = [UIColor whiteColor];
+//    [_goodsImageView addSubview:_natureLabel];
 }
 
 #pragma mark - 布局
@@ -94,24 +95,37 @@
         make.centerX.mas_equalTo(self);
     }];
     
-    [_natureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(_goodsImageView.mas_bottom);
-        make.left.mas_equalTo(_goodsImageView);
-        make.size.mas_equalTo(CGSizeMake(30, 15));
-    }];
+//    [_natureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.mas_equalTo(_goodsImageView.mas_bottom);
+//        make.left.mas_equalTo(_goodsImageView);
+//        make.size.mas_equalTo(CGSizeMake(30, 15));
+//    }];
 }
 
 #pragma mark - Setter Getter Methods
-- (void)setRecommendItem:(DCRecommendItem *)recommendItem
+-(void)setModel:(ADGoodsTempModel *)model
 {
-    _recommendItem = recommendItem;
+//    NSLog(@"来这里了吗");
+    _model = model;
     
-    [_goodsImageView sd_setImageWithURL:[NSURL URLWithString:recommendItem.image_url]];
+    [_goodsImageView sd_setImageWithURL:[NSURL URLWithString:model.goods_image_path]];
     
-    _priceLabel.text = ([recommendItem.price integerValue] >= 10000) ? [NSString stringWithFormat:@"¥ %.2f万",[recommendItem.price floatValue] / 10000.0] : [NSString stringWithFormat:@"¥ %.2f",[recommendItem.price floatValue]];
+    _priceLabel.text = ([model.goods_current_price integerValue] >= 10000) ? [NSString stringWithFormat:@"¥ %.2f万",[model.goods_current_price floatValue] / 10000.0] : [NSString stringWithFormat:@"¥ %.2f",[model.goods_current_price floatValue]];
     
-    _stockLabel.text = [NSString stringWithFormat:@"%@：%@%@",KLocalizableStr(@"仅剩"),KLocalizableStr(recommendItem.stock),KLocalizableStr(@"件")];
-    _natureLabel.text = recommendItem.nature;
+    _stockLabel.text = [NSString stringWithFormat:@"%@：%@%@",KLocalizableStr(@"仅剩"),KLocalizableStr(model.goods_inventory),KLocalizableStr(@"件")];
+//    _natureLabel.text = recommendItem.nature;
+
 }
+//- (void)setRecommendItem:(DCRecommendItem *)recommendItem
+//{
+//    _recommendItem = recommendItem;
+//
+//    [_goodsImageView sd_setImageWithURL:[NSURL URLWithString:recommendItem.image_url]];
+//
+//    _priceLabel.text = ([recommendItem.price integerValue] >= 10000) ? [NSString stringWithFormat:@"¥ %.2f万",[recommendItem.price floatValue] / 10000.0] : [NSString stringWithFormat:@"¥ %.2f",[recommendItem.price floatValue]];
+//
+//    _stockLabel.text = [NSString stringWithFormat:@"%@：%@%@",KLocalizableStr(@"仅剩"),KLocalizableStr(recommendItem.stock),KLocalizableStr(@"件")];
+//    _natureLabel.text = recommendItem.nature;
+//}
 
 @end

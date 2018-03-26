@@ -12,8 +12,8 @@
 #define CurrentHost @"://192.168.0.59:6108" //测试环境
 //用于替换查找
 #define TEMPHost @"://"
-
-
+//Host
+#define Host  [NSString stringWithFormat:@"http%@/adel-shop/app/",CurrentHost]
 
 
 #ifndef Global_h

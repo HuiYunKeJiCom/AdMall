@@ -30,3 +30,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <MJExtension/MJExtension.h>
+#import <MBProgressHUD/MBProgressHUD.h>
+#import "RequestParamsList.h"
+#import "RequestTool.h"

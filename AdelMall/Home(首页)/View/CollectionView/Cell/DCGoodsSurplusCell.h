@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@class DCRecommendItem;
+//@class DCRecommendItem;
+@class ADGoodsTempModel;
 @interface DCGoodsSurplusCell : UICollectionViewCell
 
 /* 推荐商品数据 */
-@property (strong , nonatomic)DCRecommendItem *recommendItem;
+//@property (strong , nonatomic)DCRecommendItem *recommendItem;
+
+/* 推荐商品数据 */
+@property (strong , nonatomic)ADGoodsTempModel *model;
 
 @end

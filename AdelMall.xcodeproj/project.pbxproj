@@ -133,6 +133,7 @@
 		186C3959204947A000CCBD37 /* ADExpressInformationViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C3958204947A000CCBD37 /* ADExpressInformationViewCell.m */; };
 		186C395C2049494A00CCBD37 /* ADShipAddressViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C395B2049494A00CCBD37 /* ADShipAddressViewCell.m */; };
 		186C395F20494BDA00CCBD37 /* ADApplicationRecordViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C395E20494BDA00CCBD37 /* ADApplicationRecordViewCell.m */; };
+		1878AC4220690BA90025DC72 /* ADStarGoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878AC4120690BA90025DC72 /* ADStarGoodsCell.m */; };
 		187FF7362058FFF900A5A596 /* ADPaymentSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187FF7352058FFF900A5A596 /* ADPaymentSuccessViewController.m */; };
 		187FF73920590C1F00A5A596 /* ADPaymentSuccessContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187FF73820590C1F00A5A596 /* ADPaymentSuccessContentView.m */; };
 		187FF73D205915EB00A5A596 /* ADPaymentGoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187FF73C205915EB00A5A596 /* ADPaymentGoodsCell.m */; };
@@ -158,6 +159,15 @@
 		1883CB5A204D54FB0061884E /* ADPaymentViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883CB59204D54FB0061884E /* ADPaymentViewCell.m */; };
 		18841847206233AE001CBAE4 /* UIColor+ColorChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 18841846206233AE001CBAE4 /* UIColor+ColorChange.m */; };
 		1884184A2062498A001CBAE4 /* ADBottomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 188418492062498A001CBAE4 /* ADBottomCell.m */; };
+		188FB6682068D05F00F99670 /* HttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6672068D05F00F99670 /* HttpRequest.m */; };
+		188FB66D2068D1A000F99670 /* NSError+httpError.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB66B2068D1A000F99670 /* NSError+httpError.m */; };
+		188FB6702068D6E000F99670 /* RequestTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB66F2068D6E000F99670 /* RequestTool.m */; };
+		188FB6742068D76C00F99670 /* BaseViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6722068D76B00F99670 /* BaseViewCtrl.m */; };
+		188FB6782068D80900F99670 /* FFLoadFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6762068D80900F99670 /* FFLoadFailView.m */; };
+		188FB67B2068D89300F99670 /* RequestDataAndSafeDeal.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6792068D89200F99670 /* RequestDataAndSafeDeal.m */; };
+		188FB67F2068D9DE00F99670 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB67D2068D9DD00F99670 /* UIView+Frame.m */; };
+		188FB6822068E66900F99670 /* NSObject+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6812068E66900F99670 /* NSObject+MJExtension.m */; };
+		188FB6852068FA9500F99670 /* ADGoodsTempModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6842068FA9500F99670 /* ADGoodsTempModel.m */; };
 		1891F10820424627001D9426 /* ADTotalPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F10720424627001D9426 /* ADTotalPriceView.m */; };
 		1891F10B2042C72F001D9426 /* ADEvaluateLabelViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F10A2042C72F001D9426 /* ADEvaluateLabelViewCell.m */; };
 		18A07C4F205FBA1700204BE1 /* GoodAttributesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07C4D205FBA1500204BE1 /* GoodAttributesView.m */; };
@@ -467,6 +477,8 @@
 		186C395B2049494A00CCBD37 /* ADShipAddressViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADShipAddressViewCell.m; sourceTree = "<group>"; };
 		186C395D20494BDA00CCBD37 /* ADApplicationRecordViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADApplicationRecordViewCell.h; sourceTree = "<group>"; };
 		186C395E20494BDA00CCBD37 /* ADApplicationRecordViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADApplicationRecordViewCell.m; sourceTree = "<group>"; };
+		1878AC4020690BA80025DC72 /* ADStarGoodsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADStarGoodsCell.h; sourceTree = "<group>"; };
+		1878AC4120690BA90025DC72 /* ADStarGoodsCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADStarGoodsCell.m; sourceTree = "<group>"; };
 		187FF7342058FFF900A5A596 /* ADPaymentSuccessViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADPaymentSuccessViewController.h; sourceTree = "<group>"; };
 		187FF7352058FFF900A5A596 /* ADPaymentSuccessViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADPaymentSuccessViewController.m; sourceTree = "<group>"; };
 		187FF73720590C1F00A5A596 /* ADPaymentSuccessContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADPaymentSuccessContentView.h; sourceTree = "<group>"; };
@@ -515,6 +527,25 @@
 		18841846206233AE001CBAE4 /* UIColor+ColorChange.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorChange.m"; sourceTree = "<group>"; };
 		188418482062498A001CBAE4 /* ADBottomCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADBottomCell.h; sourceTree = "<group>"; };
 		188418492062498A001CBAE4 /* ADBottomCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADBottomCell.m; sourceTree = "<group>"; };
+		188FB6662068D05E00F99670 /* HttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequest.h; sourceTree = "<group>"; };
+		188FB6672068D05F00F99670 /* HttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpRequest.m; sourceTree = "<group>"; };
+		188FB66B2068D1A000F99670 /* NSError+httpError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+httpError.m"; sourceTree = "<group>"; };
+		188FB66C2068D1A000F99670 /* NSError+httpError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+httpError.h"; sourceTree = "<group>"; };
+		188FB66E2068D6E000F99670 /* RequestTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestTool.h; sourceTree = "<group>"; };
+		188FB66F2068D6E000F99670 /* RequestTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestTool.m; sourceTree = "<group>"; };
+		188FB6722068D76B00F99670 /* BaseViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewCtrl.m; sourceTree = "<group>"; };
+		188FB6732068D76C00F99670 /* BaseViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewCtrl.h; sourceTree = "<group>"; };
+		188FB6762068D80900F99670 /* FFLoadFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFLoadFailView.m; sourceTree = "<group>"; };
+		188FB6772068D80900F99670 /* FFLoadFailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFLoadFailView.h; sourceTree = "<group>"; };
+		188FB6792068D89200F99670 /* RequestDataAndSafeDeal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestDataAndSafeDeal.m; sourceTree = "<group>"; };
+		188FB67A2068D89300F99670 /* RequestDataAndSafeDeal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestDataAndSafeDeal.h; sourceTree = "<group>"; };
+		188FB67C2068D8FF00F99670 /* RequestParamsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestParamsList.h; sourceTree = "<group>"; };
+		188FB67D2068D9DD00F99670 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		188FB67E2068D9DE00F99670 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
+		188FB6802068E66800F99670 /* NSObject+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJExtension.h"; sourceTree = "<group>"; };
+		188FB6812068E66900F99670 /* NSObject+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJExtension.m"; sourceTree = "<group>"; };
+		188FB6832068FA9500F99670 /* ADGoodsTempModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADGoodsTempModel.h; sourceTree = "<group>"; };
+		188FB6842068FA9500F99670 /* ADGoodsTempModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADGoodsTempModel.m; sourceTree = "<group>"; };
 		1891F10620424627001D9426 /* ADTotalPriceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADTotalPriceView.h; sourceTree = "<group>"; };
 		1891F10720424627001D9426 /* ADTotalPriceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADTotalPriceView.m; sourceTree = "<group>"; };
 		1891F1092042C72F001D9426 /* ADEvaluateLabelViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADEvaluateLabelViewCell.h; sourceTree = "<group>"; };
@@ -872,6 +903,8 @@
 				182B3A03204E79EB00462CAA /* ADSecondaryHeaderView.h */,
 				182B3A04204E79EB00462CAA /* ADSecondaryHeaderView.m */,
 				1851741F20204D8A00E7B8F8 /* CollectionView */,
+				188FB6832068FA9500F99670 /* ADGoodsTempModel.h */,
+				188FB6842068FA9500F99670 /* ADGoodsTempModel.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -922,6 +955,8 @@
 				185174332020579700E7B8F8 /* DCGoodsSurplusCell.m */,
 				185174292020555F00E7B8F8 /* DCGoodsCountDownCell.h */,
 				185174282020555F00E7B8F8 /* DCGoodsCountDownCell.m */,
+				1878AC4020690BA80025DC72 /* ADStarGoodsCell.h */,
+				1878AC4120690BA90025DC72 /* ADStarGoodsCell.m */,
 				18BA79A82046904F003833BA /* ADButtonViewCell.h */,
 				18BA79A92046904F003833BA /* ADButtonViewCell.m */,
 				18BA79AB2046AF27003833BA /* ADRecommendCell.h */,
@@ -1029,6 +1064,8 @@
 		186547B02064B1D2006E50FF /* Plist */ = {
 			isa = PBXGroup;
 			children = (
+				185174352020593400E7B8F8 /* CountDownShop.plist */,
+				18B9651E201F2DD400A6DA59 /* MyServiceFlow.plist */,
 				186547C42064E219006E50FF /* Cities.json */,
 				186547B42064D221006E50FF /* ClassiftyGoods02.plist */,
 				186547B32064D221006E50FF /* ClassiftyGoods03.plist */,
@@ -1284,8 +1321,64 @@
 		188FB66420689C5F00F99670 /* HttpRequest */ = {
 			isa = PBXGroup;
 			children = (
+				188FB66E2068D6E000F99670 /* RequestTool.h */,
+				188FB66F2068D6E000F99670 /* RequestTool.m */,
+				188FB6652068D04200F99670 /* BaseRequest */,
 			);
 			path = HttpRequest;
+			sourceTree = "<group>";
+		};
+		188FB6652068D04200F99670 /* BaseRequest */ = {
+			isa = PBXGroup;
+			children = (
+				188FB67C2068D8FF00F99670 /* RequestParamsList.h */,
+				188FB6662068D05E00F99670 /* HttpRequest.h */,
+				188FB6672068D05F00F99670 /* HttpRequest.m */,
+				188FB67A2068D89300F99670 /* RequestDataAndSafeDeal.h */,
+				188FB6792068D89200F99670 /* RequestDataAndSafeDeal.m */,
+			);
+			path = BaseRequest;
+			sourceTree = "<group>";
+		};
+		188FB6692068D11D00F99670 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				188FB66A2068D13E00F99670 /* NSError */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		188FB66A2068D13E00F99670 /* NSError */ = {
+			isa = PBXGroup;
+			children = (
+				188FB66C2068D1A000F99670 /* NSError+httpError.h */,
+				188FB66B2068D1A000F99670 /* NSError+httpError.m */,
+			);
+			path = NSError;
+			sourceTree = "<group>";
+		};
+		188FB6712068D74800F99670 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				188FB6732068D76C00F99670 /* BaseViewCtrl.h */,
+				188FB6722068D76B00F99670 /* BaseViewCtrl.m */,
+				18517409202008D400E7B8F8 /* BaseRefreshGifHeader.h */,
+				1851740C202008D500E7B8F8 /* BaseRefreshGifHeader.m */,
+				18F1D21E20295E4100F371CB /* BaseTableView.h */,
+				18F1D21D20295E4000F371CB /* BaseTableView.m */,
+				18B9652B201F3C4B00A6DA59 /* BaseTableCell.h */,
+				18B9652A201F3C4A00A6DA59 /* BaseTableCell.m */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		188FB6752068D80900F99670 /* FFNoDataView */ = {
+			isa = PBXGroup;
+			children = (
+				188FB6762068D80900F99670 /* FFLoadFailView.m */,
+				188FB6772068D80900F99670 /* FFLoadFailView.h */,
+			);
+			path = FFNoDataView;
 			sourceTree = "<group>";
 		};
 		18B964BB201EF2BE00A6DA59 = {
@@ -1398,8 +1491,6 @@
 				18B964CD201EF2BE00A6DA59 /* Main.storyboard */,
 				18B964D0201EF2BE00A6DA59 /* Assets.xcassets */,
 				18B964D2201EF2BE00A6DA59 /* LaunchScreen.storyboard */,
-				185174352020593400E7B8F8 /* CountDownShop.plist */,
-				18B9651E201F2DD400A6DA59 /* MyServiceFlow.plist */,
 				18B964D5201EF2BE00A6DA59 /* Info.plist */,
 				18B964D6201EF2BE00A6DA59 /* main.m */,
 				18B964E9201EF97F00A6DA59 /* Global.h */,
@@ -1430,6 +1521,7 @@
 		18B964F4201F011400A6DA59 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				188FB6692068D11D00F99670 /* Extension */,
 				1851743A2020665F00E7B8F8 /* CustionButton */,
 				18B96529201F3C1500A6DA59 /* SelfLibs */,
 				18B96509201F1DE600A6DA59 /* Const(常量) */,
@@ -1455,6 +1547,10 @@
 		18B964F9201F029700A6DA59 /* Category(分类) */ = {
 			isa = PBXGroup;
 			children = (
+				188FB6802068E66800F99670 /* NSObject+MJExtension.h */,
+				188FB6812068E66900F99670 /* NSObject+MJExtension.m */,
+				188FB67E2068D9DE00F99670 /* UIView+Frame.h */,
+				188FB67D2068D9DD00F99670 /* UIView+Frame.m */,
 				186547BB2064E188006E50FF /* UIView+YWFrame.h */,
 				186547BC2064E189006E50FF /* UIView+YWFrame.m */,
 				185EC6772060E48900721522 /* NSString+wrapper.h */,
@@ -1529,18 +1625,14 @@
 		18B96529201F3C1500A6DA59 /* SelfLibs */ = {
 			isa = PBXGroup;
 			children = (
+				188FB6752068D80900F99670 /* FFNoDataView */,
+				188FB6712068D74800F99670 /* Base */,
 				188FB66420689C5F00F99670 /* HttpRequest */,
 				18809690202846CC006BF195 /* GQGesVCTransition */,
 				185174152020109000E7B8F8 /* UIViewExt.h */,
 				185174162020109100E7B8F8 /* UIViewExt.m */,
 				1850822C205BA2A000C80DD7 /* EdgeInsetsLabel.h */,
 				1850822D205BA2A100C80DD7 /* EdgeInsetsLabel.m */,
-				18517409202008D400E7B8F8 /* BaseRefreshGifHeader.h */,
-				1851740C202008D500E7B8F8 /* BaseRefreshGifHeader.m */,
-				18F1D21E20295E4100F371CB /* BaseTableView.h */,
-				18F1D21D20295E4000F371CB /* BaseTableView.m */,
-				18B9652B201F3C4B00A6DA59 /* BaseTableCell.h */,
-				18B9652A201F3C4A00A6DA59 /* BaseTableCell.m */,
 				18A07C54205FBABE00204BE1 /* GoodAttrModel.h */,
 				18A07C53205FBABD00204BE1 /* GoodAttrModel.m */,
 			);
@@ -1845,6 +1937,7 @@
 				18809693202846DF006BF195 /* GQGesVCTransition.m in Sources */,
 				186C395C2049494A00CCBD37 /* ADShipAddressViewCell.m in Sources */,
 				185EC6762060A8E700721522 /* ADRelatedTableViewCell.m in Sources */,
+				188FB6782068D80900F99670 /* FFLoadFailView.m in Sources */,
 				1882AC7D202D402600D3DE4F /* ADOrderBasicModel.m in Sources */,
 				18BA79A620465BF7003833BA /* DCExceedApplianceCell.m in Sources */,
 				1880968E202846A4006BF195 /* DCTabBarController.m in Sources */,
@@ -1892,6 +1985,8 @@
 				186C39562049426C00CCBD37 /* ADServiceFlowViewCell.m in Sources */,
 				185AEB9C202C35B50059A725 /* ADGoodsCell.m in Sources */,
 				1848376F205616D80070ABDA /* ADEvaluatedExposureViewController.m in Sources */,
+				1878AC4220690BA90025DC72 /* ADStarGoodsCell.m in Sources */,
+				188FB6702068D6E000F99670 /* RequestTool.m in Sources */,
 				185EC67F2060F1AE00721522 /* ADAddressShowView.m in Sources */,
 				1850822E205BA2A100C80DD7 /* EdgeInsetsLabel.m in Sources */,
 				186C3959204947A000CCBD37 /* ADExpressInformationViewCell.m in Sources */,
@@ -1903,6 +1998,7 @@
 				182B3A0F204E909700462CAA /* ADCouponViewController.m in Sources */,
 				18F07B832045611600F0761E /* DCClassMianItem.m in Sources */,
 				185EC67C2060E8FF00721522 /* ADAddressModel.m in Sources */,
+				188FB6852068FA9500F99670 /* ADGoodsTempModel.m in Sources */,
 				18841847206233AE001CBAE4 /* UIColor+ColorChange.m in Sources */,
 				18E013E620513814004A969C /* ADEvaluateListModel.m in Sources */,
 				186C395F20494BDA00CCBD37 /* ADApplicationRecordViewCell.m in Sources */,
@@ -1922,6 +2018,7 @@
 				18277ACA202A8E7B00973ECC /* ADUserEvaluationViewController.m in Sources */,
 				185AEB99202C34860059A725 /* ADGoodsModel.m in Sources */,
 				18B96508201F192D00A6DA59 /* ADCenterTopToolView.m in Sources */,
+				188FB67B2068D89300F99670 /* RequestDataAndSafeDeal.m in Sources */,
 				186547F22064F2D7006E50FF /* ADAddressTopView.m in Sources */,
 				184837812056731B0070ABDA /* UIScrollView+Extension.m in Sources */,
 				183626902057C34F0099FE10 /* ADApplyAfterSaleModel.m in Sources */,
@@ -1937,6 +2034,7 @@
 				18B96502201F033B00A6DA59 /* UIView+DCExtension.m in Sources */,
 				186547BD2064E189006E50FF /* UIView+YWFrame.m in Sources */,
 				18237AC5202857AA0071D65C /* ADOrderTopToolView.m in Sources */,
+				188FB67F2068D9DE00F99670 /* UIView+Frame.m in Sources */,
 				1882AC7A202D3EA300D3DE4F /* ADOrderBasicViewCell.m in Sources */,
 				182B39FC204E317500462CAA /* ADSallingCell.m in Sources */,
 				18508228205B584B00C80DD7 /* ADOnSallDetailHeadView.m in Sources */,
@@ -1980,6 +2078,8 @@
 				18454AF52047A606001B9F9F /* ADGoodsListViewCell.m in Sources */,
 				185C8BC2204FD1FD00768C54 /* ADCouponExpiredModel.m in Sources */,
 				183766DD202982B40055FF97 /* ADOrderCell.m in Sources */,
+				188FB6822068E66900F99670 /* NSObject+MJExtension.m in Sources */,
+				188FB66D2068D1A000F99670 /* NSError+httpError.m in Sources */,
 				186C3953204937C700CCBD37 /* ADServiceStateView.m in Sources */,
 				18A07C52205FBA9500204BE1 /* UIButton+Bootstrap.m in Sources */,
 				18F1D21C2029570500F371CB /* ADOrderClosedViewController.m in Sources */,
@@ -1994,6 +2094,7 @@
 				186547E92064E2EE006E50FF /* YWAddressView.m in Sources */,
 				182B39FF204E6E3C00462CAA /* ADOriginalPriceView.m in Sources */,
 				18277AC7202A8E4D00973ECC /* ADGoodsParameterViewController.m in Sources */,
+				188FB6742068D76C00F99670 /* BaseViewCtrl.m in Sources */,
 				18170FAB205D18ED00EA50A1 /* ADGoodsSpecCell.m in Sources */,
 				18454AEC204791FF001B9F9F /* ADPlaceOrderViewController.m in Sources */,
 				186547E72064E2EE006E50FF /* YWChooseAddressView.m in Sources */,
@@ -2007,6 +2108,7 @@
 				18F07B942045648400F0761E /* DCBrandSortCell.m in Sources */,
 				18BA799E20464251003833BA /* ADHomeSearchView.m in Sources */,
 				185AEB96202BF8040059A725 /* ADParameterView.m in Sources */,
+				188FB6682068D05F00F99670 /* HttpRequest.m in Sources */,
 				1850822B205B5F0300C80DD7 /* ADGoodsIntroduceCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

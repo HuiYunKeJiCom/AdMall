@@ -12,6 +12,7 @@
 #import "ADGoodsListViewController.h"//分类列表
 /* cell */
 #import "DCGoodsCountDownCell.h" //倒计时商品
+#import "ADStarGoodsCell.h" //明星产品商品
 /* head */
 #import "DCSlideshowHeadView.h"  //轮播图
 #import "DCCountDownHeadView.h"  //限时秒杀
@@ -24,6 +25,7 @@
 #import "ADFlashSaleViewController.h"//限时抢购
 #import "ADSallGoodsDetailViewController.h"//抢购商品详情
 
+//#import "ADGoodsTempModel.h"
 
 @interface ADHomePageViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 /* collectionView */
@@ -32,10 +34,14 @@
 @property (nonatomic, strong) DCHomeTopToolView *topToolView;
 /* 顶部searchView */
 @property (nonatomic, strong) ADHomeSearchView *topSearchView;
+
+///* 测试数组 */
+//@property (strong , nonatomic)NSMutableArray<ADGoodsTempModel *> *tempItem;
 @end
 
 /* cell */
 static NSString *const DCGoodsCountDownCellID = @"DCGoodsCountDownCell";
+static NSString *const ADStarGoodsCellID = @"ADStarGoodsCell";
 static NSString *const DCExceedApplianceCellID = @"DCExceedApplianceCell";
 static NSString *const ADButtonViewCellID = @"ADButtonViewCell";
 static NSString *const ADRecommendCellID = @"ADRecommendCell";
@@ -60,6 +66,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
         _collectionView.backgroundColor = kBACKGROUNDCOLOR;
         
         [_collectionView registerClass:[DCGoodsCountDownCell class] forCellWithReuseIdentifier:DCGoodsCountDownCellID];
+        [_collectionView registerClass:[ADStarGoodsCell class] forCellWithReuseIdentifier:ADStarGoodsCellID];
         [_collectionView registerClass:[DCExceedApplianceCell class] forCellWithReuseIdentifier:DCExceedApplianceCellID];
         [_collectionView registerClass:[ADButtonViewCell class] forCellWithReuseIdentifier:ADButtonViewCellID];
         [_collectionView registerClass:[ADRecommendCell class] forCellWithReuseIdentifier:ADRecommendCellID];
@@ -82,8 +89,39 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     [self setUpTopSearchView];
     
     [self setUpGIFRrfresh];
-
+//    [self loadData];
 }
+
+//-(void)loadData{
+//    [RequestTool getStarGoods:nil withSuccessBlock:^(NSDictionary *result) {
+//        NSLog(@"result = %@",result);
+//        [self with:result];
+//    } withFailBlock:^(NSString *msg) {
+//        NSLog(@"msg = %@",msg);
+//    }];
+//}
+
+//-(void)with:(NSDictionary *)dict
+//{
+//        NSArray *dataInfo = dict[@"data"][@"goodsList"];
+//        NSLog(@"dataInfo = %@",dataInfo);
+////    for (NSDictionary *dic in dataInfo) {
+////        NSLog(@"dic = %@",dic);
+////        ADGoodsTempModel *model = [ADGoodsTempModel mj_objectWithKeyValues:dic];
+////        NSLog(@"model = %@",model.mj_keyValues);
+////    }
+//    _tempItem = [ADGoodsTempModel mj_objectArrayWithKeyValuesArray:dataInfo];
+//    NSLog(@"_tempItem = %@",_tempItem);
+//}
+//
+//- (NSMutableArray<ADGoodsTempModel *> *)tempItem
+//{
+//    if (!_tempItem) {
+//        _tempItem = [NSMutableArray array];
+//    }
+//    return _tempItem;
+//}
+
 
 #pragma mark - 导航栏
 - (void)setUpTopToolView
@@ -159,7 +197,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
         gridcell = cell;
     }
     else if (indexPath.section == 2) {//明星产品
-        DCGoodsCountDownCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsCountDownCellID forIndexPath:indexPath];
+        ADStarGoodsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADStarGoodsCellID forIndexPath:indexPath];
         cell.lookDetailBlock = ^{
             ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
             [self.navigationController pushViewController:detailVC animated:YES];

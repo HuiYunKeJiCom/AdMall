@@ -7,8 +7,6 @@
 //  限时抢购-正在抢购
 
 #import "ADSallingViewController.h"
-//#import "ADGoodsModel.h"
-//#import "ADGoodsCell.h"
 #import "ADSallingModel.h"
 #import "ADSallingCell.h"
 
@@ -41,6 +39,13 @@
     [self.goodsTable updateLoadState:more];
     
     WEAKSELF
+    
+    [RequestTool getGoodsForFlashSale:@{@"type":@"start"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"result = %@",result);
+        [weakSelf handleTransferResult:result more:more];
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"msg = %@",msg);
+    }];
     //    NSLog(@"类型type = %ld",(long)weak_self.type);
     //    [RequestTool appTransferList:@{k_Type:@(self.type),
     //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
@@ -51,7 +56,7 @@
     //                                   } fail:^(NSString *msg) {
     //                                       [weak_self showHUD:NO];
     //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
+//    [weakSelf handleTransferResult:nil more:more];
     //                                   }];
     
 }
@@ -59,12 +64,12 @@
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
     
     NSArray *dataArr = @[@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"}];
-    //    if ([result isKindOfClass:[NSDictionary class]]) {
-    //        NSArray *dataInfo = result[@"data"];
-    //        if ([dataInfo isKindOfClass:[NSArray class]]) {
-    //            dataArr = dataInfo;
-    //        }
-    //    }
+//        if ([result isKindOfClass:[NSDictionary class]]) {
+//            NSArray *dataInfo = result[@"data"];
+//            if ([dataInfo isKindOfClass:[NSArray class]]) {
+//                dataArr = dataInfo;
+//            }
+//        }
     
     [self.goodsTable.data removeAllObjects];
     for (NSDictionary *dic in dataArr) {

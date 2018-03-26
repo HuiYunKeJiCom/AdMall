@@ -11,6 +11,6 @@
 @implementation ADGoodsModel
 + (NSDictionary *)mj_replacedKeyFromPropertyName
 {
-    return @{@"idx": @"id"};
+    return @{@"idx": @"id",@"goodsName":@"goods_name",@"type":@"goods_choice_type",@"price":@"goods_price"};
 }
 @end
