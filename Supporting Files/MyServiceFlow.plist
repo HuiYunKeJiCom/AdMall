@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>gridColor</key>
+		<string>#F36E69</string>
+		<key>gridTag</key>
+		<string></string>
+		<key>gridTitle</key>
+		<string>未支付</string>
+		<key>iconImage</key>
+		<string>my_ico_card</string>
+	</dict>
+	<dict>
+		<key>gridColor</key>
+		<string></string>
+		<key>gridTag</key>
+		<string></string>
+		<key>gridTitle</key>
+		<string>未发货</string>
+		<key>iconImage</key>
+		<string>my_ico_car</string>
+	</dict>
+	<dict>
+		<key>gridColor</key>
+		<string></string>
+		<key>gridTag</key>
+		<string></string>
+		<key>gridTitle</key>
+		<string>售后</string>
+		<key>iconImage</key>
+		<string>my_ico_money</string>
+	</dict>
+</array>
+</plist>

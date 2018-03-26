@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>fileName</key>
+		<string>ClassiftyGoods02.plist</string>
+		<key>title</key>
+		<string>酒店门锁</string>
+	</dict>
+	<dict>
+		<key>fileName</key>
+		<string>ClassiftyGoods06.plist</string>
+		<key>title</key>
+		<string>房地产专用锁</string>
+	</dict>
+	<dict>
+		<key>fileName</key>
+		<string>ClassiftyGoods03.plist</string>
+		<key>title</key>
+		<string>办公门锁</string>
+	</dict>
+	<dict>
+		<key>fileName</key>
+		<string>ClassiftyGoods02.plist</string>
+		<key>title</key>
+		<string>特殊行业用锁</string>
+	</dict>
+	<dict>
+		<key>fileName</key>
+		<string>ClassiftyGoods04.plist</string>
+		<key>title</key>
+		<string>指纹锁</string>
+	</dict>
+	<dict>
+		<key>fileName</key>
+		<string>ClassiftyGoods05.plist</string>
+		<key>title</key>
+		<string>巡更系统</string>
+	</dict>
+	<dict>
+		<key>fileName</key>
+		<string>ClassiftyGoods06.plist</string>
+		<key>title</key>
+		<string>指纹开发模块</string>
+	</dict>
+</array>
+</plist>

@@ -1,0 +1,35 @@
+/* 
+  Localizable_en.strings
+  Wallet
+
+  Created by apple on 2017/10/18.
+  Copyright © 2017年 FFZX. All rights reserved.
+*/
+
+
+"我的订单" = "My order";
+"暂无数据" = "No data";
+"删除" = "Delete";
+"仅剩" = "Only";
+"件" = "pieces";
+"全部" = "Total";
+"评价商品" = "Evaluation of goods";
+"喜欢的商品" = "Favorite commodity";
+"优惠券" = "Coupon";
+"收货地址" = "Receiving address";
+"常见问题" = "Common problem";
+"查看" = "Check";
+"编辑" = "Edit";
+" 家庭用户 " = " Family user ";
+"会员俱乐部" = "Membership club";
+"领券中心" = "Voucher Center";
+
+
+
+
+
+
+
+
+
+
