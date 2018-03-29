@@ -8,6 +8,8 @@
 
 #import "ADSallingCell.h"
 #import "ADOriginalPriceView.h"
+#import "ADCountDownGoodsModel.h"
+#import <UIImageView+WebCache.h>
 
 @interface ADSallingCell()
 
@@ -126,13 +128,17 @@
     [self.totalView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(weakSelf.goodsIV.mas_right).with.offset(10);
         make.bottom.equalTo(weakSelf.bgView.mas_bottom).with.offset(-10);
-        make.size.mas_equalTo(CGSizeMake(100, 20));
+        if([self.model.gg_def_count integerValue]+[self.model.gg_count integerValue] == 0){
+            make.size.mas_equalTo(CGSizeMake(100, 20));
+        }else{
+            make.size.mas_equalTo(CGSizeMake(10*([self.model.gg_def_count integerValue]+[self.model.gg_count integerValue]), 20));
+        }
     }];
     
     [self.soldView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(weakSelf.goodsIV.mas_right).with.offset(10);
         make.bottom.equalTo(weakSelf.bgView.mas_bottom).with.offset(-10);
-        make.size.mas_equalTo(CGSizeMake(60, 20));
+        make.size.mas_equalTo(CGSizeMake(10*[self.model.gg_def_count integerValue], 20));
     }];
     
     [self.robLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -152,15 +158,17 @@
     }];
 }
 
-- (void)setModel:(ADSallingModel *)model {
+- (void)setModel:(ADCountDownGoodsModel *)model {
     _model = model;
-    self.goodsNameLab.text = model.goodsName;
-    self.typeLab.text = model.type;
+    [self.goodsIV sd_setImageWithURL:[NSURL URLWithString:model.goods_image_path]];
+    self.goodsNameLab.text = model.gg_name;
+    self.typeLab.text = model.gg_name;
     self.robLab.text = @"抢";
-    self.soldNumLab.text = model.soldNum;
+    self.soldNumLab.text = model.gg_def_count;
     self.soldUnitLab.text = @"件已售";
-    self.salePriceLab.text = model.salePrice;
+    self.salePriceLab.text = [NSString stringWithFormat:@"%.2f",[model.gg_price floatValue]];
     self.saleUnitLab.text = @"元";
+    [self.oldPriceView setOldPriceWithNSString:model.goods_price];
 }
 
 - (UIView *)bgView {
@@ -174,13 +182,23 @@
 -(UIImageView *)goodsIV{
     if (!_goodsIV) {
         _goodsIV = [[UIImageView alloc] init];
-        //        [_goodsIV setImage:[UIImage imageNamed:@"icon"]];
-        [_goodsIV setBackgroundColor:[UIColor greenColor]];
+//        [_goodsIV setBackgroundColor:[UIColor greenColor]];
         [_goodsIV setContentMode:UIViewContentModeScaleAspectFill];
-        //        [_goodsIV setClipsToBounds:YES];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doTap:)];
+        // 允许用户交互
+        _goodsIV.userInteractionEnabled = YES;
+        
+        [_goodsIV addGestureRecognizer:tap];
     }
     return _goodsIV;
 }
+
+#pragma mark - 图片 点击
+- (void)doTap:(UITapGestureRecognizer *)tap {
+    //    NSLog(@"图片 点击");
+    !_imageViewBtnClickBlock ? : _imageViewBtnClickBlock();
+}
+
 
 - (UILabel *)goodsNameLab {
     if (!_goodsNameLab) {
@@ -254,12 +272,6 @@
 - (UILabel *)salePriceLab {
     if (!_salePriceLab) {
         _salePriceLab = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum14 TextColor:[UIColor redColor]];
-//        NSString *oldPrice = @"1268.00";
-//        NSUInteger length = [oldPrice length];
-//        NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
-//        [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, length)];
-//        [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(0, length)];
-//        [_salePriceLab setAttributedText:attri];
     }
     return _salePriceLab;
 }

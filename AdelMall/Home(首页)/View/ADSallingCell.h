@@ -7,8 +7,10 @@
 //
 
 #import "BaseTableCell.h"
-#import "ADSallingModel.h"
 
+@class ADCountDownGoodsModel;
 @interface ADSallingCell : BaseTableCell
-@property (nonatomic, strong) ADSallingModel  *model;
+@property (nonatomic, strong) ADCountDownGoodsModel  *model;
+/* 点击商品图片 点击回调 */
+@property (nonatomic, copy) dispatch_block_t imageViewBtnClickBlock;
 @end

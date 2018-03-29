@@ -42,8 +42,11 @@
 }
 
 -(void)setUpData{
-    self.originalPriceLab.text = @"1968.00";
     self.unitLab.text = @"元";
+}
+
+-(void)setOldPriceWithNSString:(NSString *)string{
+    self.originalPriceLab.text = [NSString stringWithFormat:@"%.2f",[string floatValue]];
 }
 
 - (void)makeConstraints {

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ADOriginalPriceView : UIView
-
+-(void)setOldPriceWithNSString:(NSString *)string;
 @end

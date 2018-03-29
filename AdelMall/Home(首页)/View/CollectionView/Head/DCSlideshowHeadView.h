@@ -12,5 +12,5 @@
 
 /* 轮播图数组 */
 @property (copy , nonatomic)NSArray *imageGroupArray;
-
+-(void)loadDataWithAdvertID:(NSString *)string;
 @end

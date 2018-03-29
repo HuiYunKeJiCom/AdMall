@@ -53,8 +53,8 @@
 - (void)setHandheldImage:(NSString *)handheldImage
 {
     _handheldImage = handheldImage;
-    
-    [_handheldImageView sd_setImageWithURL:[NSURL URLWithString:handheldImage]];
+//    NSLog(@"_handheldImage = %@",_handheldImage);
+    [_handheldImageView sd_setImageWithURL:[NSURL URLWithString:handheldImage] placeholderImage:[UIImage imageNamed:@"image_default"]];
 }
 
 @end

@@ -7,9 +7,10 @@
 //  明星产品Cell
 
 #import "ADStarGoodsCell.h"
-#import "ADGoodsTempModel.h"
+#import "ADStarGoodsModel.h"
 // Views
-#import "DCGoodsSurplusCell.h"
+//#import "DCGoodsSurplusCell.h"
+#import "ADStarGoodsSubclassCell.h"
 // Vendors
 #import <MJExtension.h>
 
@@ -23,11 +24,11 @@
 @property (strong , nonatomic)UIView *bottomLineView;
 
 /* 测试数组 */
-@property (strong , nonatomic)NSMutableArray<ADGoodsTempModel *> *tempItem;
+@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *tempItem;
 
 @end
 
-static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
+static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 
 @implementation ADStarGoodsCell
 
@@ -37,7 +38,7 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
         layout.minimumLineSpacing = 1;
-        layout.itemSize = CGSizeMake(self.dc_height * 0.65, self.dc_height * 0.9);
+        layout.itemSize = CGSizeMake(kScreenWidth * 0.25, self.dc_height * 0.9+10);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal; //滚动方向
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         [self addSubview:_collectionView];
@@ -46,20 +47,12 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         
-        [_collectionView registerClass:[DCGoodsSurplusCell class] forCellWithReuseIdentifier:DCGoodsSurplusCellID];
+        [_collectionView registerClass:[ADStarGoodsSubclassCell class] forCellWithReuseIdentifier:ADStarGoodsSubclassCellID];
     }
     return _collectionView;
 }
 
-//- (NSMutableArray<DCRecommendItem *> *)countDownItem
-//{
-//    if (!_countDownItem) {
-//        _countDownItem = [NSMutableArray array];
-//    }
-//    return _countDownItem;
-//}
-
-- (NSMutableArray<ADGoodsTempModel *> *)tempItem
+- (NSMutableArray<ADStarGoodsModel *> *)tempItem
 {
     if (!_tempItem) {
         _tempItem = [NSMutableArray array];
@@ -85,11 +78,7 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 {
     self.backgroundColor = [UIColor whiteColor];
     self.collectionView.backgroundColor = self.backgroundColor;
-    
-    //    NSArray *countDownArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"CountDownShop.plist" ofType:nil]];
-    //    _countDownItem = [DCRecommendItem mj_objectArrayWithKeyValuesArray:countDownArray];
-    
-    
+
     _bottomLineView = [[UIView alloc] init];
     _bottomLineView.backgroundColor = kBACKGROUNDCOLOR;
     [self addSubview:_bottomLineView];
@@ -99,7 +88,9 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 -(void)loadData{
     [RequestTool getStarGoods:nil withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"明星result = %@",result);
-        [self withNSDictionary:result];
+        if([result[@"code"] integerValue] == 1){
+            [self withNSDictionary:result];
+        }
     } withFailBlock:^(NSString *msg) {
         NSLog(@"msg = %@",msg);
     }];
@@ -108,7 +99,10 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 -(void)withNSDictionary:(NSDictionary *)dict
 {
     NSArray *dataInfo = dict[@"data"][@"goodsList"];
-    _tempItem = [ADGoodsTempModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    _tempItem = [ADStarGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
+//    for (ADStarGoodsModel *model in _tempItem) {
+//                NSLog(@"明星model = %@",model.mj_keyValues);
+//    }
     [self.collectionView reloadData];
 }
 
@@ -128,7 +122,7 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DCGoodsSurplusCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsSurplusCellID forIndexPath:indexPath];
+    ADStarGoodsSubclassCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADStarGoodsSubclassCellID forIndexPath:indexPath];
     cell.model = _tempItem[indexPath.row];
     return cell;
 }

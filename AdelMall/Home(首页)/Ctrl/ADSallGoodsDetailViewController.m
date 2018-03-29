@@ -19,6 +19,8 @@
 #import "ADRelatedTableViewCell.h"//相关商品tableView
 #import "ADGoodsDetailViewController.h"//商品详情
 
+#import "ADFlashSaleModel.h"
+
 @interface ADSallGoodsDetailViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 /* collectionView */
 @property (strong , nonatomic)UICollectionView *collectionView;
@@ -28,6 +30,9 @@
 @property(nonatomic,assign)BOOL isOpen;
 /** 是否打开商品规格选择页面 */
 @property(nonatomic,assign)BOOL isOpenSpec;
+/** 抢购活动商品模型 */
+@property(nonatomic,strong)ADFlashSaleModel *model;
+
 @end
 
 /* cell */
@@ -78,7 +83,37 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     [self setUpBottomButton];
     
     [self setUpGIFRrfresh];
-    
+
+}
+
+-(void)loadDataWithGoodsID:(NSString *)goodsID{
+    //    @"65680"
+    NSLog(@"goodsID = %@",goodsID);
+    [RequestTool getFlashSaleDetail:@{@"id":goodsID} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"抢购详情result = %@",result);
+        
+        if([result[@"code"] integerValue] == 1){
+            [self withNSDictionary:result];
+        }else{
+//            NSMutableArray *tempAdvertArr = [NSMutableArray array];
+//            self.goodExceedArray = tempAdvertArr;
+        }
+        
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"抢购详情msg = %@",msg);
+//        NSMutableArray *tempAdvertArr = [NSMutableArray array];
+//        self.goodExceedArray = tempAdvertArr;
+    }];
+}
+
+-(void)withNSDictionary:(NSDictionary *)dict
+{
+    NSArray *dataInfo = dict[@"data"];
+    self.model = [ADFlashSaleModel mj_objectWithKeyValues:dataInfo];
+    NSLog(@"self.model = %@",self.model.mj_keyValues);
+    NSLog(@"spec_name = %@",dict[@"data"][@"specs"]);
+    [_topToolView setTopTitleWithNSString:KLocalizableStr(self.model.gg_name)];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - 导航栏处理
@@ -86,7 +121,7 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
 {
     _topToolView = [[ADOrderTopToolView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
     _topToolView.hidden = NO;
-    [_topToolView setTopTitleWithNSString:KLocalizableStr(@"3398型 智能门锁家庭酒店专用指纹智能门锁")];
+//    [_topToolView setTopTitleWithNSString:KLocalizableStr(@"3398型 智能门锁家庭酒店专用指纹智能门锁")];
     WEAKSELF
     _topToolView.backgroundColor = [UIColor whiteColor];
     _topToolView.leftItemClickBlock = ^{
@@ -239,6 +274,7 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     UICollectionViewCell *gridcell = nil;
     if (indexPath.section == 1) {//抢购商品说明
         ADGoodsIntroduceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADGoodsIntroduceCellID forIndexPath:indexPath];
+        cell.model = self.model;
         gridcell = cell;
     }
     else if (indexPath.section == 2) {//收货地址
@@ -289,12 +325,14 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     //    if (kind == UICollectionElementKindSectionHeader){
     if (indexPath.section == 0) {
         DCSlideshowHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCSlideshowHeadViewID forIndexPath:indexPath];
-        headerView.imageGroupArray = GoodsHomeSilderImagesArray;
+        headerView.imageGroupArray = self.model.picPaths;
+//        [headerView loadDataWithAdvertID:@"1"];
         reusableview = headerView;
     }
     else if(indexPath.section == 1){
         //            抢购中
         ADOnSallDetailHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:ADOnSallDetailHeadViewID forIndexPath:indexPath];
+        headerView.model = self.model;
         reusableview = headerView;
     }
     return reusableview;

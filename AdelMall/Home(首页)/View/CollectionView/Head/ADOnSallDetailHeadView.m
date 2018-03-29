@@ -7,6 +7,7 @@
 //  限时秒杀-抢购商品详情
 
 #import "ADOnSallDetailHeadView.h"
+#import "ADFlashSaleModel.h"
 
 @interface ADOnSallDetailHeadView()
 /** 人民币 符号 */
@@ -86,15 +87,69 @@
 #pragma mark - 填充数据
 -(void)setUpData{
     self.symbolLabel.text = @"¥";
-    self.lowPriceLabel.text = @"1680.00";
-    self.highPriceLabel.text = @"1980.00";
     self.onSaleLabel.text = @"抢购中";
-    self.hourLabel.text = @"00";
+//    self.hourLabel.text = @"00";
     self.colonLabel2.text = @":";
-    self.minuteLabel.text = @"00";
+//    self.minuteLabel.text = @"00";
     self.colonLabel1.text = @":";
-    self.secondLabel.text = @"00";
+//    self.secondLabel.text = @"00";
     self.tipLabel.text = @"后结束";
+
+}
+
+-(void)setModel:(ADFlashSaleModel *)model{
+    _model = model;
+    
+    self.lowPriceLabel.text = [NSString stringWithFormat:@"%.2f",[self.model.gg_price floatValue]];
+    self.highPriceLabel.text = [NSString stringWithFormat:@"%.2f",[self.model.goods_price floatValue]];
+//    NSLog(@"self.model = %@",self.model.mj_keyValues);
+    NSMutableArray *timeDifferenceArr = [self dateTimeDifferenceWithStartTime:self.model.beginTime endTime:self.model.endTime];
+    if([timeDifferenceArr[0] integerValue]>10){
+        self.hourLabel.text = timeDifferenceArr[0];
+    }else{
+        self.hourLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[0]];
+    }
+    if([timeDifferenceArr[1] integerValue]>10){
+        self.minuteLabel.text = timeDifferenceArr[1];
+    }else{
+        self.minuteLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[1]];
+    }
+    if([timeDifferenceArr[2] integerValue]>10){
+        self.secondLabel.text = timeDifferenceArr[2];
+    }else{
+        self.secondLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[2]];
+    }
+}
+
+-(NSMutableArray *)dateTimeDifferenceWithStartTime:(NSString *)startTime endTime:(NSString *)endTime{
+    NSDateFormatter *date = [[NSDateFormatter alloc]init];
+    [date setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *startD =[date dateFromString:startTime];
+    NSDate *endD = [date dateFromString:endTime];
+    NSTimeInterval start = [startD timeIntervalSince1970]*1;
+    NSTimeInterval end = [endD timeIntervalSince1970]*1;
+    NSTimeInterval value = end - start;
+    int second = (int)value %60;//秒
+    int minute = (int)value /60%60;
+    int house = (int)value / (3600)%3600;
+    int day = (int)value / (24 *3600);
+    house = day*24+house-1;
+    //    NSLog(@"day = %d,house = %d,minute = %d,second = %ld",day,house,minute,second);
+    //    NSString *str;
+    //    if (day != 0) {
+    //        str = [NSString stringWithFormat:@"耗时%d天%d小时%d分%d秒",day,house,minute,second];
+    //    }else if (day==0 && house !=0) {
+    //        str = [NSString stringWithFormat:@"耗时%d小时%d分%d秒",house,minute,second];
+    //    }else if (day==0 && house==0 && minute!=0) {
+    //        str = [NSString stringWithFormat:@"耗时%d分%d秒",minute,second];
+    //    }else{
+    //        str = [NSString stringWithFormat:@"耗时%d秒",second];
+    //    }
+    NSMutableArray *timeArr = [NSMutableArray array];
+    [timeArr addObject:[NSString stringWithFormat:@"%d",house]];
+    [timeArr addObject:[NSString stringWithFormat:@"%d",minute]];
+    [timeArr addObject:[NSString stringWithFormat:@"%d",second]];
+    return timeArr;
 }
 
 - (UILabel *)symbolLabel {

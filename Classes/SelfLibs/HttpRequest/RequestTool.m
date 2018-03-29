@@ -8,6 +8,22 @@
 
 #import "RequestTool.h"
 
+/* 获取广告轮播图数据 */
+static NSString * const kApiUrlGetImagePathAD = @"advert_invoke.htm?";
+static NSString * const kRequestCodeGetImagePathAD = @"kRequestGetImagePathAD";
+
+/* 获取首页楼层数据 */
+static NSString * const kApiUrlGetFloorData = @"floor.htm?";
+static NSString * const kRequestCodeGetFloorData = @"kRequestGetFloorData";
+
+/* 获取指定楼层列表数据 */
+static NSString * const kApiUrlGetAppointFloorData = @"floorDetail.htm?";
+static NSString * const kRequestCodeGetAppointFloorData = @"kRequestGetAppointFloorData";
+
+/* 获取为你推荐商品列表 */
+static NSString * const kApiUrlGetRecommendData = @"recommend.htm?";
+static NSString * const kRequestCodeGetRecommendData = @"kRequestGetRecommendData";
+
 /* 获取抢购活动列表数据 */
 static NSString * const kApiUrlGetGoodsFlashSale = @"flashSale.htm?";
 static NSString * const kRequestCodeGetGoodsFlashSale = @"kRequestGetGoodsFlashSale";
@@ -24,7 +40,9 @@ static NSString * const kRequestCodeGetGoodsCategory = @"kRequestGetGoodsCategor
 static NSString * const kApiUrlGetGoodsList = @"search.htm?";
 static NSString * const kRequestCodeGetGoodsList = @"kRequestGetGoodsList";
 
-
+/* 获取抢购商品详情数据 */
+static NSString * const kApiUrlGetFlashSaleDetail = @"flashSaleDetail.htm?";
+static NSString * const kRequestCodeGetFlashSaleDetail = @"kRequestGetFlashSaleDetail";
 
 //检测系统版本更新
 static NSString * const kLockDetectionSystem =  @"";
@@ -179,6 +197,60 @@ static NSString * const kLockItunesAppSystemCode =  @"";
     }
 }
 
+/* 获取广告轮播图数据 */
++(void)getImagePathForAD:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetImagePathAD params:paramsDic requestCode:kRequestCodeGetImagePathAD withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取首页楼层数据 */
++(void)getFloorData:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetFloorData params:paramsDic requestCode:kRequestCodeGetFloorData withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取指定楼层列表数据 */
++(void)getAppointFloorData:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetAppointFloorData params:paramsDic requestCode:kRequestCodeGetAppointFloorData withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取为你推荐商品列表 */
++(void)getRecommendData:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetRecommendData params:paramsDic requestCode:kRequestCodeGetRecommendData withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+
+
 /* 获取抢购活动列表数据 */
 +(void)getGoodsForFlashSale:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetGoodsFlashSale params:paramsDic requestCode:kRequestCodeGetGoodsFlashSale withSuccessBlock:^(NSDictionary *result) {
@@ -221,6 +293,19 @@ static NSString * const kLockItunesAppSystemCode =  @"";
 /* 获取商品列表 */
 +(void)getGoodsList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetGoodsList params:paramsDic requestCode:kRequestCodeGetGoodsList withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取抢购商品详情数据 */
++(void)getFlashSaleDetail:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetFlashSaleDetail params:paramsDic requestCode:kRequestCodeGetFlashSaleDetail withSuccessBlock:^(NSDictionary *result) {
         
         successBlock(result);
         

@@ -25,6 +25,9 @@
 #import "ADFlashSaleViewController.h"//限时抢购
 #import "ADSallGoodsDetailViewController.h"//抢购商品详情
 
+#import "ADCountDownActivityModel.h"
+#import "ADFloorModel.h"
+
 //#import "ADGoodsTempModel.h"
 
 @interface ADHomePageViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -35,8 +38,14 @@
 /* 顶部searchView */
 @property (nonatomic, strong) ADHomeSearchView *topSearchView;
 
-///* 测试数组 */
-//@property (strong , nonatomic)NSMutableArray<ADGoodsTempModel *> *tempItem;
+/** 抢购倒计时时间 */
+@property(nonatomic,strong)NSDictionary *dict;
+/** 抢购商品id */
+@property(nonatomic,copy)NSString *goodsID;
+/* 首页楼层数据数组 */
+@property (strong , nonatomic)NSMutableArray<ADFloorModel *> *floorDataItem;
+///* floorId数组 */
+//@property (copy , nonatomic)NSMutableArray *floorIdArray;
 @end
 
 /* cell */
@@ -80,48 +89,73 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     return _collectionView;
 }
 
+- (NSDictionary *)dict
+{
+    if (!_dict) {
+        _dict = [NSDictionary dictionary];
+    }
+    return _dict;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+//    self.floorIdArray = [NSMutableArray array];
     [self setUpBase];
     
     [self setUpTopToolView];
     [self setUpTopSearchView];
     
     [self setUpGIFRrfresh];
-//    [self loadData];
+    
+    //限时秒杀的时间
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getTime:) name:@"countDownTime" object:nil];
+    
+    //抢购详情的商品id
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGoodsID:) name:@"goodsID" object:nil];
+    
+    [self loadData];
 }
 
-//-(void)loadData{
-//    [RequestTool getStarGoods:nil withSuccessBlock:^(NSDictionary *result) {
-//        NSLog(@"result = %@",result);
-//        [self with:result];
-//    } withFailBlock:^(NSString *msg) {
-//        NSLog(@"msg = %@",msg);
-//    }];
-//}
+-(void)getTime:(NSNotification *)text{
+    self.dict = text.userInfo;
+}
 
-//-(void)with:(NSDictionary *)dict
-//{
-//        NSArray *dataInfo = dict[@"data"][@"goodsList"];
-//        NSLog(@"dataInfo = %@",dataInfo);
-////    for (NSDictionary *dic in dataInfo) {
-////        NSLog(@"dic = %@",dic);
-////        ADGoodsTempModel *model = [ADGoodsTempModel mj_objectWithKeyValues:dic];
-////        NSLog(@"model = %@",model.mj_keyValues);
-////    }
-//    _tempItem = [ADGoodsTempModel mj_objectArrayWithKeyValuesArray:dataInfo];
-//    NSLog(@"_tempItem = %@",_tempItem);
-//}
+//跳转到抢购详情页面
+-(void)getGoodsID:(NSNotification *)text{
+    ADSallGoodsDetailViewController *sallGoodsDetailVC = [[ADSallGoodsDetailViewController alloc] init];
+    [sallGoodsDetailVC loadDataWithGoodsID:text.userInfo[@"goodsID"]];
+    [self.navigationController pushViewController:sallGoodsDetailVC animated:YES];
+}
+-(void)loadData{
+    [RequestTool getFloorData:nil withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取首页楼层数据result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [self withNSDictionary:result];
+        }
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"获取首页楼层数据msg = %@",msg);
+    }];
+}
+
+-(void)withNSDictionary:(NSDictionary *)dict
+{
+    NSArray *dataInfo = dict[@"data"][@"result"];
+    _floorDataItem = [ADFloorModel mj_objectArrayWithKeyValuesArray:dataInfo];
+//    for (ADFloorModel *model in _floorDataItem) {
+//            NSLog(@"获取首页楼层数据model = %@",model.mj_keyValues);
 //
-//- (NSMutableArray<ADGoodsTempModel *> *)tempItem
-//{
-//    if (!_tempItem) {
-//        _tempItem = [NSMutableArray array];
 //    }
-//    return _tempItem;
-//}
+}
 
+- (NSMutableArray<ADFloorModel *> *)floorDataItem
+{
+    if (!_floorDataItem) {
+        _floorDataItem = [NSMutableArray array];
+    }
+    return _floorDataItem;
+}
 
 #pragma mark - 导航栏
 - (void)setUpTopToolView
@@ -189,11 +223,9 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     UICollectionViewCell *gridcell = nil;
         if (indexPath.section == 1) {//倒计时
         DCGoodsCountDownCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsCountDownCellID forIndexPath:indexPath];
-            cell.lookDetailBlock = ^{
-                //进入抢购商品详情页面
-                ADSallGoodsDetailViewController *sallGoodsDetailVC = [[ADSallGoodsDetailViewController alloc] init];
-                [self.navigationController pushViewController:sallGoodsDetailVC animated:YES];
-            };
+//            cell.lookDetailBlock = ^{
+//                //进入抢购商品详情页面
+//            };
         gridcell = cell;
     }
     else if (indexPath.section == 2) {//明星产品
@@ -205,7 +237,12 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
         gridcell = cell;
     }else if (indexPath.section == 3) {//智能硬件
         DCExceedApplianceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCExceedApplianceCellID forIndexPath:indexPath];
-        cell.goodExceedArray = GoodsRecommendArray;
+//        cell.goodExceedArray = GoodsRecommendArray;
+        for (ADFloorModel *model in _floorDataItem) {
+            if([model.floorName isEqualToString:@"酒店门锁"]){
+                [cell loadDataWithFloorID:model.floorId];
+            }
+        }
         cell.lookDetailBlock = ^{
             ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
             [self.navigationController pushViewController:detailVC animated:YES];
@@ -221,7 +258,12 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     }
     else  if (indexPath.section == 5){//为您推荐
         ADRecommendCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADRecommendCellID forIndexPath:indexPath];
-        cell.goodExceedArray = GoodsRecommendArray;
+//        cell.goodExceedArray = GoodsRecommendArray;
+//        for (ADFloorModel *model in _floorDataItem) {
+//            if([model.floorName isEqualToString:@"酒店门锁"]){
+//                [cell loadDataWithFloorID:model.floorId];
+//            }
+//        }
         cell.lookDetailBlock = ^{
             ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
             [self.navigationController pushViewController:detailVC animated:YES];
@@ -237,7 +279,8 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     UICollectionReusableView *reusableview = nil;
         if (indexPath.section == 0) {
             DCSlideshowHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCSlideshowHeadViewID forIndexPath:indexPath];
-            headerView.imageGroupArray = GoodsHomeSilderImagesArray;
+            [headerView loadDataWithAdvertID:@"1"];
+//            headerView.imageGroupArray = GoodsHomeSilderImagesArray;
             reusableview = headerView;
         }else if(indexPath.section == 1){
 //            限时秒杀
@@ -245,8 +288,11 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
             headerView.lookAllBlock = ^{
                 //进入限时抢购页面
                 ADFlashSaleViewController *flashSaleVC = [[ADFlashSaleViewController alloc] init];
+                flashSaleVC.timeDict = self.dict;
                 [self.navigationController pushViewController:flashSaleVC animated:YES];
             };
+            
+            
             reusableview = headerView;
         }else if(indexPath.section == 2){
             //            明星产品
@@ -294,10 +340,10 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 #pragma mark - item宽高
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 1) {//计时
-        return CGSizeMake(kScreenWidth, 150);
+        return CGSizeMake(kScreenWidth, 175);
     }
     if (indexPath.section == 2) {//明星产品
-        return CGSizeMake(kScreenWidth,150);
+        return CGSizeMake(kScreenWidth,175);
     }
     if (indexPath.section == 3) {//智能硬件
         return CGSizeMake(kScreenWidth,350);

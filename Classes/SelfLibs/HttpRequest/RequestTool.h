@@ -42,6 +42,19 @@ typedef void (^FailBlock)(NSString *);
 - (void)requestWebViewDataWithUrl:(NSString *)url
                      successBlock:(void (^)(NSData *data))successBlock
                         failBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取广告轮播图数据 */
++(void)getImagePathForAD:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取首页楼层数据 */
++(void)getFloorData:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取指定楼层列表数据 */
++(void)getAppointFloorData:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取为你推荐商品列表 */
++(void)getRecommendData:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
 /* 获取抢购活动列表数据 */
 +(void)getGoodsForFlashSale:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 
@@ -53,4 +66,7 @@ typedef void (^FailBlock)(NSString *);
 
 /* 获取商品列表 */
 +(void)getGoodsList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取抢购商品详情数据 */
++(void)getFlashSaleDetail:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 @end

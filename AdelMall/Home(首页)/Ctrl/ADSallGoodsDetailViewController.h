@@ -11,4 +11,5 @@
 @interface ADSallGoodsDetailViewController : UIViewController
 /** 标题 由首页抢购商品传过来*/
 @property(nonatomic,copy)NSString *titleString;
+-(void)loadDataWithGoodsID:(NSString *)goodsID;
 @end

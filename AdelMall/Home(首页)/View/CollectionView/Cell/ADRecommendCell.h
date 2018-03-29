@@ -13,4 +13,5 @@
 @property (nonatomic, copy) dispatch_block_t lookDetailBlock;
 /* 推荐图片数组 */
 @property (copy , nonatomic)NSArray *goodExceedArray;
+//-(void)loadDataWithFloorID:(NSString *)floorID;
 @end

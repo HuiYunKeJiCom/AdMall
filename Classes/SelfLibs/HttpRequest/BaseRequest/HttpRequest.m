@@ -50,19 +50,25 @@
                             failureBlock:(FailureBlock)failureBlock
 {
     NSMutableString *fullUrl;
-    NSDictionary *newParams;
+    NSString *newParams = @"";
     //操作队列管理
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     if ([self isFullUrlWithOriginUrl:url params:params]) {
         fullUrl = [NSMutableString stringWithFormat:@"%@",url];
-        newParams = params;
+        newParams = [NSString queryStringFrom:params];
         manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     } else {
         NSString *p = @"";
         if (params) {
             p = [NSString queryStringFrom:params];
         }
+//        NSString *str2 = @"";
+        
+//        str2 = [p stringByRemovingPercentEncoding];
+        
+//        str2 = [p stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        NSLog(@"str2 = %@",str2);
         fullUrl = [NSMutableString stringWithFormat:@"%@%@%@",Host,url,p];
         newParams = nil;
         manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingMutableContainers];
@@ -84,8 +90,7 @@
     manager.responseSerializer.acceptableContentTypes  = [NSSet setWithObjects:@"application/xml",@"text/xml",@"text/plain",@"application/json",@"text/html",@"text/javascript",@"text/json",nil];
     
     NSLog(@"调用接口fullUrl = %@",fullUrl);
-    
-    
+
     // ///加密
     // NSDate *datenow = [NSDate date];
     // NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[datenow timeIntervalSince1970]];
@@ -164,6 +169,9 @@
     [dic setObject:requestOperation forKey:requestCode];
     return requestOperation;
 }
+
+
+
  + (NSURLSessionDataTask *)uploadWithURL:(NSString *)url
                             requestCode:(NSString *)requestCode
                                  params:(NSDictionary *)params

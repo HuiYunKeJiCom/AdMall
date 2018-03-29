@@ -10,4 +10,6 @@
 
 @interface ADFlashSaleViewController : UIViewController
 @property (nonatomic,assign) NSInteger index;
+/** 抢购倒计时时间 */
+@property(nonatomic,strong)NSDictionary *timeDict;
 @end

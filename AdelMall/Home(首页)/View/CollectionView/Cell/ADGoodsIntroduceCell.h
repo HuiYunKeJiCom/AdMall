@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class ADFlashSaleModel;
 @interface ADGoodsIntroduceCell : UICollectionViewCell
-
+/** 抢购商品模型 */
+@property(nonatomic,strong)ADFlashSaleModel *model;
 @end

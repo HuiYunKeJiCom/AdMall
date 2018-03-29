@@ -14,7 +14,7 @@
 
 // Views
 //#import "DCRecommendItem.h"
-#import "ADGoodsTempModel.h"
+#import "ADStarGoodsModel.h"
 // Vendors
 #import <UIImageView+WebCache.h>
 // Categories
@@ -103,7 +103,7 @@
 }
 
 #pragma mark - Setter Getter Methods
--(void)setModel:(ADGoodsTempModel *)model
+-(void)setModel:(ADStarGoodsModel *)model
 {
 //    NSLog(@"来这里了吗");
     _model = model;

@@ -277,7 +277,8 @@ static NSString * const KYYYYMMddHHmmss                    =   @"YYYY-MM-dd HH:m
     NSString *clearLeftParenthesis = [self stringByReplacingOccurrencesOfString:@"{" withString:@"%7B"];
     NSString *clearRightParenthesis = [clearLeftParenthesis stringByReplacingOccurrencesOfString:@"}" withString:@"%7D"];
 //    NSString *clearMarkParenthesis = [clearRightParenthesis stringByReplacingOccurrencesOfString:@":" withString:@"%3A"];
-    NSString *result = [clearRightParenthesis stringByReplacingOccurrencesOfString:@"\"" withString:@"%22"];
+//    NSString *result = [clearRightParenthesis stringByReplacingOccurrencesOfString:@"\"" withString:@"%22"];
+        NSString *result = [clearRightParenthesis stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     return result;
 }
 
@@ -285,24 +286,27 @@ static NSString * const KYYYYMMddHHmmss                    =   @"YYYY-MM-dd HH:m
 + (NSString *)queryStringFrom:(NSDictionary *)params
 {
     NSMutableDictionary *paramDic = [[NSMutableDictionary alloc] initWithDictionary:params];//[NSString queryIdentifier:params];
-    NSString *query = @"params={";
+//    NSString *query = @"params={";
+    NSString *query = @"";
     for (id key in paramDic) {
         if ([[[paramDic objectForKey:key] class] isSubclassOfClass:[NSString class]]) {
-            query = [query stringByAppendingFormat:@"\"%@\":\"%@\"", key, [paramDic objectForKey:key]];
+            query = [query stringByAppendingFormat:@"\"%@\"=\"%@\"", key, [paramDic objectForKey:key]];
             
             query = [query stringByAppendingString:@","];
         }
         if ([[[paramDic objectForKey:key] class] isSubclassOfClass:[NSNumber class]]) {
-            query = [query stringByAppendingFormat:@"\"%@\":%@", key, [paramDic objectForKey:key]];
+            query = [query stringByAppendingFormat:@"\"%@\"=%@", key, [paramDic objectForKey:key]];
             query = [query stringByAppendingString:@","];
         }
     }
     query = [query substringToIndex:([query length] - 1)];
     if(paramDic.count){
         
-        query = [query stringByAppendingString:@"}"];
+//        query = [query stringByAppendingString:@"}"];
     }
+    NSLog(@"query = %@",query);
     query = [query clearParams];
+    NSLog(@"query = %@",query);
     return query;
 }
 

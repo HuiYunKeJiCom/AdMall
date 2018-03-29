@@ -11,10 +11,10 @@
 // Controllers
 
 // Models
-//#import "DCRecommendItem.h"
-#import "ADGoodsTempModel.h"
+#import "ADCountDownGoodsModel.h"
+#import "ADCountDownActivityModel.h"
 // Views
-#import "DCGoodsSurplusCell.h"
+#import "ADCountDownSubclassCell.h"
 // Vendors
 #import <MJExtension.h>
 // Categories
@@ -30,12 +30,14 @@
 /* 底部 */
 @property (strong , nonatomic)UIView *bottomLineView;
 
-/* 测试数组 */
-@property (strong , nonatomic)NSMutableArray<ADGoodsTempModel *> *tempItem;
+/* 抢购商品数组 */
+@property (strong , nonatomic)NSMutableArray<ADCountDownGoodsModel *> *countDownItem;
+///* 测试数组 */
+//@property (strong , nonatomic)NSMutableArray<ADGoodsTempModel *> *tempItem;
 
 @end
 
-static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
+static NSString *const ADCountDownSubclassCellID = @"ADCountDownSubclassCell";
 
 @implementation DCGoodsCountDownCell
 
@@ -45,7 +47,7 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
         layout.minimumLineSpacing = 1;
-        layout.itemSize = CGSizeMake(self.dc_height * 0.65, self.dc_height * 0.9);
+        layout.itemSize = CGSizeMake(kScreenWidth * 0.25, self.dc_height * 0.9+10);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal; //滚动方向
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         [self addSubview:_collectionView];
@@ -54,27 +56,18 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         
-        [_collectionView registerClass:[DCGoodsSurplusCell class] forCellWithReuseIdentifier:DCGoodsSurplusCellID];
+        [_collectionView registerClass:[ADCountDownSubclassCell class] forCellWithReuseIdentifier:ADCountDownSubclassCellID];
     }
     return _collectionView;
 }
 
-//- (NSMutableArray<DCRecommendItem *> *)countDownItem
-//{
-//    if (!_countDownItem) {
-//        _countDownItem = [NSMutableArray array];
-//    }
-//    return _countDownItem;
-//}
-
-- (NSMutableArray<ADGoodsTempModel *> *)tempItem
+- (NSMutableArray<ADCountDownGoodsModel *> *)countDownItem
 {
-    if (!_tempItem) {
-        _tempItem = [NSMutableArray array];
+    if (!_countDownItem) {
+        _countDownItem = [NSMutableArray array];
     }
-    return _tempItem;
+    return _countDownItem;
 }
-
 
 #pragma mark - Intial
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -93,21 +86,21 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 {
     self.backgroundColor = [UIColor whiteColor];
     self.collectionView.backgroundColor = self.backgroundColor;
-    
-//    NSArray *countDownArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"CountDownShop.plist" ofType:nil]];
-//    _countDownItem = [DCRecommendItem mj_objectArrayWithKeyValuesArray:countDownArray];
 
-    
     _bottomLineView = [[UIView alloc] init];
     _bottomLineView.backgroundColor = kBACKGROUNDCOLOR;
     [self addSubview:_bottomLineView];
     _bottomLineView.frame = CGRectMake(0, self.dc_height - 8, kScreenWidth, 8);
+    
+    
 }
 
 -(void)loadData{
     [RequestTool getGoodsForFlashSale:nil withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"抢购result = %@",result);
-        [self withNSDictionary:result];
+        if([result[@"code"] integerValue] == 1){
+            [self withNSDictionary:result];
+        }
     } withFailBlock:^(NSString *msg) {
         NSLog(@"msg = %@",msg);
     }];
@@ -115,9 +108,15 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 
 -(void)withNSDictionary:(NSDictionary *)dict
 {
-//    NSArray *dataInfo = dict[@"data"][@"resultList"];
-//    _tempItem = [ADGoodsTempModel mj_objectArrayWithKeyValuesArray:dataInfo];
-//    [self.collectionView reloadData];
+//    NSArray *data = dict[@"data"];
+//    self.model = [ADCountDownActivityModel mj_objectWithKeyValues:data];
+    NSArray *dataInfo = dict[@"data"][@"group_goodsList"][@"resultList"];
+//    NSLog(@"抢购dataInfo = %@",dataInfo);
+    _countDownItem = [ADCountDownGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
+//    for (ADCountDownGoodsModel *model in _countDownItem) {
+////        NSLog(@"model = %@",model.mj_keyValues);
+//    }
+    [self.collectionView reloadData];
 }
 
 #pragma mark - 布局
@@ -130,14 +129,14 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
 #pragma mark - <UICollectionViewDataSource>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _tempItem.count;
+    return _countDownItem.count;
 //    return _countDownItem.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DCGoodsSurplusCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsSurplusCellID forIndexPath:indexPath];
-    cell.model = _tempItem[indexPath.row];
+    ADCountDownSubclassCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADCountDownSubclassCellID forIndexPath:indexPath];
+    cell.model = _countDownItem[indexPath.row];
     return cell;
 }
 
@@ -146,6 +145,17 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
     
     NSLog(@"点击了计时商品%zd",indexPath.row);
     [self lookDetailForGoods];
+    
+//    [[NSNotificationCenter defaultCenter]   removeObserver:self];
+    ADCountDownGoodsModel *model = _countDownItem[indexPath.row];
+    NSDictionary *dict = @{@"goodsID":model.idx};
+    //创建通知
+    NSNotification *notification =[NSNotification notificationWithName:@"goodsID" object:nil userInfo:dict];
+    //通过通知中心发送通知
+    NSLog(@"抢购中心发通知了");
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
+    
 }
 
 #pragma mark - 点击事件
@@ -154,4 +164,9 @@ static NSString *const DCGoodsSurplusCellID = @"DCGoodsSurplusCell";
     !_lookDetailBlock ? : _lookDetailBlock();
 }
 
+-(void)dealloc
+{
+    //移除观察者，Observer不能为nil
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

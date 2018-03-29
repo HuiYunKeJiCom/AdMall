@@ -11,4 +11,5 @@
 @interface DCGoodsCountDownCell : UICollectionViewCell
 /** 商品详情点击回调 */
 @property (nonatomic, copy) dispatch_block_t lookDetailBlock;
+
 @end

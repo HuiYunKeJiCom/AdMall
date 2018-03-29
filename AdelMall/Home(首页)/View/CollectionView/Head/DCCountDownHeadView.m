@@ -8,6 +8,7 @@
 
 #import "DCCountDownHeadView.h"
 #import "DCZuoWenRightButton.h"
+#import "ADCountDownActivityModel.h"
 
 @interface DCCountDownHeadView ()
 
@@ -45,7 +46,7 @@
     if (self) {
         
         [self setUpUI];
-        [self setUpData];
+        
     }
     return self;
 }
@@ -62,18 +63,101 @@
     [self addSubview:self.secondLabel];
     [self addSubview:self.tipLabel];
     [self addSubview:self.quickButton];
-
+    [self performSelector:@selector(loadData) withObject:nil afterDelay:2];
 }
 
+-(void)loadData{
+    [RequestTool getGoodsForFlashSale:nil withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"抢购头result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [self withNSDictionary:result];
+        }
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"msg = %@",msg);
+    }];
+}
+
+-(void)withNSDictionary:(NSDictionary *)dict
+{
+    NSArray *data = dict[@"data"];
+    self.model = [ADCountDownActivityModel mj_objectWithKeyValues:data];
+    [self setUpData];
+}
+
+
 -(void)setUpData{
+    NSString *startTime = [NSString stringWithFormat:@"2018-03-28 %@",self.model.startTime];
+    NSString *endTime = [NSString stringWithFormat:@"2018-03-28 %@",self.model.closeTime];
+    NSLog(@"开始时间:%@,结束时间:%@",startTime,endTime);
+    if(startTime && endTime){
+        NSMutableArray *timeDifferenceArr = [self dateTimeDifferenceWithStartTime:startTime endTime:endTime];
+        NSDictionary *dict = @{@"hour":timeDifferenceArr[0],@"minute":timeDifferenceArr[1],@"second":timeDifferenceArr[2],@"startTime":startTime};
+        //创建通知
+        NSNotification *notification =[NSNotification notificationWithName:@"countDownTime" object:nil userInfo:dict];
+        //通过通知中心发送通知
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        
+        //    self.countDownLabel.text = @"05 : 58 : 33";
+        if([timeDifferenceArr[0] integerValue]>10){
+            self.hourLabel.text = timeDifferenceArr[0];
+        }else{
+            self.hourLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[0]];
+        }
+        if([timeDifferenceArr[1] integerValue]>10){
+            self.minuteLabel.text = timeDifferenceArr[1];
+        }else{
+            self.minuteLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[1]];
+        }
+        if([timeDifferenceArr[2] integerValue]>10){
+            self.secondLabel.text = timeDifferenceArr[2];
+        }else{
+            self.secondLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[2]];
+        }
+    }else{
+        self.hourLabel.text = @"00";
+        self.minuteLabel.text = @"00";
+        self.secondLabel.text = @"00";
+    }
+    
+//    self.hourLabel.text = self.hour;
+//    self.minuteLabel.text = self.minute;
+//    self.secondLabel.text = self.second;
     self.timeLabel.text = @"限时秒杀";
-//    self.countDownLabel.text = @"05 : 58 : 33";
-    self.hourLabel.text = @"00";
     self.colonLabel2.text = @":";
-    self.minuteLabel.text = @"00";
     self.colonLabel1.text = @":";
-    self.secondLabel.text = @"00";
     self.tipLabel.text = @"后结束抢购";
+}
+
+-(NSMutableArray *)dateTimeDifferenceWithStartTime:(NSString *)startTime endTime:(NSString *)endTime{
+    NSDateFormatter *date = [[NSDateFormatter alloc]init];
+    [date setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *startD =[date dateFromString:startTime];
+    NSDate *endD = [date dateFromString:endTime];
+    NSTimeInterval start = [startD timeIntervalSince1970]*1;
+    NSTimeInterval end = [endD timeIntervalSince1970]*1;
+    NSTimeInterval value = end - start;
+    NSLog(@"value = %d",(int)value);
+    int second = (int)value %60;//秒
+    int minute = (int)value /60%60;
+    int house = (int)value / (3600)%3600;
+    int day = (int)value / (24 *3600);
+    house = day*24+house;
+    NSLog(@"day = %d,house = %d,minute = %d,second = %d",day,house,minute,second);
+//    NSString *str;
+//    if (day != 0) {
+//        str = [NSString stringWithFormat:@"耗时%d天%d小时%d分%d秒",day,house,minute,second];
+//    }else if (day==0 && house !=0) {
+//        str = [NSString stringWithFormat:@"耗时%d小时%d分%d秒",house,minute,second];
+//    }else if (day==0 && house==0 && minute!=0) {
+//        str = [NSString stringWithFormat:@"耗时%d分%d秒",minute,second];
+//    }else{
+//        str = [NSString stringWithFormat:@"耗时%d秒",second];
+//    }
+    NSMutableArray *timeArr = [NSMutableArray array];
+    [timeArr addObject:[NSString stringWithFormat:@"%d",house]];
+    [timeArr addObject:[NSString stringWithFormat:@"%d",minute]];
+    [timeArr addObject:[NSString stringWithFormat:@"%d",second]];
+    return timeArr;
 }
 
 #pragma mark - 布局
@@ -120,13 +204,6 @@
     }
     return _timeLabel;
 }
-
-//- (UILabel *)countDownLabel {
-//    if (!_countDownLabel) {
-//        _countDownLabel = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum14 TextColor:[UIColor blackColor]];
-//    }
-//    return _countDownLabel;
-//}
 
 - (UILabel *)hourLabel {
     if (!_hourLabel) {
@@ -203,5 +280,9 @@
 }
 #pragma mark - Setter Getter Methods
 
-
+-(void)dealloc
+{
+    //移除观察者，Observer不能为nil
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

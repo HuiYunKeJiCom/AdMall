@@ -8,6 +8,7 @@
 
 #import "ADGoodsIntroduceCell.h"
 #import "EdgeInsetsLabel.h"
+#import "ADFlashSaleModel.h"
 
 @interface ADGoodsIntroduceCell()
 @property (nonatomic, strong) UIView* bgView;
@@ -51,9 +52,14 @@
 
 #pragma mark - 填充数据
 -(void)setUpData{
-    self.goodsNameLabel.text = @"3398型 智能门锁家庭酒店专用指纹智能门锁";
     self.explainLabel.text = @"当天可发货,指纹门锁,防盗锁";
-    self.tipLabel.text = @"仅限100件,每用户限2件";
+}
+
+-(void)setModel:(ADFlashSaleModel *)model{
+    _model = model;
+    
+    self.goodsNameLabel.text = self.model.gg_name;
+    self.tipLabel.text = [NSString stringWithFormat:@"仅限100件,每用户限%ld件",(long)[self.model.gg_max_count integerValue]];
 }
 
 - (void)makeConstraints {

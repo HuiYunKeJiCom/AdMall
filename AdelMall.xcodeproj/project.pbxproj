@@ -45,6 +45,9 @@
 		183BF7992053CC0400C1BB51 /* ADEvaluatedInvalidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183BF7982053CC0400C1BB51 /* ADEvaluatedInvalidViewController.m */; };
 		183BF79F2053D0AD00C1BB51 /* ADEvaluateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183BF79E2053D0AD00C1BB51 /* ADEvaluateModel.m */; };
 		183BF7A72053D5E500C1BB51 /* ADEvaluateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183BF7A62053D5E500C1BB51 /* ADEvaluateCell.m */; };
+		1844BB68206B264400C260A5 /* ADAdvertModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844BB67206B264400C260A5 /* ADAdvertModel.m */; };
+		1844BB6B206B30E300C260A5 /* ADFloorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844BB6A206B30E300C260A5 /* ADFloorModel.m */; };
+		1844BB6E206B970000C260A5 /* ADFlashSaleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1844BB6D206B970000C260A5 /* ADFlashSaleModel.m */; };
 		18454AEC204791FF001B9F9F /* ADPlaceOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18454AEB204791FF001B9F9F /* ADPlaceOrderViewController.m */; };
 		18454AF220479398001B9F9F /* ADOrderGoodsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18454AF120479398001B9F9F /* ADOrderGoodsView.m */; };
 		18454AF52047A606001B9F9F /* ADGoodsListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18454AF42047A606001B9F9F /* ADGoodsListViewCell.m */; };
@@ -97,6 +100,10 @@
 		185EC6792060E48B00721522 /* NSString+wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 185EC6782060E48A00721522 /* NSString+wrapper.m */; };
 		185EC67C2060E8FF00721522 /* ADAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 185EC67B2060E8FF00721522 /* ADAddressModel.m */; };
 		185EC67F2060F1AE00721522 /* ADAddressShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 185EC67E2060F1AE00721522 /* ADAddressShowView.m */; };
+		18653C112069DC6A00D7AE33 /* ADCountDownGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18653C102069DC6A00D7AE33 /* ADCountDownGoodsModel.m */; };
+		18653C142069E24000D7AE33 /* ADCountDownSubclassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18653C132069E24000D7AE33 /* ADCountDownSubclassCell.m */; };
+		18653C17206A195200D7AE33 /* ADStarGoodsSubclassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18653C16206A195200D7AE33 /* ADStarGoodsSubclassCell.m */; };
+		18653C1A206A2AAD00D7AE33 /* ADCountDownActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18653C19206A2AAD00D7AE33 /* ADCountDownActivityModel.m */; };
 		186547B62064D222006E50FF /* ClassiftyGoods05.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186547B12064D220006E50FF /* ClassiftyGoods05.plist */; };
 		186547B72064D222006E50FF /* ClassiftyGoods04.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186547B22064D221006E50FF /* ClassiftyGoods04.plist */; };
 		186547B82064D222006E50FF /* ClassiftyGoods03.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186547B32064D221006E50FF /* ClassiftyGoods03.plist */; };
@@ -167,7 +174,7 @@
 		188FB67B2068D89300F99670 /* RequestDataAndSafeDeal.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6792068D89200F99670 /* RequestDataAndSafeDeal.m */; };
 		188FB67F2068D9DE00F99670 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB67D2068D9DD00F99670 /* UIView+Frame.m */; };
 		188FB6822068E66900F99670 /* NSObject+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6812068E66900F99670 /* NSObject+MJExtension.m */; };
-		188FB6852068FA9500F99670 /* ADGoodsTempModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6842068FA9500F99670 /* ADGoodsTempModel.m */; };
+		188FB6852068FA9500F99670 /* ADStarGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6842068FA9500F99670 /* ADStarGoodsModel.m */; };
 		1891F10820424627001D9426 /* ADTotalPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F10720424627001D9426 /* ADTotalPriceView.m */; };
 		1891F10B2042C72F001D9426 /* ADEvaluateLabelViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F10A2042C72F001D9426 /* ADEvaluateLabelViewCell.m */; };
 		18A07C4F205FBA1700204BE1 /* GoodAttributesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07C4D205FBA1500204BE1 /* GoodAttributesView.m */; };
@@ -311,6 +318,12 @@
 		183BF79E2053D0AD00C1BB51 /* ADEvaluateModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADEvaluateModel.m; sourceTree = "<group>"; };
 		183BF7A52053D5E500C1BB51 /* ADEvaluateCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADEvaluateCell.h; sourceTree = "<group>"; };
 		183BF7A62053D5E500C1BB51 /* ADEvaluateCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADEvaluateCell.m; sourceTree = "<group>"; };
+		1844BB66206B264400C260A5 /* ADAdvertModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADAdvertModel.h; sourceTree = "<group>"; };
+		1844BB67206B264400C260A5 /* ADAdvertModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADAdvertModel.m; sourceTree = "<group>"; };
+		1844BB69206B30E300C260A5 /* ADFloorModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADFloorModel.h; sourceTree = "<group>"; };
+		1844BB6A206B30E300C260A5 /* ADFloorModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADFloorModel.m; sourceTree = "<group>"; };
+		1844BB6C206B970000C260A5 /* ADFlashSaleModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADFlashSaleModel.h; sourceTree = "<group>"; };
+		1844BB6D206B970000C260A5 /* ADFlashSaleModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADFlashSaleModel.m; sourceTree = "<group>"; };
 		18454AEA204791FF001B9F9F /* ADPlaceOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADPlaceOrderViewController.h; sourceTree = "<group>"; };
 		18454AEB204791FF001B9F9F /* ADPlaceOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADPlaceOrderViewController.m; sourceTree = "<group>"; };
 		18454AF020479398001B9F9F /* ADOrderGoodsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADOrderGoodsView.h; sourceTree = "<group>"; };
@@ -414,6 +427,14 @@
 		185EC67B2060E8FF00721522 /* ADAddressModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADAddressModel.m; sourceTree = "<group>"; };
 		185EC67D2060F1AE00721522 /* ADAddressShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADAddressShowView.h; sourceTree = "<group>"; };
 		185EC67E2060F1AE00721522 /* ADAddressShowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADAddressShowView.m; sourceTree = "<group>"; };
+		18653C0F2069DC6A00D7AE33 /* ADCountDownGoodsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADCountDownGoodsModel.h; sourceTree = "<group>"; };
+		18653C102069DC6A00D7AE33 /* ADCountDownGoodsModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADCountDownGoodsModel.m; sourceTree = "<group>"; };
+		18653C122069E24000D7AE33 /* ADCountDownSubclassCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADCountDownSubclassCell.h; sourceTree = "<group>"; };
+		18653C132069E24000D7AE33 /* ADCountDownSubclassCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADCountDownSubclassCell.m; sourceTree = "<group>"; };
+		18653C15206A195200D7AE33 /* ADStarGoodsSubclassCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADStarGoodsSubclassCell.h; sourceTree = "<group>"; };
+		18653C16206A195200D7AE33 /* ADStarGoodsSubclassCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADStarGoodsSubclassCell.m; sourceTree = "<group>"; };
+		18653C18206A2AAD00D7AE33 /* ADCountDownActivityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADCountDownActivityModel.h; sourceTree = "<group>"; };
+		18653C19206A2AAD00D7AE33 /* ADCountDownActivityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADCountDownActivityModel.m; sourceTree = "<group>"; };
 		186547B12064D220006E50FF /* ClassiftyGoods05.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ClassiftyGoods05.plist; sourceTree = "<group>"; };
 		186547B22064D221006E50FF /* ClassiftyGoods04.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ClassiftyGoods04.plist; sourceTree = "<group>"; };
 		186547B32064D221006E50FF /* ClassiftyGoods03.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ClassiftyGoods03.plist; sourceTree = "<group>"; };
@@ -544,8 +565,8 @@
 		188FB67E2068D9DE00F99670 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		188FB6802068E66800F99670 /* NSObject+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJExtension.h"; sourceTree = "<group>"; };
 		188FB6812068E66900F99670 /* NSObject+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJExtension.m"; sourceTree = "<group>"; };
-		188FB6832068FA9500F99670 /* ADGoodsTempModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADGoodsTempModel.h; sourceTree = "<group>"; };
-		188FB6842068FA9500F99670 /* ADGoodsTempModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADGoodsTempModel.m; sourceTree = "<group>"; };
+		188FB6832068FA9500F99670 /* ADStarGoodsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADStarGoodsModel.h; sourceTree = "<group>"; };
+		188FB6842068FA9500F99670 /* ADStarGoodsModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADStarGoodsModel.m; sourceTree = "<group>"; };
 		1891F10620424627001D9426 /* ADTotalPriceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADTotalPriceView.h; sourceTree = "<group>"; };
 		1891F10720424627001D9426 /* ADTotalPriceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADTotalPriceView.m; sourceTree = "<group>"; };
 		1891F1092042C72F001D9426 /* ADEvaluateLabelViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADEvaluateLabelViewCell.h; sourceTree = "<group>"; };
@@ -903,8 +924,6 @@
 				182B3A03204E79EB00462CAA /* ADSecondaryHeaderView.h */,
 				182B3A04204E79EB00462CAA /* ADSecondaryHeaderView.m */,
 				1851741F20204D8A00E7B8F8 /* CollectionView */,
-				188FB6832068FA9500F99670 /* ADGoodsTempModel.h */,
-				188FB6842068FA9500F99670 /* ADGoodsTempModel.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -916,6 +935,18 @@
 				182B39F8204E2D7F00462CAA /* ADSallingModel.m */,
 				185EC67A2060E8FF00721522 /* ADAddressModel.h */,
 				185EC67B2060E8FF00721522 /* ADAddressModel.m */,
+				18653C18206A2AAD00D7AE33 /* ADCountDownActivityModel.h */,
+				18653C19206A2AAD00D7AE33 /* ADCountDownActivityModel.m */,
+				1844BB66206B264400C260A5 /* ADAdvertModel.h */,
+				1844BB67206B264400C260A5 /* ADAdvertModel.m */,
+				188FB6832068FA9500F99670 /* ADStarGoodsModel.h */,
+				188FB6842068FA9500F99670 /* ADStarGoodsModel.m */,
+				1844BB69206B30E300C260A5 /* ADFloorModel.h */,
+				1844BB6A206B30E300C260A5 /* ADFloorModel.m */,
+				18653C0F2069DC6A00D7AE33 /* ADCountDownGoodsModel.h */,
+				18653C102069DC6A00D7AE33 /* ADCountDownGoodsModel.m */,
+				1844BB6C206B970000C260A5 /* ADFlashSaleModel.h */,
+				1844BB6D206B970000C260A5 /* ADFlashSaleModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -953,10 +984,14 @@
 				18BA79A420465BF6003833BA /* DCGoodsHandheldCell.m */,
 				185174322020579600E7B8F8 /* DCGoodsSurplusCell.h */,
 				185174332020579700E7B8F8 /* DCGoodsSurplusCell.m */,
+				18653C122069E24000D7AE33 /* ADCountDownSubclassCell.h */,
+				18653C132069E24000D7AE33 /* ADCountDownSubclassCell.m */,
 				185174292020555F00E7B8F8 /* DCGoodsCountDownCell.h */,
 				185174282020555F00E7B8F8 /* DCGoodsCountDownCell.m */,
 				1878AC4020690BA80025DC72 /* ADStarGoodsCell.h */,
 				1878AC4120690BA90025DC72 /* ADStarGoodsCell.m */,
+				18653C15206A195200D7AE33 /* ADStarGoodsSubclassCell.h */,
+				18653C16206A195200D7AE33 /* ADStarGoodsSubclassCell.m */,
 				18BA79A82046904F003833BA /* ADButtonViewCell.h */,
 				18BA79A92046904F003833BA /* ADButtonViewCell.m */,
 				18BA79AB2046AF27003833BA /* ADRecommendCell.h */,
@@ -1942,15 +1977,18 @@
 				18BA79A620465BF7003833BA /* DCExceedApplianceCell.m in Sources */,
 				1880968E202846A4006BF195 /* DCTabBarController.m in Sources */,
 				18277AD0202A943500973ECC /* ADTopLoginView.m in Sources */,
+				18653C142069E24000D7AE33 /* ADCountDownSubclassCell.m in Sources */,
 				1859462C204D1AE000BF5118 /* ADPaymentOrderBottonView.m in Sources */,
 				182B3A15204E9DF700462CAA /* ADCouponModel.m in Sources */,
 				18694FAD2052912000AACDC7 /* ADReceivingAddressCell.m in Sources */,
 				18A07C55205FBABE00204BE1 /* GoodAttrModel.m in Sources */,
+				18653C1A206A2AAD00D7AE33 /* ADCountDownActivityModel.m in Sources */,
 				185EC6792060E48B00721522 /* NSString+wrapper.m in Sources */,
 				185C8BB6204FC39600768C54 /* ADUseCouponRecordCell.m in Sources */,
 				1884184A2062498A001CBAE4 /* ADBottomCell.m in Sources */,
 				18F1D2162029559E00F371CB /* ADWaitingPayViewController.m in Sources */,
 				18F07B872045614A00F0761E /* DCGoodsSortCell.m in Sources */,
+				1844BB68206B264400C260A5 /* ADAdvertModel.m in Sources */,
 				186547E82064E2EE006E50FF /* YWAddressTableViewCell.m in Sources */,
 				18E013DD20510DCA004A969C /* ADEvaluateDetailCell.m in Sources */,
 				183BF7932053CB5D00C1BB51 /* ADWaitingEvaluatedViewController.m in Sources */,
@@ -1969,6 +2007,7 @@
 				18B964D7201EF2BE00A6DA59 /* main.m in Sources */,
 				186547C32064E19A006E50FF /* YWTool.m in Sources */,
 				18F1D213202954E500F371CB /* ADAllOrderViewController.m in Sources */,
+				18653C17206A195200D7AE33 /* ADStarGoodsSubclassCell.m in Sources */,
 				1880969620284751006BF195 /* UIBarButtonItem+DCBarButtonItem.m in Sources */,
 				186547E62064E2EE006E50FF /* YWAddressModel.m in Sources */,
 				18454AF220479398001B9F9F /* ADOrderGoodsView.m in Sources */,
@@ -1998,7 +2037,7 @@
 				182B3A0F204E909700462CAA /* ADCouponViewController.m in Sources */,
 				18F07B832045611600F0761E /* DCClassMianItem.m in Sources */,
 				185EC67C2060E8FF00721522 /* ADAddressModel.m in Sources */,
-				188FB6852068FA9500F99670 /* ADGoodsTempModel.m in Sources */,
+				188FB6852068FA9500F99670 /* ADStarGoodsModel.m in Sources */,
 				18841847206233AE001CBAE4 /* UIColor+ColorChange.m in Sources */,
 				18E013E620513814004A969C /* ADEvaluateListModel.m in Sources */,
 				186C395F20494BDA00CCBD37 /* ADApplicationRecordViewCell.m in Sources */,
@@ -2011,6 +2050,7 @@
 				18B964F2201EFD2A00A6DA59 /* ADMycenterHeaderView.m in Sources */,
 				18B9651D201F2A4300A6DA59 /* UIView+DCRolling.m in Sources */,
 				186547D92064E2D2006E50FF /* YWAddressTableViewCell1.m in Sources */,
+				1844BB6E206B970000C260A5 /* ADFlashSaleModel.m in Sources */,
 				18454AFB2047F2AB001B9F9F /* ADOrderPublicViewCell.m in Sources */,
 				186C39462048F8CE00CCBD37 /* ADAfterSaleServiceViewCell.m in Sources */,
 				186C39502049354400CCBD37 /* ADAfterSaleServiceDetailViewController.m in Sources */,
@@ -2066,6 +2106,7 @@
 				1882AC8D202D7B0800D3DE4F /* ADOrderListViewCell.m in Sources */,
 				18508225205B531300C80DD7 /* ADSallGoodsDetailViewController.m in Sources */,
 				18E013E920513A79004A969C /* ADEvaluateListTableViewCell.m in Sources */,
+				18653C112069DC6A00D7AE33 /* ADCountDownGoodsModel.m in Sources */,
 				18F07B842045611600F0761E /* DCCalssSubItem.m in Sources */,
 				1836268A2057B0710099FE10 /* ADMoreEvaluatedGoodsViewController.m in Sources */,
 				18B96505201F064700A6DA59 /* UILabel+LBExt.m in Sources */,
@@ -2082,6 +2123,7 @@
 				188FB66D2068D1A000F99670 /* NSError+httpError.m in Sources */,
 				186C3953204937C700CCBD37 /* ADServiceStateView.m in Sources */,
 				18A07C52205FBA9500204BE1 /* UIButton+Bootstrap.m in Sources */,
+				1844BB6B206B30E300C260A5 /* ADFloorModel.m in Sources */,
 				18F1D21C2029570500F371CB /* ADOrderClosedViewController.m in Sources */,
 				1851741120200DAA00E7B8F8 /* ADLMyInfoTableView.m in Sources */,
 				183BF7992053CC0400C1BB51 /* ADEvaluatedInvalidViewController.m in Sources */,
@@ -2252,7 +2294,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Supporting Files/AdelMall.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Adel.AdelMall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2270,7 +2312,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Supporting Files/AdelMall.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Adel.AdelMall;
 				PRODUCT_NAME = "$(TARGET_NAME)";

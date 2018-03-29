@@ -7,8 +7,10 @@
 //  限时抢购-正在抢购
 
 #import "ADSallingViewController.h"
+#import "ADSallGoodsDetailViewController.h"//抢购商品详情
 #import "ADSallingModel.h"
 #import "ADSallingCell.h"
+#import "ADCountDownGoodsModel.h"
 
 @interface ADSallingViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
 @property (nonatomic, strong) BaseTableView         *goodsTable;
@@ -41,8 +43,11 @@
     WEAKSELF
     
     [RequestTool getGoodsForFlashSale:@{@"type":@"start"} withSuccessBlock:^(NSDictionary *result) {
-        NSLog(@"result = %@",result);
-        [weakSelf handleTransferResult:result more:more];
+        NSLog(@"正在抢购result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [weakSelf handleTransferResult:result more:more];
+        }
+        
     } withFailBlock:^(NSString *msg) {
         NSLog(@"msg = %@",msg);
     }];
@@ -51,7 +56,7 @@
     //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
     //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
     //
-    //                                       [weak_self showHUD:NO];
+//                                           [weakSelf showHUD:NO];
     //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
     //                                   } fail:^(NSString *msg) {
     //                                       [weak_self showHUD:NO];
@@ -63,18 +68,18 @@
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
     
-    NSArray *dataArr = @[@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"}];
-//        if ([result isKindOfClass:[NSDictionary class]]) {
-//            NSArray *dataInfo = result[@"data"];
-//            if ([dataInfo isKindOfClass:[NSArray class]]) {
-//                dataArr = dataInfo;
-//            }
-//        }
-    
+//    NSArray *dataArr = @[@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"}];
+    NSArray *dataArr = [NSArray array];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            NSArray *dataInfo = result[@"data"][@"group_goodsList"][@"resultList"];
+            if ([dataInfo isKindOfClass:[NSArray class]]) {
+                dataArr = dataInfo;
+            }
+        }
     [self.goodsTable.data removeAllObjects];
     for (NSDictionary *dic in dataArr) {
         
-        ADSallingModel *model = [ADSallingModel mj_objectWithKeyValues:dic];
+        ADCountDownGoodsModel *model = [ADCountDownGoodsModel mj_objectWithKeyValues:dic];
         [self.goodsTable.data addObject:model];
     }
     
@@ -132,6 +137,11 @@
         ADSallingModel *model = self.goodsTable.data[indexPath.row];
         cell.model = model;
     }
+    cell.imageViewBtnClickBlock = ^{
+        //进入抢购商品详情页面
+        ADSallGoodsDetailViewController *sallGoodsDetailVC = [[ADSallGoodsDetailViewController alloc] init];
+        [self.navigationController pushViewController:sallGoodsDetailVC animated:YES];
+    };
     
     return cell;
 }

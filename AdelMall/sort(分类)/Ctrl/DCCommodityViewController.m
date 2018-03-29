@@ -111,7 +111,7 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
 
 - (void)requestAllOrder:(BOOL)more{
     
-    [RequestTool getGoodsCategory:@{@"parentId":@"25"} withSuccessBlock:^(NSDictionary *result) {
+    [RequestTool getGoodsCategory:nil withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"分类result = %@",result);
     } withFailBlock:^(NSString *msg) {
         NSLog(@"msg = %@",msg);

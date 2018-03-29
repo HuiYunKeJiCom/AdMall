@@ -43,6 +43,7 @@
     //    self.view.userInteractionEnabled = YES;
     [self setUpNavTopView];
     [self createUI];
+//    NSLog(@"这里时间字典 = %@",self.timeDict);
 }
 
 
@@ -53,7 +54,14 @@
     //    _headView.items = @[@"全部",@"待付款",@"待发货",@"待收货",@"待评价"];
     _headView.frame = CGRectMake(0, 65, kScreenWidth, 46);
 //    _headView.items = @[@"正在抢购",@"即将开始"];
-    _headView.items = @[@{@"time":@"12:00",@"title":@"正在抢购",@"detail":@"距结束 00:01:30"},@{@"time":@"12:00",@"title":@"即将开始",@"detail":@"距结束 00:01:30"}];
+//    NSLog(@"时间字典 = %@",self.timeDict);
+    
+    NSString *beginTime = self.timeDict[@"startTime"];
+    NSArray *tempArr = [beginTime componentsSeparatedByString:@" "];
+    NSArray *hourAndMinuteArr = [tempArr[1] componentsSeparatedByString:@":"];
+    NSString *hourAndMinute = [NSString stringWithFormat:@"%@:%@",hourAndMinuteArr[0],hourAndMinuteArr[1]];
+    
+    _headView.items = @[@{@"time":hourAndMinute,@"title":@"正在抢购",@"detail":[NSString stringWithFormat:@"距结束%@:%@:%@",self.timeDict[@"hour"],self.timeDict[@"minute"],self.timeDict[@"second"]]},@{@"time":hourAndMinute,@"title":@"即将开始",@"detail":[NSString stringWithFormat:@"距结束%@:%@:%@",self.timeDict[@"hour"],self.timeDict[@"minute"],self.timeDict[@"second"]]}];
     _headView.backgroundColor = k_UIColorFromRGB(0xffffff);
     _headView.itemClickAtIndex = ^(NSInteger index){
         [weakSelf adjustScrollView:index];
