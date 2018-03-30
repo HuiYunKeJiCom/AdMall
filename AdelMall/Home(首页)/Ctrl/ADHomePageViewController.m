@@ -109,8 +109,8 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     
     [self setUpGIFRrfresh];
     
-    //限时秒杀的时间
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getTime:) name:@"countDownTime" object:nil];
+//    //限时秒杀的时间
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getTime:) name:@"countDownTime" object:nil];
     
     //抢购详情的商品id
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGoodsID:) name:@"goodsID" object:nil];
@@ -118,9 +118,9 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     [self loadData];
 }
 
--(void)getTime:(NSNotification *)text{
-    self.dict = text.userInfo;
-}
+//-(void)getTime:(NSNotification *)text{
+//    self.dict = text.userInfo;
+//}
 
 //跳转到抢购详情页面
 -(void)getGoodsID:(NSNotification *)text{

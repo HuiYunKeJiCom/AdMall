@@ -78,8 +78,17 @@ static NSString *const ADCountDownSubclassCellID = @"ADCountDownSubclassCell";
         [self setUpUI];
 //        [self loadData];
         [self performSelector:@selector(loadData) withObject:nil afterDelay:2];
+        
+        //限时秒杀时间结束
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getTime:) name:@"countDownTimeOver" object:nil];
     }
     return self;
+}
+
+-(void)getTime:(NSNotification *)text{
+    [self.countDownItem removeAllObjects];
+    [self.collectionView reloadData];
+    [self loadData];
 }
 
 - (void)setUpUI

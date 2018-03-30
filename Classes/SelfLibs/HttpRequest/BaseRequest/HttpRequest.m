@@ -37,7 +37,6 @@
     if ([originUrl rangeOfString:@"https://"].location != NSNotFound || [originUrl rangeOfString:@"http://"].location != NSNotFound || [originUrl rangeOfString:@"www."].location != NSNotFound ) {
         isFullUrl = YES;
     }
-    
     return isFullUrl;
 }
 
@@ -63,16 +62,13 @@
         if (params) {
             p = [NSString queryStringFrom:params];
         }
-//        NSString *str2 = @"";
-        
-//        str2 = [p stringByRemovingPercentEncoding];
-        
-//        str2 = [p stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//        NSLog(@"str2 = %@",str2);
         fullUrl = [NSMutableString stringWithFormat:@"%@%@%@",Host,url,p];
         newParams = nil;
         manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingMutableContainers];
     }
+    
+    
+    
     //设置返回数据的解析方式
     NSURLSessionDataTask *requestOperation = nil;
     [manager setSecurityPolicy:[self customSecurityPolicy]];
@@ -90,16 +86,16 @@
     manager.responseSerializer.acceptableContentTypes  = [NSSet setWithObjects:@"application/xml",@"text/xml",@"text/plain",@"application/json",@"text/html",@"text/javascript",@"text/json",nil];
     
     NSLog(@"调用接口fullUrl = %@",fullUrl);
-
-    // ///加密
-    // NSDate *datenow = [NSDate date];
-    // NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[datenow timeIntervalSince1970]];
-    // NSString *keyStr = [NSString stringWithFormat:@"%@a9c13b4c8c1bd9352af14dc28ba37342",timeSp];
-    // NSString *keyStrMD5 = [HDDESEncrypt md5:keyStr];
-    // [manager.requestSerializer setValue:keyStrMD5 forHTTPHeaderField:@"key"];
-    // [manager.requestSerializer setValue:timeSp forHTTPHeaderField:@"secret"];
+    
+    //登录
+    if([fullUrl containsString:@"login.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"userName"];
+        fullUrl = tempArr[0];
+    }
     
     if (requsetType == RequsetTypeGet) {
+//        NSLog(@"get");
         requestOperation = [manager GET:fullUrl parameters:newParams progress:^(NSProgress * _Nonnull downloadProgress) {
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -118,8 +114,10 @@
         }];
     }
     else if (requsetType == RequsetTypePost){
+        NSLog(@"post");
+        NSLog(@"fullUrl = %@,newParams = %@",fullUrl,newParams);
         if (!isFormData) {  //没有文件
-            requestOperation = [manager POST:fullUrl parameters:newParams progress:^(NSProgress * _Nonnull uploadProgress) {
+            requestOperation = [manager POST:fullUrl parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
                 
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 

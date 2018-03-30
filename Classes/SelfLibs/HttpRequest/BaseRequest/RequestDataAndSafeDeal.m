@@ -17,7 +17,7 @@
 
 @implementation RequestDataAndSafeDeal
 
-//  请求数据方法，后台返回字典类型数据
+//  请求数据方法，后台返回字典类型数据  post请求
 
 + (void)getDataDicWithUrl:(NSString *)url params:(NSDictionary *)dic requestCode:(NSString *)requestCode withSuccessBlock:(void (^)(id result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock
 {

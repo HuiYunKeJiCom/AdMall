@@ -11,14 +11,35 @@
 //#import "orderHeader.h"
 #import "ADSallingViewController.h"//正在抢购
 #import "ADSecondaryHeaderView.h"
+#import "ADCountDownActivityModel.h"
 
 @interface ADFlashSaleViewController ()<UIScrollViewDelegate>{
     UIScrollView *_scrollView;
     ADSecondaryHeaderView *_headView;
     BOOL _isup;
+    dispatch_source_t _timer;
+    dispatch_source_t _nextTimer;
 }
 /* 顶部Nva */
 @property (strong , nonatomic)ADOrderTopToolView *topToolView;
+/** 正在抢购 控制器 */
+@property(nonatomic,strong)ADSallingViewController *sallingvc;
+/** 正在抢购模型 */
+@property(nonatomic,strong)ADCountDownActivityModel *sallingModel;
+//@property (nonatomic, strong) NSTimer *countDownTimer;
+/** 正在抢购 时 */
+@property(nonatomic,strong)UILabel *hourLab;
+/** 正在抢购 分 */
+@property(nonatomic,strong)UILabel *minuteLab;
+/** 正在抢购 秒 */
+@property(nonatomic,strong)UILabel *secondLab;
+/** 即将开始 时 */
+@property(nonatomic,strong)UILabel *hourNextLab;
+/** 即将开始 分 */
+@property(nonatomic,strong)UILabel *minuteNextLab;
+/** 即将开始 秒 */
+@property(nonatomic,strong)UILabel *secondNextLab;
+
 @end
 
 @implementation ADFlashSaleViewController
@@ -44,8 +65,57 @@
     [self setUpNavTopView];
     [self createUI];
 //    NSLog(@"这里时间字典 = %@",self.timeDict);
+    [self loadDataBeingSnappedUp];
+    [self loadDataBeginSoon];
+    
 }
 
+-(void)setUpHeadViewData{
+    NSLog(@"self.sallingModel = %@",self.sallingModel.mj_keyValues);
+    NSString *minAndSec = nil;
+    if(self.sallingModel.startTime){
+        NSArray *dateArr = [self.sallingModel.startTime componentsSeparatedByString:@" "];
+        NSArray *timeArr = [dateArr[1] componentsSeparatedByString:@":"];
+        minAndSec = [NSString stringWithFormat:@"%@:%@",timeArr[0],timeArr[1]];
+    }else{
+        minAndSec = @"00:00";
+    }
+    _headView.items = @[@{@"time":minAndSec,@"title":@"正在抢购",@"detail":@"距结束     :     :"},@{@"time":@"9:00",@"title":@"即将开始",@"detail":[NSString stringWithFormat:@"距结束%@:%@:%@",@"00",@"00",@"00"]}];
+}
+
+//加载正在抢购数据
+-(void)loadDataBeingSnappedUp{
+    [RequestTool getGoodsForFlashSale:@{@"type":@"start"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"正在抢购result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [self.sallingvc handleTransferResult:result more:NO];
+            [self sallingWithNSDictionary:result];
+        }
+        
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"msg = %@",msg);
+    }];
+}
+
+-(void)sallingWithNSDictionary:(NSDictionary *)dict
+{
+    NSArray *data = dict[@"data"];
+    self.sallingModel = [ADCountDownActivityModel mj_objectWithKeyValues:data];
+    [self dateTimeDifferenceWithStartTime:self.sallingModel.currentTime endTime:self.sallingModel.closeTime];
+    [self setUpHeadViewData];
+}
+
+-(void)loadDataBeginSoon{
+    [RequestTool getGoodsForFlashSale:@{@"type":@"ready"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"即将开始result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+//            [self.sallingvc handleTransferResult:result more:NO];
+        }
+        
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"msg = %@",msg);
+    }];
+}
 
 -(void)createUI{
     //消除强引用
@@ -56,17 +126,18 @@
 //    _headView.items = @[@"正在抢购",@"即将开始"];
 //    NSLog(@"时间字典 = %@",self.timeDict);
     
-    NSString *beginTime = self.timeDict[@"startTime"];
-    NSArray *tempArr = [beginTime componentsSeparatedByString:@" "];
-    NSArray *hourAndMinuteArr = [tempArr[1] componentsSeparatedByString:@":"];
-    NSString *hourAndMinute = [NSString stringWithFormat:@"%@:%@",hourAndMinuteArr[0],hourAndMinuteArr[1]];
-    
-    _headView.items = @[@{@"time":hourAndMinute,@"title":@"正在抢购",@"detail":[NSString stringWithFormat:@"距结束%@:%@:%@",self.timeDict[@"hour"],self.timeDict[@"minute"],self.timeDict[@"second"]]},@{@"time":hourAndMinute,@"title":@"即将开始",@"detail":[NSString stringWithFormat:@"距结束%@:%@:%@",self.timeDict[@"hour"],self.timeDict[@"minute"],self.timeDict[@"second"]]}];
     _headView.backgroundColor = k_UIColorFromRGB(0xffffff);
     _headView.itemClickAtIndex = ^(NSInteger index){
         [weakSelf adjustScrollView:index];
     };
     [self.view addSubview:_headView];
+    
+    self.hourLab = [[UILabel alloc]initWithFrame:CGRectMake(117, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor redColor]];
+    [self.view addSubview:self.hourLab];
+    self.minuteLab = [[UILabel alloc]initWithFrame:CGRectMake(139.5, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor redColor]];
+    [self.view addSubview:self.minuteLab];
+    self.secondLab = [[UILabel alloc]initWithFrame:CGRectMake(162.5, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor redColor]];
+    [self.view addSubview:self.secondLab];
     
     _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_headView.frame),kScreenWidth,kScreenHeight-64-40)];
     _scrollView.backgroundColor = kBACKGROUNDCOLOR;
@@ -75,7 +146,6 @@
     _scrollView.delegate = self;
     _scrollView.directionalLockEnabled = YES;
     [self.view addSubview:_scrollView];
-    
     [self addViewControllsToScrollView];
     
 }
@@ -103,10 +173,10 @@
 #pragma mark-将4个controller添加到applecontroller上
 -(void)addViewControllsToScrollView
 {
-    ADSallingViewController * sallingvc = [[ADSallingViewController alloc]init];
-    sallingvc.view.frame = CGRectMake(0, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height);
-    [_scrollView addSubview:sallingvc.view];
-    [self addChildViewController:sallingvc];
+    self.sallingvc = [[ADSallingViewController alloc]init];
+    self.sallingvc.view.frame = CGRectMake(0, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height);
+    [_scrollView addSubview:self.sallingvc.view];
+    [self addChildViewController:self.sallingvc];
 
 //    ADGoodsParameterViewController * paravc = [[ADGoodsParameterViewController alloc]init];
 //    paravc.view.frame = CGRectMake(_scrollView.bounds.size.width, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height);
@@ -128,7 +198,15 @@
 {
     NSInteger index = scrollView.contentOffset.x/scrollView.bounds.size.width;
     [_headView setSelectAtIndex:index];
-    
+    if(index == 0){
+        self.hourLab.textColor = [UIColor redColor];
+        self.minuteLab.textColor = [UIColor redColor];
+        self.secondLab.textColor = [UIColor redColor];
+    }else{
+        self.hourLab.textColor = [UIColor whiteColor];
+        self.minuteLab.textColor = [UIColor whiteColor];
+        self.secondLab.textColor = [UIColor whiteColor];
+    }
 }
 
 
@@ -141,20 +219,158 @@
     
 }
 
+//倒计时
+-(void)dateTimeDifferenceWithStartTime:(NSString *)startTime endTime:(NSString *)endTime{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH-mm-sss"];
+    
+    NSDate *startDate = [formatter dateFromString:startTime];
+    NSDate *endDate = [formatter dateFromString:endTime];
+    NSTimeInterval timeInterval =[endDate timeIntervalSinceDate:startDate];
+    
+    if (_timer==nil) {
+        __block int timeout = timeInterval; //倒计时时间
+        
+        if (timeout!=0) {
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+            _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+            dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+            dispatch_source_set_event_handler(_timer, ^{
+                if(timeout<=0){ //倒计时结束，关闭
+                    dispatch_source_cancel(_timer);
+                    _timer = nil;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //                        self.dayLabel.text = @"";
+                        self.hourLab.text = @"00";
+                        self.minuteLab.text = @"00";
+                        self.secondLab.text = @"00";
+                    });
+                    [self loadDataBeingSnappedUp];
+                    [self setUpHeadViewData];
+//                    NSDictionary *dict = @{@"countDownTimeOver":@"over"};
+//                    //创建 倒计时结束 通知
+//                    NSNotification *notification =[NSNotification notificationWithName:@"countDownTimeOver" object:nil userInfo:dict];
+//                    //通过通知中心发送通知
+//                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    
+                }else{
+                    
+                    int days = (int)(timeout/(3600*24));
+                    //                    if (days==0) {
+                    //                        self.dayLabel.text = @"";
+                    //                    }
+                    int hours = (int)((timeout-days*24*3600)/3600);
+                    int minute = (int)(timeout-days*24*3600-hours*3600)/60;
+                    int second = timeout-days*24*3600-hours*3600-minute*60;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //                        if (days==0) {
+                        //                            self.dayLabel.text = @"0天";
+                        //                        }else{
+                        //                            self.dayLabel.text = [NSString stringWithFormat:@"%d天",days];
+                        //                        }
+                        if (hours<10) {
+                            self.hourLab.text = [NSString stringWithFormat:@"0%d",hours];
+                        }else{
+                            self.hourLab.text = [NSString stringWithFormat:@"%d",hours];
+                        }
+                        if (minute<10) {
+                            self.minuteLab.text = [NSString stringWithFormat:@"0%d",minute];
+                        }else{
+                            self.minuteLab.text = [NSString stringWithFormat:@"%d",minute];
+                        }
+                        if (second<10) {
+                            self.secondLab.text = [NSString stringWithFormat:@"0%d",second];
+                        }else{
+                            self.secondLab.text = [NSString stringWithFormat:@"%d",second];
+                        }
+                    });
+                    timeout--;
+                }
+            });
+            dispatch_resume(_timer);
+        }
+    }
+}
+
+//倒计时
+-(void)NextDateTimeDifferenceWithStartTime:(NSString *)startTime endTime:(NSString *)endTime{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH-mm-sss"];
+    
+    NSDate *startDate = [formatter dateFromString:startTime];
+    NSDate *endDate = [formatter dateFromString:endTime];
+    NSTimeInterval timeInterval =[endDate timeIntervalSinceDate:startDate];
+    
+    if (_nextTimer==nil) {
+        __block int timeout = timeInterval; //倒计时时间
+        
+        if (timeout!=0) {
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+            _nextTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+            dispatch_source_set_timer(_nextTimer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+            dispatch_source_set_event_handler(_nextTimer, ^{
+                if(timeout<=0){ //倒计时结束，关闭
+                    dispatch_source_cancel(_nextTimer);
+                    _nextTimer = nil;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //                        self.dayLabel.text = @"";
+                        self.hourNextLab.text = @"00";
+                        self.minuteNextLab.text = @"00";
+                        self.secondNextLab.text = @"00";
+                    });
+                    [self loadDataBeginSoon];
+                    [self setUpHeadViewData];
+                    //                    NSDictionary *dict = @{@"countDownTimeOver":@"over"};
+                    //                    //创建 倒计时结束 通知
+                    //                    NSNotification *notification =[NSNotification notificationWithName:@"countDownTimeOver" object:nil userInfo:dict];
+                    //                    //通过通知中心发送通知
+                    //                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    
+                }else{
+                    int days = (int)(timeout/(3600*24));
+                    //                    if (days==0) {
+                    //                        self.dayLabel.text = @"";
+                    //                    }
+                    int hours = (int)((timeout-days*24*3600)/3600);
+                    int minute = (int)(timeout-days*24*3600-hours*3600)/60;
+                    int second = timeout-days*24*3600-hours*3600-minute*60;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //                        if (days==0) {
+                        //                            self.dayLabel.text = @"0天";
+                        //                        }else{
+                        //                            self.dayLabel.text = [NSString stringWithFormat:@"%d天",days];
+                        //                        }
+                        if (hours<10) {
+                            self.hourNextLab.text = [NSString stringWithFormat:@"0%d",hours];
+                        }else{
+                            self.hourNextLab.text = [NSString stringWithFormat:@"%d",hours];
+                        }
+                        if (minute<10) {
+                            self.minuteNextLab.text = [NSString stringWithFormat:@"0%d",minute];
+                        }else{
+                            self.minuteNextLab.text = [NSString stringWithFormat:@"%d",minute];
+                        }
+                        if (second<10) {
+                            self.secondNextLab.text = [NSString stringWithFormat:@"0%d",second];
+                        }else{
+                            self.secondNextLab.text = [NSString stringWithFormat:@"%d",second];
+                        }
+                        
+                    });
+                    timeout--;
+                }
+            });
+            dispatch_resume(_nextTimer);
+        }
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

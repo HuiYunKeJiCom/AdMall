@@ -130,6 +130,13 @@
 		18694FA72052877400AACDC7 /* ADReceivingAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18694FA62052877400AACDC7 /* ADReceivingAddressViewController.m */; };
 		18694FAA2052904300AACDC7 /* ADReceivingAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18694FA92052904300AACDC7 /* ADReceivingAddressModel.m */; };
 		18694FAD2052912000AACDC7 /* ADReceivingAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18694FAC2052912000AACDC7 /* ADReceivingAddressCell.m */; };
+		1869B874206C822F00B107E7 /* ADCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869B873206C822F00B107E7 /* ADCategoryModel.m */; };
+		1869B87B206C8CB900B107E7 /* ADLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869B87A206C8CB900B107E7 /* ADLoginController.m */; };
+		1869B87E206C8D7500B107E7 /* ADLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869B87D206C8D7500B107E7 /* ADLoginView.m */; };
+		1869B881206C8E9F00B107E7 /* ADLImageField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869B880206C8E9F00B107E7 /* ADLImageField.m */; };
+		1869B884206C967B00B107E7 /* UIView+animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869B883206C967B00B107E7 /* UIView+animation.m */; };
+		1869B889206CD02200B107E7 /* ADLGlobalHandleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869B885206CD02000B107E7 /* ADLGlobalHandleModel.m */; };
+		1869B88A206CD02200B107E7 /* ADLUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1869B888206CD02200B107E7 /* ADLUserModel.m */; };
 		186C39432048F3E300CCBD37 /* ADAfterSaleServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C39422048F3E300CCBD37 /* ADAfterSaleServiceViewController.m */; };
 		186C39462048F8CE00CCBD37 /* ADAfterSaleServiceViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C39452048F8CE00CCBD37 /* ADAfterSaleServiceViewCell.m */; };
 		186C39492048FEAC00CCBD37 /* ADAfterSaleServiceViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186C39482048FEAC00CCBD37 /* ADAfterSaleServiceViewModel.m */; };
@@ -478,6 +485,20 @@
 		18694FA92052904300AACDC7 /* ADReceivingAddressModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADReceivingAddressModel.m; sourceTree = "<group>"; };
 		18694FAB2052912000AACDC7 /* ADReceivingAddressCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADReceivingAddressCell.h; sourceTree = "<group>"; };
 		18694FAC2052912000AACDC7 /* ADReceivingAddressCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADReceivingAddressCell.m; sourceTree = "<group>"; };
+		1869B872206C822F00B107E7 /* ADCategoryModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADCategoryModel.h; sourceTree = "<group>"; };
+		1869B873206C822F00B107E7 /* ADCategoryModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADCategoryModel.m; sourceTree = "<group>"; };
+		1869B879206C8CB900B107E7 /* ADLoginController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADLoginController.h; sourceTree = "<group>"; };
+		1869B87A206C8CB900B107E7 /* ADLoginController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADLoginController.m; sourceTree = "<group>"; };
+		1869B87C206C8D7500B107E7 /* ADLoginView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADLoginView.h; sourceTree = "<group>"; };
+		1869B87D206C8D7500B107E7 /* ADLoginView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADLoginView.m; sourceTree = "<group>"; };
+		1869B87F206C8E9E00B107E7 /* ADLImageField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLImageField.h; sourceTree = "<group>"; };
+		1869B880206C8E9F00B107E7 /* ADLImageField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLImageField.m; sourceTree = "<group>"; };
+		1869B882206C967A00B107E7 /* UIView+animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+animation.h"; sourceTree = "<group>"; };
+		1869B883206C967B00B107E7 /* UIView+animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+animation.m"; sourceTree = "<group>"; };
+		1869B885206CD02000B107E7 /* ADLGlobalHandleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLGlobalHandleModel.m; sourceTree = "<group>"; };
+		1869B886206CD02100B107E7 /* ADLUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLUserModel.h; sourceTree = "<group>"; };
+		1869B887206CD02100B107E7 /* ADLGlobalHandleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLGlobalHandleModel.h; sourceTree = "<group>"; };
+		1869B888206CD02200B107E7 /* ADLUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLUserModel.m; sourceTree = "<group>"; };
 		186C39412048F3E300CCBD37 /* ADAfterSaleServiceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADAfterSaleServiceViewController.h; sourceTree = "<group>"; };
 		186C39422048F3E300CCBD37 /* ADAfterSaleServiceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADAfterSaleServiceViewController.m; sourceTree = "<group>"; };
 		186C39442048F8CE00CCBD37 /* ADAfterSaleServiceViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADAfterSaleServiceViewCell.h; sourceTree = "<group>"; };
@@ -1230,6 +1251,47 @@
 			path = Ctrl;
 			sourceTree = "<group>";
 		};
+		1869B875206C8C4E00B107E7 /* LoginIn(登录) */ = {
+			isa = PBXGroup;
+			children = (
+				1869B878206C8C8E00B107E7 /* Ctrl */,
+				1869B877206C8C8800B107E7 /* Model */,
+				1869B876206C8C8200B107E7 /* View */,
+			);
+			path = "LoginIn(登录)";
+			sourceTree = "<group>";
+		};
+		1869B876206C8C8200B107E7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1869B87C206C8D7500B107E7 /* ADLoginView.h */,
+				1869B87D206C8D7500B107E7 /* ADLoginView.m */,
+				1869B87F206C8E9E00B107E7 /* ADLImageField.h */,
+				1869B880206C8E9F00B107E7 /* ADLImageField.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1869B877206C8C8800B107E7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1869B887206CD02100B107E7 /* ADLGlobalHandleModel.h */,
+				1869B885206CD02000B107E7 /* ADLGlobalHandleModel.m */,
+				1869B886206CD02100B107E7 /* ADLUserModel.h */,
+				1869B888206CD02200B107E7 /* ADLUserModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1869B878206C8C8E00B107E7 /* Ctrl */ = {
+			isa = PBXGroup;
+			children = (
+				1869B879206C8CB900B107E7 /* ADLoginController.h */,
+				1869B87A206C8CB900B107E7 /* ADLoginController.m */,
+			);
+			path = Ctrl;
+			sourceTree = "<group>";
+		};
 		186C393D2048F28600CCBD37 /* AfterSale(我的售后服务) */ = {
 			isa = PBXGroup;
 			children = (
@@ -1441,6 +1503,7 @@
 		18B964C6201EF2BE00A6DA59 /* AdelMall */ = {
 			isa = PBXGroup;
 			children = (
+				1869B875206C8C4E00B107E7 /* LoginIn(登录) */,
 				18F07B782045542600F0761E /* sort(分类) */,
 				183766E12029B6260055FF97 /* GoodsDetail(商品详情) */,
 				1851742B2020558800E7B8F8 /* ShoppingCar(购物车) */,
@@ -1582,6 +1645,8 @@
 		18B964F9201F029700A6DA59 /* Category(分类) */ = {
 			isa = PBXGroup;
 			children = (
+				1869B882206C967A00B107E7 /* UIView+animation.h */,
+				1869B883206C967B00B107E7 /* UIView+animation.m */,
 				188FB6802068E66800F99670 /* NSObject+MJExtension.h */,
 				188FB6812068E66900F99670 /* NSObject+MJExtension.m */,
 				188FB67E2068D9DE00F99670 /* UIView+Frame.h */,
@@ -1708,6 +1773,8 @@
 				18F07B822045611500F0761E /* DCCalssSubItem.m */,
 				18F07B802045611400F0761E /* DCClassMianItem.h */,
 				18F07B812045611500F0761E /* DCClassMianItem.m */,
+				1869B872206C822F00B107E7 /* ADCategoryModel.h */,
+				1869B873206C822F00B107E7 /* ADCategoryModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2001,10 +2068,12 @@
 				1851741B20204BDD00E7B8F8 /* ADHomePageViewController.m in Sources */,
 				186547D62064E2D2006E50FF /* YWAddressViewController.m in Sources */,
 				18694FAA2052904300AACDC7 /* ADReceivingAddressModel.m in Sources */,
+				1869B874206C822F00B107E7 /* ADCategoryModel.m in Sources */,
 				1851741420200DF200E7B8F8 /* ADLMyInfoTableViewFooterCell.m in Sources */,
 				182B3A18204EA59900462CAA /* ADNotUsedCouponCell.m in Sources */,
 				183626812057833D0099FE10 /* ADAddImage.m in Sources */,
 				18B964D7201EF2BE00A6DA59 /* main.m in Sources */,
+				1869B884206C967B00B107E7 /* UIView+animation.m in Sources */,
 				186547C32064E19A006E50FF /* YWTool.m in Sources */,
 				18F1D213202954E500F371CB /* ADAllOrderViewController.m in Sources */,
 				18653C17206A195200D7AE33 /* ADStarGoodsSubclassCell.m in Sources */,
@@ -2077,6 +2146,7 @@
 				188FB67F2068D9DE00F99670 /* UIView+Frame.m in Sources */,
 				1882AC7A202D3EA300D3DE4F /* ADOrderBasicViewCell.m in Sources */,
 				182B39FC204E317500462CAA /* ADSallingCell.m in Sources */,
+				1869B87E206C8D7500B107E7 /* ADLoginView.m in Sources */,
 				18508228205B584B00C80DD7 /* ADOnSallDetailHeadView.m in Sources */,
 				18277AC4202A8E0E00973ECC /* ADDetailViewController.m in Sources */,
 				18694FA72052877400AACDC7 /* ADReceivingAddressViewController.m in Sources */,
@@ -2088,6 +2158,7 @@
 				185C8BCE204FD82300768C54 /* ADCouponCenterCell.m in Sources */,
 				182B3A12204E991300462CAA /* ADNotUsedCouponViewController.m in Sources */,
 				1851743D2020667600E7B8F8 /* DCZuoWenRightButton.m in Sources */,
+				1869B881206C8E9F00B107E7 /* ADLImageField.m in Sources */,
 				183766E02029ACE20055FF97 /* ADOrderDetailViewController.m in Sources */,
 				1836268D2057BDDC0099FE10 /* ADApplyAfterSaleViewController.m in Sources */,
 				18E013E020512471004A969C /* ADEvaluateBottomView.m in Sources */,
@@ -2113,12 +2184,15 @@
 				1848377820561FA50070ABDA /* UIView+Extension.m in Sources */,
 				18B964F8201F014500A6DA59 /* DCSpeedy.m in Sources */,
 				18517431202055D400E7B8F8 /* DCRecommendItem.m in Sources */,
+				1869B87B206C8CB900B107E7 /* ADLoginController.m in Sources */,
 				1883CB5A204D54FB0061884E /* ADPaymentViewCell.m in Sources */,
 				18454B02204813C4001B9F9F /* ADBottomView.m in Sources */,
+				1869B889206CD02200B107E7 /* ADLGlobalHandleModel.m in Sources */,
 				185174172020109100E7B8F8 /* UIViewExt.m in Sources */,
 				18454AF52047A606001B9F9F /* ADGoodsListViewCell.m in Sources */,
 				185C8BC2204FD1FD00768C54 /* ADCouponExpiredModel.m in Sources */,
 				183766DD202982B40055FF97 /* ADOrderCell.m in Sources */,
+				1869B88A206CD02200B107E7 /* ADLUserModel.m in Sources */,
 				188FB6822068E66900F99670 /* NSObject+MJExtension.m in Sources */,
 				188FB66D2068D1A000F99670 /* NSError+httpError.m in Sources */,
 				186C3953204937C700CCBD37 /* ADServiceStateView.m in Sources */,

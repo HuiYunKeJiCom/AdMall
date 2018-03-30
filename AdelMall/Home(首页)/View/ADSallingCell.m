@@ -183,7 +183,7 @@
     if (!_goodsIV) {
         _goodsIV = [[UIImageView alloc] init];
 //        [_goodsIV setBackgroundColor:[UIColor greenColor]];
-        [_goodsIV setContentMode:UIViewContentModeScaleAspectFill];
+        [_goodsIV setContentMode:UIViewContentModeScaleAspectFit];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doTap:)];
         // 允许用户交互
         _goodsIV.userInteractionEnabled = YES;

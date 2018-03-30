@@ -8,6 +8,10 @@
 
 #import "RequestTool.h"
 
+/* 登录 */
+static NSString * const kApiUrlLogin = @"login.htm?";
+static NSString * const kRequestCodeLogin = @"kRequestLogin";
+
 /* 获取广告轮播图数据 */
 static NSString * const kApiUrlGetImagePathAD = @"advert_invoke.htm?";
 static NSString * const kRequestCodeGetImagePathAD = @"kRequestGetImagePathAD";
@@ -195,6 +199,19 @@ static NSString * const kLockItunesAppSystemCode =  @"";
         [challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
         
     }
+}
+
+/* 登录 */
++(void)loginWithDictionary:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlLogin params:paramsDic requestCode:kRequestCodeLogin withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
 }
 
 /* 获取广告轮播图数据 */

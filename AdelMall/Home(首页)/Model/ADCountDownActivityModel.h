@@ -17,6 +17,9 @@
 @property (nonatomic, copy) NSString      *startTime;
 /** 活动结束时间 */
 @property (nonatomic, copy) NSString      *closeTime;
+/** 当前时间 */
+@property (nonatomic, copy) NSString      *currentTime;
+
 /** 活动名称 */
 @property (nonatomic, copy) NSString      *group_name;
 /** 抢购活动状态 */

@@ -8,7 +8,7 @@
 
 #import "ADSallingViewController.h"
 #import "ADSallGoodsDetailViewController.h"//抢购商品详情
-#import "ADSallingModel.h"
+//#import "ADSallingModel.h"
 #import "ADSallingCell.h"
 #import "ADCountDownGoodsModel.h"
 
@@ -134,7 +134,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ADSallingCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADSallingCell"];
     if (self.goodsTable.data.count > indexPath.row) {
-        ADSallingModel *model = self.goodsTable.data[indexPath.row];
+        ADCountDownGoodsModel *model = self.goodsTable.data[indexPath.row];
         cell.model = model;
     }
     cell.imageViewBtnClickBlock = ^{

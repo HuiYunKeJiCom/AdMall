@@ -43,6 +43,9 @@ typedef void (^FailBlock)(NSString *);
                      successBlock:(void (^)(NSData *data))successBlock
                         failBlock:(void (^)(NSString *msg))failBlock;
 
+/* 登录 */
++(void)loginWithDictionary:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
 /* 获取广告轮播图数据 */
 +(void)getImagePathForAD:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 

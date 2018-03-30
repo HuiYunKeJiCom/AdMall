@@ -13,7 +13,6 @@
 /** 文标题  */
 @property (nonatomic, copy ,readonly) NSString *title;
 
-
 /** goods  */
 @property (nonatomic, copy ,readonly) NSArray<DCCalssSubItem *> *goods;
 

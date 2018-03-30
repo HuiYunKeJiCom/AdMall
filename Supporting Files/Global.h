@@ -100,9 +100,19 @@
 #define kFontNum16                  16
 #define kFontNum17                  17
 
+/** 登录输入宽未选中字体显示*/
+#define KColorTextEBA0A0                UIColorFromRGB(0XEBA0A0)
 //色值
 #define RGBA(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
 #define RGB(r,g,b) RGBA(r,g,b,1.0f)
+
+#define KColorTextEFFFFA                UIColorFromRGB(0XEFFFFA)
+#define KColorTextF8FBFA                UIColorFromRGB(0XF8FBFA)
+#define KColorTextFFFFFF                UIColorFromRGB(0XFFFFFF)
+/** 主红 */
+#define KColorTextDA2F2D                UIColorFromRGB(0Xda2f2d)
+/** 次红*/
+#define KColorTextFBECEE                UIColorFromRGB(0XFBECEE)
 //黑色
 #define KColorText333333                UIColorFromRGB(0X333333)
 #define KColorText59C4F0                UIColorFromRGB(0X59C4F0)
@@ -127,6 +137,20 @@ green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
 blue:((float)(rgbValue & 0xFF))/255.0 \
 alpha:1.0]
 
+// obj
+#define UserDefaultsSetObjectForKey(object,key)     [[NSUserDefaults standardUserDefaults] setObject:object forKey:key]
+
+#define UserDefaultsObjectForKey(key)               [[NSUserDefaults standardUserDefaults] objectForKey:key]
+
+//解归档
+#define KeyedUnarchiver(filePath)           [NSKeyedUnarchiver unarchiveObjectWithFile:DocumentDirectory(filePath)]
+
+//归档
+#define KeyedArchiver(object,filePath)      [NSKeyedArchiver archiveRootObject:object toFile:DocumentDirectory(filePath)]
+
+//文件路径
+#define DocumentDirectory(filePath)         [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject] stringByAppendingPathComponent:filePath]
+
 //数组
 #define GoodsRecommendArray  @[@"http://gfs5.gomein.net.cn/T1blDgB5CT1RCvBVdK.jpg",@"http://gfs1.gomein.net.cn/T1loYvBCZj1RCvBVdK.jpg",@"http://gfs1.gomein.net.cn/T1w5bvB7K_1RCvBVdK.jpg",@"http://gfs1.gomein.net.cn/T1w5bvB7K_1RCvBVdK.jpg",@"http://gfs6.gomein.net.cn/T1L.VvBCxv1RCvBVdK.jpg",@"http://gfs9.gomein.net.cn/T1joLvBKhT1RCvBVdK.jpg",@"http://gfs5.gomein.net.cn/T1AoVvB7_v1RCvBVdK.jpg"]
 
@@ -144,6 +168,12 @@ static inline BOOL IsEmpty(id thing) {
         
         && [(NSArray *)thing count] == 0);
 }
+
+/** 修改设置页面 */
+static NSString * const kUpdateHiddenItemNotification              = @"updateHiddenItemNotification" ;
+
+// 本地化语言 禁止修改
+static NSString *kLanguageOfZh = @"zh-Hans";
 
 //错误提示
 #define k_requestErrorMessage              @"网络异常，请稍后重试"

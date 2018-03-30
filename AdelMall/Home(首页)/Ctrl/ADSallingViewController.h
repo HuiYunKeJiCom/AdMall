@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ADSallingViewController : UIViewController
-
+- (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more;
 @end
