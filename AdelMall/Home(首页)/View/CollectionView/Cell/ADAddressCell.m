@@ -41,6 +41,16 @@
 
     [self.contentView addSubview:self.bgView];
     [self.contentView addSubview:self.dropView];
+    
+    [self loadData];
+}
+
+-(void)loadData{
+    [RequestTool getAddress:nil withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取收货地址result = %@",result);
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"获取收货地址msg = %@",msg);
+    }];
 }
 
 -(void)makeDataForModel{

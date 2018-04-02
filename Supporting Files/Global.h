@@ -27,6 +27,8 @@
 #define kContentTextFont   [UIFont systemFontOfSize:15]
 #define kButtonTextFont   [UIFont systemFontOfSize:13]
 
+#define kAppDelegate               ((AppDelegate *)([UIApplication sharedApplication].delegate))
+
 // RGB颜色
 #define HX_RGB(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 /**

@@ -72,4 +72,10 @@ typedef void (^FailBlock)(NSString *);
 
 /* 获取抢购商品详情数据 */
 +(void)getFlashSaleDetail:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取收货地址 */
++(void)getAddress:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取购物车列表数据 */
++(void)getCartList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 @end

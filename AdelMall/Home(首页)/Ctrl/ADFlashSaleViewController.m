@@ -10,6 +10,7 @@
 #import "ADOrderTopToolView.h"
 //#import "orderHeader.h"
 #import "ADSallingViewController.h"//正在抢购
+#import "ADSallingSoonViewController.h"//即将开始
 #import "ADSecondaryHeaderView.h"
 #import "ADCountDownActivityModel.h"
 
@@ -26,6 +27,10 @@
 @property(nonatomic,strong)ADSallingViewController *sallingvc;
 /** 正在抢购模型 */
 @property(nonatomic,strong)ADCountDownActivityModel *sallingModel;
+/** 即将开始 控制器 */
+@property(nonatomic,strong)ADSallingSoonViewController *sallingSoonvc;
+/** 即将开始模型 */
+@property(nonatomic,strong)ADCountDownActivityModel *sallingSoonModel;
 //@property (nonatomic, strong) NSTimer *countDownTimer;
 /** 正在抢购 时 */
 @property(nonatomic,strong)UILabel *hourLab;
@@ -71,8 +76,8 @@
 }
 
 -(void)setUpHeadViewData{
-    NSLog(@"self.sallingModel = %@",self.sallingModel.mj_keyValues);
     NSString *minAndSec = nil;
+    NSString *minAndSecSoon = nil;
     if(self.sallingModel.startTime){
         NSArray *dateArr = [self.sallingModel.startTime componentsSeparatedByString:@" "];
         NSArray *timeArr = [dateArr[1] componentsSeparatedByString:@":"];
@@ -80,7 +85,16 @@
     }else{
         minAndSec = @"00:00";
     }
-    _headView.items = @[@{@"time":minAndSec,@"title":@"正在抢购",@"detail":@"距结束     :     :"},@{@"time":@"9:00",@"title":@"即将开始",@"detail":[NSString stringWithFormat:@"距结束%@:%@:%@",@"00",@"00",@"00"]}];
+    
+    if(self.sallingSoonModel.startTime){
+        NSArray *dateArr = [self.sallingSoonModel.startTime componentsSeparatedByString:@" "];
+        NSArray *timeArr = [dateArr[1] componentsSeparatedByString:@":"];
+        minAndSecSoon = [NSString stringWithFormat:@"%@:%@",timeArr[0],timeArr[1]];
+    }else{
+        minAndSecSoon = @"00:00";
+    }
+    
+    _headView.items = @[@{@"time":minAndSec,@"title":@"正在抢购",@"detail":@"距结束     :     :"},@{@"time":minAndSecSoon,@"title":@"即将开始",@"detail":@"距结束     :     :"}];
 }
 
 //加载正在抢购数据
@@ -105,16 +119,27 @@
     [self setUpHeadViewData];
 }
 
+//加载即将开始数据
 -(void)loadDataBeginSoon{
     [RequestTool getGoodsForFlashSale:@{@"type":@"ready"} withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"即将开始result = %@",result);
         if([result[@"code"] integerValue] == 1){
-//            [self.sallingvc handleTransferResult:result more:NO];
+            [self.sallingSoonvc handleTransferResult:result more:NO];
+            [self sallingSoonWithNSDictionary:result];
         }
         
     } withFailBlock:^(NSString *msg) {
         NSLog(@"msg = %@",msg);
     }];
+}
+
+-(void)sallingSoonWithNSDictionary:(NSDictionary *)dict
+{
+    
+    NSArray *data = dict[@"data"];
+    self.sallingSoonModel = [ADCountDownActivityModel mj_objectWithKeyValues:data];
+    [self NextDateTimeDifferenceWithStartTime:self.sallingSoonModel.currentTime endTime:self.sallingSoonModel.closeTime];
+    [self setUpHeadViewData];
 }
 
 -(void)createUI{
@@ -132,12 +157,19 @@
     };
     [self.view addSubview:_headView];
     
-    self.hourLab = [[UILabel alloc]initWithFrame:CGRectMake(117, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor redColor]];
+    self.hourLab = [[UILabel alloc]initWithFrame:CGRectMake(118, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor redColor]];
     [self.view addSubview:self.hourLab];
-    self.minuteLab = [[UILabel alloc]initWithFrame:CGRectMake(139.5, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor redColor]];
+    self.minuteLab = [[UILabel alloc]initWithFrame:CGRectMake(140, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor redColor]];
     [self.view addSubview:self.minuteLab];
-    self.secondLab = [[UILabel alloc]initWithFrame:CGRectMake(162.5, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor redColor]];
+    self.secondLab = [[UILabel alloc]initWithFrame:CGRectMake(163, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor redColor]];
     [self.view addSubview:self.secondLab];
+    
+    self.hourNextLab = [[UILabel alloc]initWithFrame:CGRectMake(325, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor whiteColor]];
+    [self.view addSubview:self.hourNextLab];
+    self.minuteNextLab = [[UILabel alloc]initWithFrame:CGRectMake(347, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor whiteColor]];
+    [self.view addSubview:self.minuteNextLab];
+    self.secondNextLab = [[UILabel alloc]initWithFrame:CGRectMake(370, 89, 20, 20) FontSize:kFontNum15 TextColor:[UIColor whiteColor]];
+    [self.view addSubview:self.secondNextLab];
     
     _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_headView.frame),kScreenWidth,kScreenHeight-64-40)];
     _scrollView.backgroundColor = kBACKGROUNDCOLOR;
@@ -173,16 +205,17 @@
 #pragma mark-将4个controller添加到applecontroller上
 -(void)addViewControllsToScrollView
 {
+    //正在抢购
     self.sallingvc = [[ADSallingViewController alloc]init];
     self.sallingvc.view.frame = CGRectMake(0, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height);
     [_scrollView addSubview:self.sallingvc.view];
     [self addChildViewController:self.sallingvc];
 
-//    ADGoodsParameterViewController * paravc = [[ADGoodsParameterViewController alloc]init];
-//    paravc.view.frame = CGRectMake(_scrollView.bounds.size.width, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height);
-//    //    payvc.view.backgroundColor = [UIColor greenColor];
-//    [_scrollView addSubview:paravc.view];
-//    [self addChildViewController:paravc];
+    //即将开始
+    self.sallingSoonvc = [[ADSallingSoonViewController alloc]init];
+    self.sallingSoonvc.view.frame = CGRectMake(_scrollView.bounds.size.width, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height);
+    [_scrollView addSubview:self.sallingSoonvc.view];
+    [self addChildViewController:self.sallingSoonvc];
     
 }
 #pragma mark-通过点击button来改变scrollview的偏移量
@@ -202,10 +235,16 @@
         self.hourLab.textColor = [UIColor redColor];
         self.minuteLab.textColor = [UIColor redColor];
         self.secondLab.textColor = [UIColor redColor];
+        self.hourNextLab.textColor = [UIColor whiteColor];
+        self.minuteNextLab.textColor = [UIColor whiteColor];
+        self.secondNextLab.textColor = [UIColor whiteColor];
     }else{
         self.hourLab.textColor = [UIColor whiteColor];
         self.minuteLab.textColor = [UIColor whiteColor];
         self.secondLab.textColor = [UIColor whiteColor];
+        self.hourNextLab.textColor = [UIColor redColor];
+        self.minuteNextLab.textColor = [UIColor redColor];
+        self.secondNextLab.textColor = [UIColor redColor];
     }
 }
 

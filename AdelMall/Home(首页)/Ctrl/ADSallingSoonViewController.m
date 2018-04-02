@@ -1,23 +1,23 @@
 //
-//  ADSallingViewController.m
+//  ADSallingSoonViewController.m
 //  AdelMall
 //
-//  Created by 张锐凌 on 2018/3/6.
+//  Created by 张锐凌 on 2018/3/30.
 //  Copyright © 2018年 Adel. All rights reserved.
-//  限时抢购-正在抢购
+//  限时抢购-即将开始
 
-#import "ADSallingViewController.h"
+#import "ADSallingSoonViewController.h"
 #import "ADSallGoodsDetailViewController.h"//抢购商品详情
-//#import "ADSallingModel.h"
-#import "ADSallingCell.h"
+//#import "ADSallingCell.h"
+#import "ADSallingSoonCell.h"
 #import "ADCountDownGoodsModel.h"
 
-@interface ADSallingViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
+@interface ADSallingSoonViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
 @property (nonatomic, strong) BaseTableView         *goodsTable;
 
 @end
 
-@implementation ADSallingViewController
+@implementation ADSallingSoonViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,8 +42,8 @@
     
     WEAKSELF
     
-    [RequestTool getGoodsForFlashSale:@{@"type":@"start"} withSuccessBlock:^(NSDictionary *result) {
-        NSLog(@"正在抢购result = %@",result);
+    [RequestTool getGoodsForFlashSale:@{@"type":@"ready"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"即将开始result = %@",result);
         if([result[@"code"] integerValue] == 1){
             [weakSelf handleTransferResult:result more:more];
         }
@@ -56,26 +56,26 @@
     //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
     //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
     //
-//                                           [weakSelf showHUD:NO];
+    //                                           [weakSelf showHUD:NO];
     //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
     //                                   } fail:^(NSString *msg) {
     //                                       [weak_self showHUD:NO];
     //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-//    [weakSelf handleTransferResult:nil more:more];
+    //    [weakSelf handleTransferResult:nil more:more];
     //                                   }];
     
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
     
-//    NSArray *dataArr = @[@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"}];
+    //    NSArray *dataArr = @[@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"salePrice":@"1268.00",@"soldNum":@"12",@"saleNum":@"20"}];
     NSArray *dataArr = [NSArray array];
-        if ([result isKindOfClass:[NSDictionary class]]) {
-            NSArray *dataInfo = result[@"data"][@"group_goodsList"][@"resultList"];
-            if ([dataInfo isKindOfClass:[NSArray class]]) {
-                dataArr = dataInfo;
-            }
+    if ([result isKindOfClass:[NSDictionary class]]) {
+        NSArray *dataInfo = result[@"data"][@"group_goodsList"][@"resultList"];
+        if ([dataInfo isKindOfClass:[NSArray class]]) {
+            dataArr = dataInfo;
         }
+    }
     [self.goodsTable.data removeAllObjects];
     for (NSDictionary *dic in dataArr) {
         
@@ -98,7 +98,7 @@
         _goodsTable.isLoadMore = YES;
         _goodsTable.isRefresh = YES;
         _goodsTable.delegateBase = self;
-        [_goodsTable registerClass:[ADSallingCell class] forCellReuseIdentifier:@"ADSallingCell"];
+        [_goodsTable registerClass:[ADSallingSoonCell class] forCellReuseIdentifier:@"ADSallingSoonCell"];
         
     }
     return _goodsTable;
@@ -132,7 +132,7 @@
 //}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ADSallingCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADSallingCell"];
+    ADSallingSoonCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADSallingSoonCell"];
     if (self.goodsTable.data.count > indexPath.row) {
         ADCountDownGoodsModel *model = self.goodsTable.data[indexPath.row];
         cell.model = model;
@@ -172,6 +172,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end

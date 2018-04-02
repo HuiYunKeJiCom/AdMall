@@ -230,6 +230,10 @@
  *登陆
  */
 - (void)actionLogin:(UIButton *)button {
+    //测试
+    self.nameTextField.textField.text = @"test";
+    self.passTextField.textField.text = @"123456";
+    
     if ([[self.nameTextField.text trim] isEmptyOrNull]) {
         self.nameTextField.textField.text = @"";
         [self.nameTextField animateShake];
@@ -251,9 +255,7 @@
         }
     }
     
-    //测试
-        self.nameTextField.textField.text = @"test";
-        self.passTextField.textField.text = @"123456";
+
     
     [self endEditing:YES];
     _errorLabel.text = @"";

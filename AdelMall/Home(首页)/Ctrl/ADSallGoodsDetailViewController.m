@@ -20,6 +20,8 @@
 #import "ADGoodsDetailViewController.h"//商品详情
 
 #import "ADFlashSaleModel.h"
+#import "ADGoodsSpecModel.h"//规格模型
+#import "ADProsModel.h"//规格值模型
 
 @interface ADSallGoodsDetailViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 /* collectionView */
@@ -32,6 +34,8 @@
 @property(nonatomic,assign)BOOL isOpenSpec;
 /** 抢购活动商品模型 */
 @property(nonatomic,strong)ADFlashSaleModel *model;
+/* 抢购商品规格数组 */
+@property (strong , nonatomic)NSMutableArray<ADGoodsSpecModel *> *specItem;
 
 @end
 
@@ -111,9 +115,47 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     NSArray *dataInfo = dict[@"data"];
     self.model = [ADFlashSaleModel mj_objectWithKeyValues:dataInfo];
     NSLog(@"self.model = %@",self.model.mj_keyValues);
-    NSLog(@"spec_name = %@",dict[@"data"][@"specs"]);
+//    NSLog(@"spec_name = %@",dict[@"data"][@"specs"]);
+    NSArray *specArr = dict[@"data"][@"specs"];
+    if(specArr){
+        _specItem = [ADGoodsSpecModel mj_objectArrayWithKeyValuesArray:specArr];
+        for(int i=0;i<_specItem.count;i++){
+            ADGoodsSpecModel *model = _specItem[i];
+            model.pros = [ADProsModel mj_objectArrayWithKeyValuesArray:model.pros];
+            //        for(int i=0;i<model.pros.count;i++){
+            //            ADProsModel *proModel = model.pros[i];
+            //            NSLog(@"proModel = %@",proModel.mj_keyValues);
+            //        }
+        }
+        NSLog(@"_specItem = %@",_specItem.mj_keyValues);
+//        [self.collectionView reloadData];
+        
+        NSDictionary *dict = @{@"specItem":_specItem};
+        //创建 倒计时结束 通知
+        NSNotification *notification =[NSNotification notificationWithName:@"specItem" object:nil userInfo:dict];
+        //通过通知中心发送通知
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        
+    }
+
+//    if(prosData){
+//        for(int i=0;i<_specItem.count;i++){
+//            ADGoodsSpecModel *model = _specItem[i];
+//            model.pros = [ADProsModel mj_objectArrayWithKeyValuesArray:prosData];
+//        }
+//    }
+    
+    
     [_topToolView setTopTitleWithNSString:KLocalizableStr(self.model.gg_name)];
     [self.collectionView reloadData];
+}
+
+- (NSMutableArray<ADGoodsSpecModel *> *)specItem
+{
+    if (!_specItem) {
+        _specItem = [NSMutableArray array];
+    }
+    return _specItem;
 }
 
 #pragma mark - 导航栏处理
@@ -282,13 +324,11 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
 //        cell.backgroundColor = [UIColor redColor];
         cell.openViewClickBlock = ^{
             self.isOpen = YES;
-//            [collectionView reloadItemsAtIndexPaths:@[indexPath]];
             [collectionView reloadData];
         };
         cell.closeViewClickBlock = ^{
             self.isOpen = NO;
             [collectionView reloadData];
-//            [collectionView reloadItemsAtIndexPaths:@[indexPath]];
         };
         gridcell = cell;
     }
@@ -359,7 +399,7 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     }
     if (indexPath.section == 3) {//商品规格
         if(self.isOpenSpec){
-            return CGSizeMake(kScreenWidth,333);
+            return CGSizeMake(kScreenWidth,420);//340
         }else{
             return CGSizeMake(kScreenWidth,40);
         }

@@ -128,6 +128,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     [sallGoodsDetailVC loadDataWithGoodsID:text.userInfo[@"goodsID"]];
     [self.navigationController pushViewController:sallGoodsDetailVC animated:YES];
 }
+
 -(void)loadData{
     [RequestTool getFloorData:nil withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"获取首页楼层数据result = %@",result);
@@ -352,7 +353,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
         return CGSizeMake(kScreenWidth,40);
     }
     if (indexPath.section == 5) {//为您推荐
-        return CGSizeMake(kScreenWidth,220);
+        return CGSizeMake(kScreenWidth,350);
     }
     return CGSizeZero;
 }

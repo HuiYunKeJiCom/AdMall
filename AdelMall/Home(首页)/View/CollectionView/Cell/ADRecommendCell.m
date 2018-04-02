@@ -33,13 +33,13 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-        layout.itemSize = CGSizeMake(kScreenWidth * 0.25, self.dc_height * 0.9+10);
+        layout.itemSize = CGSizeMake(kScreenWidth * 0.25, self.dc_height * 0.45+10);
         //        layout.minimumInteritemSpacing = 2; //X
         //        layout.minimumLineSpacing = 3;  //Y
         //        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         [self addSubview:_collectionView];
-        _collectionView.frame = CGRectMake(0, 0, kScreenWidth, self.dc_height * 1.8+20);
+        _collectionView.frame = CGRectMake(0, 0, kScreenWidth, self.dc_height * 0.9+20);
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.delegate = self;
@@ -95,13 +95,6 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
     for (ADStarGoodsModel *model in _goodExceedItem) {
         NSLog(@"model = %@",model.mj_keyValues);
         [tempAdvertArr addObject:model.goods_image_path];
-        [tempAdvertArr addObject:model.goods_image_path];
-        [tempAdvertArr addObject:model.goods_image_path];
-        [tempAdvertArr addObject:model.goods_image_path];
-        [tempAdvertArr addObject:model.goods_image_path];
-        [tempAdvertArr addObject:model.goods_image_path];
-        [tempAdvertArr addObject:model.goods_image_path];
-        [tempAdvertArr addObject:model.goods_image_path];
     }
     self.goodExceedArray = tempAdvertArr;
     [self.collectionView reloadData];
@@ -131,7 +124,8 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ADStarGoodsSubclassCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADStarGoodsSubclassCellID forIndexPath:indexPath];
-    cell.model = _goodExceedItem[indexPath.row];
+    NSInteger temp = indexPath.row+indexPath.section*3;
+    cell.model = _goodExceedItem[temp];
 //    DCGoodsHandheldCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsHandheldCellID forIndexPath:indexPath];
 //    cell.handheldImage = _imagesArray[indexPath.row + 1];
     return cell;

@@ -8,6 +8,8 @@
 
 #import "ADLoginController.h"
 #import "ADLoginView.h"
+#import "ADLUserModel.h"
+#import "ADLGlobalHandleModel.h"
 
 @interface ADLoginController ()<ADLoginViewDelegate>
 
@@ -83,10 +85,20 @@
         NSLog(@"登录result = %@",result);
         if([result[@"code"] integerValue] == 1){
 //            result[@"data"]
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            ADLUserModel *model = [ADLUserModel mj_objectWithKeyValues:result[@"data"]];
+            [ADLGlobalHandleModel sharedInstance].CurrentUser = model;
+            [[ADLGlobalHandleModel sharedInstance] saveCurrentUser:model];
+            [[ADLGlobalHandleModel sharedInstance] saveLoginName:userName];
+            [[ADLGlobalHandleModel sharedInstance] savePassword:pwd];
+            
+            [kAppDelegate initRootUI];
+            
         }else{
         }
     } withFailBlock:^(NSString *msg) {
-        NSLog(@"智能硬件msg = %@",msg);
+        NSLog(@"登录msg = %@",msg);
     }];
 }
 

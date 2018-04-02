@@ -12,7 +12,7 @@
 #import "LZGoodsModel.h"
 
 
-@interface LZCartTableViewCell ()
+@interface LZCartTableViewCell ()<UITextFieldDelegate>
 {
     LZNumberChangedBlock numberAddBlock;
     LZNumberChangedBlock numberCutBlock;
@@ -33,7 +33,7 @@
 //描述2
 @property (nonatomic,retain) UILabel *detail2Label;
 //数量
-@property (nonatomic,retain)UILabel *numberLabel;
+@property (nonatomic,retain)UITextField *numberTF;
 
 @end
 
@@ -67,7 +67,7 @@
     self.detail1Label.text = model.detail1;
     self.detail2Label.text = model.detail2;
     self.dateLabel.text = [NSString stringWithFormat:@"%.2f 元",[model.price floatValue]];
-    self.numberLabel.text = [NSString stringWithFormat:@"%ld",(long)model.count];
+    self.numberTF.text = [NSString stringWithFormat:@"%ld",(long)model.count];
 //    self.sizeLabel.text = model.sizeStr;
     self.selectBtn.selected = model.select;
 }
@@ -86,8 +86,7 @@
 #pragma mark - 重写setter方法
 - (void)setLzNumber:(NSInteger)lzNumber {
     _lzNumber = lzNumber;
-    
-    self.numberLabel.text = [NSString stringWithFormat:@"%ld",(long)lzNumber];
+    self.numberTF.text = [NSString stringWithFormat:@"%ld",(long)lzNumber];
 }
 
 - (void)setLzSelected:(BOOL)lzSelected {
@@ -105,7 +104,7 @@
 
 - (void)addBtnClick:(UIButton*)button {
     
-    NSInteger count = [self.numberLabel.text integerValue];
+    NSInteger count = [self.numberTF.text integerValue];
     count++;
     
     if (numberAddBlock) {
@@ -114,7 +113,7 @@
 }
 
 - (void)cutBtnClick:(UIButton*)button {
-    NSInteger count = [self.numberLabel.text integerValue];
+    NSInteger count = [self.numberTF.text integerValue];
     count--;
     if(count <= 0){
         return ;
@@ -210,17 +209,22 @@
     [bgView addSubview:addBtn];
     
     //数量显示
-    UILabel* numberLabel = [[UILabel alloc]init];
-    numberLabel.frame = CGRectMake(addBtn.left - 30, addBtn.top, 30, 25);
-    numberLabel.textAlignment = NSTextAlignmentCenter;
-    numberLabel.text = @"1";
-    numberLabel.font = [UIFont systemFontOfSize:15];
-    [bgView addSubview:numberLabel];
-    self.numberLabel = numberLabel;
+    UITextField* numberTF = [[UITextField alloc]init];
+    numberTF.frame = CGRectMake(addBtn.left - 55, addBtn.top, 50, 25);
+    numberTF.textAlignment = NSTextAlignmentCenter;
+    numberTF.text = @"1";
+    numberTF.font = [UIFont systemFontOfSize:15];
+    numberTF.keyboardType = UIKeyboardTypeNumberPad;
+    numberTF.delegate = self;
+    [bgView addSubview:numberTF];
+    numberTF.layer.borderColor = [[UIColor grayColor]CGColor];
+    numberTF.layer.borderWidth = 1.0f;
+    numberTF.layer.masksToBounds = YES;
+    self.numberTF = numberTF;
     
     //数量减按钮
     UIButton *cutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    cutBtn.frame = CGRectMake(numberLabel.left - 25, addBtn.top, 25, 25);
+    cutBtn.frame = CGRectMake(numberTF.left - 30, addBtn.top, 25, 25);
     [cutBtn setImage:[UIImage imageNamed:@"buycar_ico_sub"] forState:UIControlStateNormal];
     [cutBtn setImage:[UIImage imageNamed:@"buycar_ico_sub"] forState:UIControlStateHighlighted];
     [cutBtn addTarget:self action:@selector(cutBtnClick:) forControlEvents:UIControlEventTouchUpInside];

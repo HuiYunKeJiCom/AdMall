@@ -48,6 +48,26 @@ static NSString * const kRequestCodeGetGoodsList = @"kRequestGetGoodsList";
 static NSString * const kApiUrlGetFlashSaleDetail = @"flashSaleDetail.htm?";
 static NSString * const kRequestCodeGetFlashSaleDetail = @"kRequestGetFlashSaleDetail";
 
+/* 获取收货地址 */
+static NSString * const kApiUrlGetAddress = @"getAddress.htm?";
+static NSString * const kRequestCodeGetAddress = @"kRequestGetAddress";
+
+/* 获取购物车列表 */
+static NSString * const kApiUrlGetCartList = @"cartList.htm?";
+static NSString * const kRequestCodeGetCartList = @"kRequestGetCartList";
+
+/* 获取可领取的优惠券列表 */
+static NSString * const kApiUrlGetCouponList = @"couponList.htm?";
+static NSString * const kRequestCodeGetCouponList = @"kRequestGetCouponList";
+
+/* 获取已领取的优惠券列表 */
+static NSString * const kApiUrlGetUserCoupon = @"getUserCoupon.htm?";
+static NSString * const kRequestCodeGetUserCoupon = @"kRequestGetUserCoupon";
+
+/* 领取优惠券 */
+static NSString * const kApiUrlGetReceiveCoupon = @"receiveCoupon.htm?";
+static NSString * const kRequestCodeGetReceiveCoupon = @"kRequestGetReceiveCoupon";
+
 //检测系统版本更新
 static NSString * const kLockDetectionSystem =  @"";
 
@@ -323,6 +343,32 @@ static NSString * const kLockItunesAppSystemCode =  @"";
 /* 获取抢购商品详情数据 */
 +(void)getFlashSaleDetail:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetFlashSaleDetail params:paramsDic requestCode:kRequestCodeGetFlashSaleDetail withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取收货地址 */
++(void)getAddress:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetAddress params:paramsDic requestCode:kRequestCodeGetAddress withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取购物车列表数据 */
++(void)getCartList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetCartList params:paramsDic requestCode:kRequestCodeGetCartList withSuccessBlock:^(NSDictionary *result) {
         
         successBlock(result);
         

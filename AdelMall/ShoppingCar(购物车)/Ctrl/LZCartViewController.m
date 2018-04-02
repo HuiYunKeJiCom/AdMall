@@ -75,6 +75,17 @@
 //        [self.dataArray addObject:model];
 //    }
     
+    [RequestTool getCartList:nil withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取购物车列表result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+//            code【-2=登录失效，-1=未登录，0=失败，1=成功，2=无返回数据】
+//            [self withNSDictionary:result];
+        }
+    } withFailBlock:^(NSString *msg) {
+         NSLog(@"获取购物车列表msg = %@",msg);
+    }];
+    
+    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"ShopCarNew" ofType:@"plist" inDirectory:nil];
     
     NSDictionary *dic = [[NSDictionary alloc]initWithContentsOfFile:path];
