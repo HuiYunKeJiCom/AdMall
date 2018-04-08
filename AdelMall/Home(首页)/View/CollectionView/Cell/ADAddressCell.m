@@ -9,7 +9,8 @@
 #import "ADAddressCell.h"
 #import "MRDropDownView.h"
 #import "ADAddressView.h"
-#import "ADAddressModel.h"//地址模型
+//#import "ADAddressModel.h"//旧地址模型
+#import "ADAdressModelNew.h"
 
 
 @interface ADAddressCell()
@@ -18,7 +19,7 @@
 @property (nonatomic, strong) MRDropDownView *dropView;
 //@property (nonatomic, assign) CGRect cellFrame;
 /** 模型数组 */
-@property(nonatomic,strong)NSMutableArray *modelArr;
+@property(nonatomic,strong)NSMutableArray<ADAdressModelNew *> *modelArr;
 @end
 
 @implementation ADAddressCell
@@ -30,7 +31,7 @@
     if (self) {
 //        self.userInteractionEnabled = YES;
         self.modelArr = [NSMutableArray array];
-        [self makeDataForModel];
+//        [self makeDataForModel];
         [self setUpUI];
         [self setUpData];
     }
@@ -40,7 +41,6 @@
 - (void)setUpUI{
 
     [self.contentView addSubview:self.bgView];
-    [self.contentView addSubview:self.dropView];
     
     [self loadData];
 }
@@ -48,19 +48,75 @@
 -(void)loadData{
     [RequestTool getAddress:nil withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"获取收货地址result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [self makeDataForModel:result];
+        }
     } withFailBlock:^(NSString *msg) {
         NSLog(@"获取收货地址msg = %@",msg);
     }];
 }
 
--(void)makeDataForModel{
-    NSArray *dataArr = @[@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"家",@"receiverName":@"黄先生",@"phone":@"137 0000 0000",@"zipCode":@"518000"},@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"公司",@"receiverName":@"老张",@"phone":@"137 0000 0000",@"zipCode":@"518000"},@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"公司",@"receiverName":@"刘先生",@"phone":@"137 0000 0000",@"zipCode":@"518000"},@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"公司",@"receiverName":@"叶先生",@"phone":@"137 0000 0000",@"zipCode":@"518000"}];
-    for (NSDictionary *dic in dataArr) {
-        
-        ADAddressModel *model = [ADAddressModel mj_objectWithKeyValues:dic];
-        [self.modelArr addObject:model];
-    }
+-(void)makeDataForModel:(NSDictionary *)dict{
+//    NSArray *dataArr = @[@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"家",@"receiverName":@"黄先生",@"phone":@"137 0000 0000",@"zipCode":@"518000"},@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"公司",@"receiverName":@"老张",@"phone":@"137 0000 0000",@"zipCode":@"518000"},@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"公司",@"receiverName":@"刘先生",@"phone":@"137 0000 0000",@"zipCode":@"518000"},@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"公司",@"receiverName":@"叶先生",@"phone":@"137 0000 0000",@"zipCode":@"518000"}];
+    //    for (NSDictionary *dic in dataArr) {
+    //        ADAdressModelNew *model = [ADAdressModelNew mj_objectWithKeyValues:dic];
+    //        [self.modelArr addObject:model];
+    //    }
     
+    NSArray *dataArr = dict[@"data"][@"addressList"];
+    self.modelArr = [ADAdressModelNew mj_objectArrayWithKeyValuesArray:dataArr];
+    
+    NSMutableArray *viewArray = [NSMutableArray array];
+    
+    for(int i=0;i<self.modelArr.count;i++){
+        ADAddressView *view = [[ADAddressView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
+        view.model = self.modelArr[i];
+        [viewArray addObject:view];
+    }
+    if(!viewArray){
+        ADAddressView *view = [[ADAddressView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
+        [viewArray addObject:view];
+    }
+    UIView *addAddressView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
+    [viewArray addObject:addAddressView];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(bottomButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    button.frame = CGRectMake(0, 0, 48, 48);
+    button.center = CGPointMake(addAddressView.center.x, addAddressView.center.y-5);
+    [addAddressView addSubview:button];
+    
+    // 创建筛选器 Create a filter box
+    self.dropView = [[MRDropDownView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) andOptions:viewArray];
+    WEAKSELF
+    self.dropView.openViewClickBlock = ^{
+        NSLog(@"打开View");
+        [weakSelf openView];
+    };
+    self.dropView.closeViewClickBlock = ^{
+        NSLog(@"关闭View");
+        [weakSelf closeView];
+    };
+    self.dropView.tag = 100;
+    self.dropView.backgroundColor = [UIColor whiteColor];
+    
+    //// MARK: 点击选项调用的方法 Click on the option method call
+    [self.dropView didseletedWithBlock:^(NSInteger tag, NSInteger index) {
+        //            @strongify(self);
+//        NSArray *array = @[@"with time", @"abcdefg", @"hijklmn", @"opqrsturwxyz"];
+//        NSLog(@"dropView.tag -> %ld, seleted -> %@", tag, array[index]);
+        // 关闭筛选框 Close the screen box
+        [self.dropView closeBgView];
+    }];
+    
+    /// 当点击筛选框时, 调用的方法 When click the filter box, the method called
+    [self.dropView clickBackGroundBlock:^{
+        //                        @strongify(self);
+        NSLog(@"点了这里");
+        [self.dropView closeBgView];
+    }];
+    [self.contentView addSubview:self.dropView];
 }
 
 - (void)layoutSubviews
@@ -115,60 +171,10 @@
 - (UIView *)bgView {
     if (!_bgView) {
         _bgView = [[UIView alloc] initWithFrame:CGRectZero];
-        _bgView.backgroundColor = [UIColor redColor];
+//        _bgView.backgroundColor = [UIColor redColor];
 //        _bgView.userInteractionEnabled = YES;
     }
     return _bgView;
-}
-
-// MARK: 懒加载 Lazy loading
-- (MRDropDownView *)dropView{
-    
-    if(!_dropView){
-        NSMutableArray *viewArray = [NSMutableArray array];
-        ADAddressView *view1 = [[ADAddressView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
-        view1.model = self.modelArr[0];
-        ADAddressView *view2 = [[ADAddressView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
-        view2.model = self.modelArr[1];
-        ADAddressView *view3 = [[ADAddressView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
-        view3.model = self.modelArr[2];
-        ADAddressView *view4 = [[ADAddressView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 60)];
-        view4.model = self.modelArr[3];
-        [viewArray addObject:view1];
-        [viewArray addObject:view2];
-        [viewArray addObject:view3];
-        [viewArray addObject:view4];
-        // 创建筛选器 Create a filter box
-        _dropView = [[MRDropDownView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) andOptions:viewArray];
-        WEAKSELF
-        _dropView.openViewClickBlock = ^{
-            NSLog(@"打开View");
-            [weakSelf openView];
-        };
-        _dropView.closeViewClickBlock = ^{
-            NSLog(@"关闭View");
-            [weakSelf closeView];
-        };
-        _dropView.tag = 100;
-        _dropView.backgroundColor = [UIColor whiteColor];
-
-        //// MARK: 点击选项调用的方法 Click on the option method call
-        [self.dropView didseletedWithBlock:^(NSInteger tag, NSInteger index) {
-            //            @strongify(self);
-            NSArray *array = @[@"with time", @"abcdefg", @"hijklmn", @"opqrsturwxyz"];
-            NSLog(@"dropView.tag -> %ld, seleted -> %@", tag, array[index]);
-            // 关闭筛选框 Close the screen box
-            [self.dropView closeBgView];
-        }];
-        
-        /// 当点击筛选框时, 调用的方法 When click the filter box, the method called
-        [_dropView clickBackGroundBlock:^{
-//                        @strongify(self);
-            NSLog(@"点了这里");
-            [self.dropView closeBgView];
-        }];
-    }
-    return _dropView;
 }
 
 -(void)openView{
@@ -178,5 +184,10 @@
 -(void)closeView{
     !_closeViewClickBlock ? : _closeViewClickBlock();
 }
+
+-(void)bottomButtonClick{
+    !_addAddressClickBlock ? : _addAddressClickBlock();
+}
+
 
 @end

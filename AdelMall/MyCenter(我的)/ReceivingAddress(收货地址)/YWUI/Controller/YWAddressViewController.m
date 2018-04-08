@@ -68,7 +68,7 @@
         [_topToolView setTopTitleWithNSString:KLocalizableStr(@"编辑地址")];
     } else {
         _model = [[YWAddressInfoModel alloc] init];
-        _model.areaAddress = @"请选择";
+        _model.addressId = @"请选择";
     }
     WEAKSELF
     _topToolView.leftItemClickBlock = ^{
@@ -109,37 +109,93 @@
 - (void)navRightItem {
     
     NSLog(@"点击了保存按钮");
+    
     YWAddressTableViewCell1 *nameCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     YWAddressTableViewCell1 *phoneCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     YWAddressTableViewCell3 *defaultCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
     
-    _model.nameStr = nameCell.textField.text;
-    _model.phoneStr = phoneCell.textField.text;
+    _model.trueName = nameCell.textField.text;
+    _model.mobile = phoneCell.textField.text;
     _model.detailAddress = _detailTextViw.text;
-    _model.areaAddress = _chooseAddressView.address;
-    _model.isDefaultAddress = defaultCell.rightSwitch.isOn;
+    _model.areaId = _chooseAddressView.address;
+    _model.isDefault = [NSString stringWithFormat:@"%d",defaultCell.rightSwitch.isOn];
 
-    if (_model.nameStr.length == 0) {
+    if (_model.trueName.length == 0) {
         [YWTool showAlterWithViewController:self Message:@"请填写收货人姓名！"];
         return;
-    } else if (_model.phoneStr.length == 0) {
+    } else if (_model.mobile.length == 0) {
         [YWTool showAlterWithViewController:self Message:@"请填写收货人电话！"];
         return;
-    } else if (_model.phoneStr.length != 11) {
+    } else if (_model.mobile.length != 11) {
         [YWTool showAlterWithViewController:self Message:@"手机号为11位，如果为座机请加上区号"];
         return;
-    } else if ([_model.areaAddress isEqualToString:@"请选择"]) {
+    } else if ([_model.areaId isEqualToString:@"请选择"]) {
         [YWTool showAlterWithViewController:self Message:@"请选择所在地区"];
         return;
     } else if (_model.detailAddress.length == 0 || _model.detailAddress.length < 5) {
         [YWTool showAlterWithViewController:self Message:@"请填写详细地址，不少于5字"];
         return;
+    }else{
+        NSLog(@"提交地址");
+        NSLog(@"addressId = %@",_model.addressId);
+
+        if([_model.addressId isEqualToString:@"请选择"]){
+            NSLog(@"新增收货地址");
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [RequestTool saveAddress:@{@"trueName":_model.trueName,@"areaId":_model.areaId,@"detailAddress":_model.detailAddress,@"mobile":_model.mobile,@"isDefault":_model.isDefault} withSuccessBlock:^(NSDictionary *result) {
+                NSLog(@"新增收货地址result = %@",result);
+                if([result[@"code"] integerValue] == 1){
+                    NSLog(@"新增收货地址成功");
+                }else if([result[@"code"] integerValue] == -2){
+                    hud.detailsLabelText = @"登录失效";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == -1){
+                    hud.detailsLabelText = @"未登录";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 0){
+                    hud.detailsLabelText = @"失败";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }
+            } withFailBlock:^(NSString *msg) {
+                hud.detailsLabelText = msg;
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }];
+        }else{
+            NSLog(@"编辑收货地址");
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [RequestTool saveAddress:@{@"trueName":_model.trueName,@"areaId":_model.areaId,@"detailAddress":_model.detailAddress,@"mobile":_model.mobile,@"isDefault":_model.isDefault,@"addressId":_model.addressId} withSuccessBlock:^(NSDictionary *result) {
+                NSLog(@"新增收货地址result = %@",result);
+                if([result[@"code"] integerValue] == 1){
+                    NSLog(@"新增收货地址成功");
+                }else if([result[@"code"] integerValue] == -2){
+                    hud.detailsLabelText = @"登录失效";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == -1){
+                    hud.detailsLabelText = @"未登录";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 0){
+                    hud.detailsLabelText = @"失败";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }
+            } withFailBlock:^(NSString *msg) {
+                hud.detailsLabelText = msg;
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }];
+        }
     }
     
-    // 回调所填写的地址信息（姓名、电话、地址等等）
-    if (self.addressBlock) {
-        self.addressBlock(_model);
-    }
+//    // 回调所填写的地址信息（姓名、电话、地址等等）
+//    if (self.addressBlock) {
+//        self.addressBlock(_model);
+//    }
     [self.navigationController popViewControllerAnimated:YES];
     
 }
@@ -222,9 +278,9 @@
     }
     
     NSLog(@"选择的姓名：%@， 电话号码：%@", fullName, phoneNumbers.firstObject);
-    _model.nameStr = fullName;
+    _model.trueName = fullName;
     // 这里直接取第一个电话号码，如果有多个请自行添加选择器
-    _model.phoneStr = phoneNumbers.firstObject;
+    _model.mobile = phoneNumbers.firstObject;
     [_tableView reloadData];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -234,7 +290,7 @@
 #pragma mark *** UITableViewDataSource & UITableViewDelegate ***
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    if (_model.isDefaultAddress) {
+    if ([_model.isDefault integerValue] ==1) {
         // 如果该地址已经是默认地址，则无需再显示 "设为默认" 这个按钮，即隐藏
         return 1;
     }
@@ -257,15 +313,15 @@
             cell.placehodlerStr = @"填写收货人姓名";
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             cell.leftStr = _dataSource[indexPath.section][indexPath.row];
-            if (_model.nameStr.length > 0) {
-                cell.textFieldStr = _model.nameStr;
+            if (_model.trueName.length > 0) {
+                cell.textFieldStr = _model.trueName;
             }
             if (indexPath.row == 1) {
                 cell.rightBtn.hidden = NO;
                 cell.placehodlerStr = @"填写收货人电话";
                 cell.textField.keyboardType = UIKeyboardTypePhonePad;
-                if (_model.phoneStr.length > 0) {
-                    cell.textFieldStr = _model.phoneStr;
+                if (_model.mobile.length > 0) {
+                    cell.textFieldStr = _model.mobile;
                 }
                 cell.contactBlock = ^{
                     [weakSelf selectContactAction];
@@ -276,8 +332,8 @@
             YWAddressTableViewCell2 *cell = [tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER2 forIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.leftStr = _dataSource[indexPath.section][indexPath.row];
-            cell.rightStr = _model.areaAddress;
-            if (![_model.areaAddress isEqualToString:@""] && ![_model.areaAddress isEqualToString:@"请选择"]) {
+            cell.rightStr = _model.areaId;
+            if (![_model.areaId isEqualToString:@""] && ![_model.areaId isEqualToString:@"请选择"]) {
                 cell.rightLabel.textColor = [UIColor blackColor];
             } else {
                 cell.rightLabel.textColor = [UIColor lightGrayColor];
@@ -374,18 +430,18 @@
     if (!_chooseAddressView) {
         WeakSelf;
         _chooseAddressView = [[YWChooseAddressView alloc]initWithFrame:CGRectMake(0, YWScreenH - 350, YWScreenW, 350)];
-        if ([_model.areaAddress isKindOfClass:[NSNull class]] || [_model.areaAddress isEqualToString:@""]) {
-            _model.areaAddress = @"请选择";
+        if ([_model.areaId isKindOfClass:[NSNull class]] || [_model.areaId isEqualToString:@""]) {
+            _model.areaId = @"请选择";
         }
         
-        _chooseAddressView.address = _model.areaAddress;
+        _chooseAddressView.address = _model.areaId;
         
         _chooseAddressView.chooseFinish = ^{
             weakSelf.coverView.backgroundColor = [UIColor clearColor];
             NSLog(@"选择的地区为：%@", weakSelf.chooseAddressView.address);
-            weakSelf.model.areaAddress = weakSelf.chooseAddressView.address;
-            if (weakSelf.model.areaAddress.length == 0) {
-                weakSelf.model.areaAddress = @"请选择";
+            weakSelf.model.areaId = weakSelf.chooseAddressView.address;
+            if (weakSelf.model.areaId.length == 0) {
+                weakSelf.model.areaId = @"请选择";
             }
             [weakSelf.tableView reloadData];
             // 隐藏视图 - 动画

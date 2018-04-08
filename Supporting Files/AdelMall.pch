@@ -34,3 +34,4 @@
 #import "RequestParamsList.h"
 #import "RequestTool.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "NSError+httpError.h"

@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ADAddressModel.h"
 
+@class ADAdressModelNew;
 @interface ADAddressShowView : UIView
 ///** 主题 */
 //@property(nonatomic,strong)UILabel *titleLab;
 /** 地址model */
-@property (nonatomic, strong) ADAddressModel  *model;
+@property (nonatomic, strong) ADAdressModelNew  *model;
 @end

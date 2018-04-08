@@ -18,10 +18,12 @@
 #import "ADGoodsSpecCell.h"//商品规格
 #import "ADRelatedTableViewCell.h"//相关商品tableView
 #import "ADGoodsDetailViewController.h"//商品详情
+#import "YWAddressViewController.h"//新增收货地址
 
 #import "ADFlashSaleModel.h"
 #import "ADGoodsSpecModel.h"//规格模型
 #import "ADProsModel.h"//规格值模型
+
 
 @interface ADSallGoodsDetailViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 /* collectionView */
@@ -322,6 +324,19 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     else if (indexPath.section == 2) {//收货地址
         ADAddressCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADAddressCellID forIndexPath:indexPath];
 //        cell.backgroundColor = [UIColor redColor];
+        cell.addAddressClickBlock = ^{
+            YWAddressViewController *addressVC = [[YWAddressViewController alloc] init];
+            // 保存后的地址回调
+//            addressVC.addressBlock = ^(YWAddressInfoModel *model) {
+//                NSLog(@"用户地址信息填写回调：");
+//                NSLog(@"姓名：%@", model.nameStr);
+//                NSLog(@"电话：%@", model.phoneStr);
+//                NSLog(@"地区：%@", model.areaAddress);
+//                NSLog(@"详细地址：%@", model.detailAddress);
+//                NSLog(@"是否设为默认：%@", model.isDefaultAddress ? @"是" : @"不是");
+//            };
+            [self.navigationController pushViewController:addressVC animated:YES];
+        };
         cell.openViewClickBlock = ^{
             self.isOpen = YES;
             [collectionView reloadData];

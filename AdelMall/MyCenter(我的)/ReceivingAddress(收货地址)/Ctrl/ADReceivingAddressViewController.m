@@ -100,35 +100,45 @@
     [self.goodsTable updateLoadState:more];
     
     WEAKSELF
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-    //                                       [weak_self showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getAddress:nil withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取收货地址result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            NSLog(@"获取收货地址成功");
+            [hud hide:YES];
+            [weakSelf handleTransferResult:result more:more];
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
+
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
-    
-    NSArray *dataArr = @[@{@"id":@"123456",@"receiverName":@"王先生",@"phone":@"137 0000 0000",@"homeLabelName":@"家",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区"},@{@"id":@"123456",@"receiverName":@"王先生",@"phone":@"137 0000 0000",@"homeLabelName":@"公司",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区"},@{@"id":@"123456",@"receiverName":@"王先生",@"phone":@"137 0000 0000",@"homeLabelName":@"公司",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区"}];
-    //    if ([result isKindOfClass:[NSDictionary class]]) {
-    //        NSArray *dataInfo = result[@"data"];
-    //        if ([dataInfo isKindOfClass:[NSArray class]]) {
-    //            dataArr = dataInfo;
-    //        }
-    //    }
-    
+
+    NSArray *dataArr = result[@"data"][@"addressList"];
     [self.goodsTable.data removeAllObjects];
     for (NSDictionary *dic in dataArr) {
-        
         ADReceivingAddressModel *model = [ADReceivingAddressModel mj_objectWithKeyValues:dic];
+        NSLog(@"model.address_Id = %@",model.address_id);
         [self.goodsTable.data addObject:model];
     }
     
@@ -148,7 +158,6 @@
         _goodsTable.isRefresh = YES;
         _goodsTable.delegateBase = self;
         [_goodsTable registerClass:[ADReceivingAddressCell class] forCellReuseIdentifier:@"ADReceivingAddressCell"];
-        
     }
     return _goodsTable;
 }
@@ -188,10 +197,17 @@
         ADReceivingAddressModel *model = self.goodsTable.data[indexPath.section];
 //        NSLog(@"model.homeLabelName = %@",model.homeLabelName);
         cell.model = model;
+        cell.setDefaultBtnClickBlock = ^{
+            [self setDefaultAddressWithID:model.address_id];
+        };
+        cell.deleteBtnClickBlock = ^{
+            [self deleteAddressWithID:model.address_id];
+        };
+        cell.editBtnClickBlock = ^{
+            [self editBtnAction:model];
+        };
     }
-    cell.editBtnClickBlock = ^{
-        [self editBtnAction];
-    };
+    
     return cell;
 }
 
@@ -224,41 +240,92 @@
 - (void)addBtnAction{
     
     YWAddressViewController *addressVC = [[YWAddressViewController alloc] init];
-    // 保存后的地址回调
-    addressVC.addressBlock = ^(YWAddressInfoModel *model) {
-        NSLog(@"用户地址信息填写回调：");
-        NSLog(@"姓名：%@", model.nameStr);
-        NSLog(@"电话：%@", model.phoneStr);
-        NSLog(@"地区：%@", model.areaAddress);
-        NSLog(@"详细地址：%@", model.detailAddress);
-        NSLog(@"是否设为默认：%@", model.isDefaultAddress ? @"是" : @"不是");
-    };
+//    // 保存后的地址回调
+//    addressVC.addressBlock = ^(YWAddressInfoModel *model) {
+//        NSLog(@"用户地址信息填写回调：");
+//    };
     [self.navigationController pushViewController:addressVC animated:YES];
 }
 
-- (void)editBtnAction {
+- (void)editBtnAction:(ADReceivingAddressModel *)addressModel {
     
     // 这里传入需要编辑的地址信息，例如:
     YWAddressViewController *addressVC = [[YWAddressViewController alloc] init];
     YWAddressInfoModel *model = [YWAddressInfoModel alloc];
-    model.phoneStr = @"18888888888";
-    model.nameStr = @"袁伟";
-    model.areaAddress = @"四川省成都市武侯区";
-    model.detailAddress = @"下一站都市B座406";
-    model.isDefaultAddress = NO; // 如果是默认地址则传入YES
+    model.mobile = addressModel.mobile;
+    model.trueName = addressModel.trueName;
+    model.areaId = addressModel.area_id;
+    model.detailAddress = addressModel.detail_address;
+    model.addressId = addressModel.address_id;
+    model.isDefault = 0; // 如果是默认地址则传入YES
     addressVC.model = model;
     // 保存后的地址回调
-    addressVC.addressBlock = ^(YWAddressInfoModel *model) {
-        NSLog(@"用户地址信息填写回调：");
-        NSLog(@"姓名：%@", model.nameStr);
-        NSLog(@"电话：%@", model.phoneStr);
-        NSLog(@"地区：%@", model.areaAddress);
-        NSLog(@"详细地址：%@", model.detailAddress);
-        NSLog(@"是否设为默认：%@", model.isDefaultAddress ? @"是" : @"不是");
-    };
+//    addressVC.addressBlock = ^(YWAddressInfoModel *model) {
+//        NSLog(@"用户地址信息填写回调：");
+//    };
     
     [self.navigationController pushViewController:addressVC animated:YES];
 }
 
+//设置默认收货地址
+-(void)setDefaultAddressWithID:(NSString *)addressId{
+    NSLog(@"addressId = %@",addressId);
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool setDefaultAddress:@{@"addressId":addressId} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"设置默认收货地址result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            NSLog(@"设置默认收货地址成功");
+            hud.hidden = YES;
+            [self.goodsTable reloadData];
+            [self requestAllOrder:NO];
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
+}
+
+//设置默认收货地址
+-(void)deleteAddressWithID:(NSString *)addressId{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool delAddress:@{@"addressId":addressId} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"删除收货地址result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            NSLog(@"删除收货地址成功");
+            hud.hidden = YES;
+            [self.goodsTable reloadData];
+            [self requestAllOrder:NO];
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
+}
 
 @end

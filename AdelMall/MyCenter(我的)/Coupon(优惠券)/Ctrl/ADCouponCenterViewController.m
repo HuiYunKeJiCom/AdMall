@@ -65,34 +65,50 @@
     [self.goodsTable updateLoadState:more];
     
     WEAKSELF
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-    //                                       [weak_self showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getCouponList:nil withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取可领取的优惠券列表result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            NSLog(@"获取可领取的优惠券列表");
+            [hud hide:YES];
+            [weakSelf handleTransferResult:result more:more];
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
     
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
     
-    NSArray *dataArr = @[@{@"id":@"123456",@"couponName":@"新人专享红包购物券",@"couponPrice":@"100.00",@"couponSeries":@"家庭智能门锁",@"couponStartTime":@"2017-6-25 15:00",@"couponEndTime":@"2018-6-25 14:59"},@{@"id":@"123456",@"couponName":@"新人专享红包购物券",@"couponPrice":@"100.00",@"couponSeries":@"家庭智能门锁",@"couponStartTime":@"2017-6-25 15:00",@"couponEndTime":@"2018-6-25 14:59"}];
-    //    if ([result isKindOfClass:[NSDictionary class]]) {
-    //        NSArray *dataInfo = result[@"data"];
-    //        if ([dataInfo isKindOfClass:[NSArray class]]) {
-    //            dataArr = dataInfo;
-    //        }
-    //    }
+    NSArray *dataArr = [NSArray array];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            NSArray *dataInfo = result[@"data"][@"couponList"];
+            if ([dataInfo isKindOfClass:[NSArray class]]) {
+                dataArr = dataInfo;
+            }
+        }
     
     [self.goodsTable.data removeAllObjects];
     for (NSDictionary *dic in dataArr) {
-        
         ADCouponModel *model = [ADCouponModel mj_objectWithKeyValues:dic];
         [self.goodsTable.data addObject:model];
     }

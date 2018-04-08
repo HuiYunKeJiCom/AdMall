@@ -28,6 +28,7 @@
 		182B3A12204E991300462CAA /* ADNotUsedCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182B3A11204E991300462CAA /* ADNotUsedCouponViewController.m */; };
 		182B3A15204E9DF700462CAA /* ADCouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 182B3A14204E9DF700462CAA /* ADCouponModel.m */; };
 		182B3A18204EA59900462CAA /* ADNotUsedCouponCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182B3A17204EA59900462CAA /* ADNotUsedCouponCell.m */; };
+		182F891720737E5600C58A14 /* ADAddressLinkageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 182F891620737E5600C58A14 /* ADAddressLinkageModel.m */; };
 		183626812057833D0099FE10 /* ADAddImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 183626802057833D0099FE10 /* ADAddImage.m */; };
 		183626842057AD920099FE10 /* ADGoodsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183626832057AD920099FE10 /* ADGoodsListViewController.m */; };
 		183626872057B02D0099FE10 /* ADPriceGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183626862057B02D0099FE10 /* ADPriceGoodsViewController.m */; };
@@ -83,6 +84,12 @@
 		185174362020593500E7B8F8 /* CountDownShop.plist in Resources */ = {isa = PBXBuildFile; fileRef = 185174352020593400E7B8F8 /* CountDownShop.plist */; };
 		185174392020631300E7B8F8 /* DCCountDownHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 185174372020631200E7B8F8 /* DCCountDownHeadView.m */; };
 		1851743D2020667600E7B8F8 /* DCZuoWenRightButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851743C2020667500E7B8F8 /* DCZuoWenRightButton.m */; };
+		1851CE642071CA6C00629382 /* ADAdressModelNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851CE632071CA6C00629382 /* ADAdressModelNew.m */; };
+		18525A2D20736E14009FA1F4 /* Cities.json in Resources */ = {isa = PBXBuildFile; fileRef = 18525A2C20736E13009FA1F4 /* Cities.json */; };
+		18525A2F20736E52009FA1F4 /* YWAddressDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18525A2E20736E52009FA1F4 /* YWAddressDataTool.m */; };
+		18525A3220736E8B009FA1F4 /* YWAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18525A3120736E8B009FA1F4 /* YWAddressModel.m */; };
+		18525A3520736EBC009FA1F4 /* YWAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18525A3420736EBC009FA1F4 /* YWAddressTableViewCell.m */; };
+		18525A3720736EE0009FA1F4 /* YWChooseAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18525A3620736EDF009FA1F4 /* YWChooseAddressView.m */; };
 		1856AB8120523B4100E69BB8 /* ADReceivingAddressFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1856AB8020523B4100E69BB8 /* ADReceivingAddressFootView.m */; };
 		18594629204D17A900BF5118 /* ADPaymentOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18594628204D17A900BF5118 /* ADPaymentOrderViewController.m */; };
 		1859462C204D1AE000BF5118 /* ADPaymentOrderBottonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1859462B204D1AE000BF5118 /* ADPaymentOrderBottonView.m */; };
@@ -111,17 +118,12 @@
 		186547B92064D222006E50FF /* ClassiftyGoods02.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186547B42064D221006E50FF /* ClassiftyGoods02.plist */; };
 		186547BA2064D222006E50FF /* ClassiftyGoods06.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186547B52064D221006E50FF /* ClassiftyGoods06.plist */; };
 		186547BD2064E189006E50FF /* UIView+YWFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547BC2064E189006E50FF /* UIView+YWFrame.m */; };
-		186547C22064E19A006E50FF /* YWAddressDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547BE2064E199006E50FF /* YWAddressDataTool.m */; };
 		186547C32064E19A006E50FF /* YWTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547C12064E19A006E50FF /* YWTool.m */; };
-		186547C52064E219006E50FF /* Cities.json in Resources */ = {isa = PBXBuildFile; fileRef = 186547C42064E219006E50FF /* Cities.json */; };
 		186547D62064E2D2006E50FF /* YWAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547CB2064E2D2006E50FF /* YWAddressViewController.m */; };
 		186547D72064E2D2006E50FF /* YWAddressInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547CE2064E2D2006E50FF /* YWAddressInfoModel.m */; };
 		186547D82064E2D2006E50FF /* YWAddressTableViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547D02064E2D2006E50FF /* YWAddressTableViewCell2.m */; };
 		186547D92064E2D2006E50FF /* YWAddressTableViewCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547D22064E2D2006E50FF /* YWAddressTableViewCell1.m */; };
 		186547DA2064E2D2006E50FF /* YWAddressTableViewCell3.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547D52064E2D2006E50FF /* YWAddressTableViewCell3.m */; };
-		186547E62064E2EE006E50FF /* YWAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547DD2064E2EE006E50FF /* YWAddressModel.m */; };
-		186547E72064E2EE006E50FF /* YWChooseAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547E12064E2EE006E50FF /* YWChooseAddressView.m */; };
-		186547E82064E2EE006E50FF /* YWAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547E32064E2EE006E50FF /* YWAddressTableViewCell.m */; };
 		186547E92064E2EE006E50FF /* YWAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186547E52064E2EE006E50FF /* YWAddressView.m */; };
 		186547ED2064E334006E50FF /* YWAddressTableViewCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186547EA2064E333006E50FF /* YWAddressTableViewCell3.xib */; };
 		186547EE2064E334006E50FF /* YWAddressTableViewCell1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186547EB2064E333006E50FF /* YWAddressTableViewCell1.xib */; };
@@ -295,6 +297,8 @@
 		182B3A14204E9DF700462CAA /* ADCouponModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADCouponModel.m; sourceTree = "<group>"; };
 		182B3A16204EA59900462CAA /* ADNotUsedCouponCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADNotUsedCouponCell.h; sourceTree = "<group>"; };
 		182B3A17204EA59900462CAA /* ADNotUsedCouponCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADNotUsedCouponCell.m; sourceTree = "<group>"; };
+		182F891520737E5600C58A14 /* ADAddressLinkageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADAddressLinkageModel.h; sourceTree = "<group>"; };
+		182F891620737E5600C58A14 /* ADAddressLinkageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADAddressLinkageModel.m; sourceTree = "<group>"; };
 		1836267F2057833C0099FE10 /* ADAddImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADAddImage.h; sourceTree = "<group>"; };
 		183626802057833D0099FE10 /* ADAddImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADAddImage.m; sourceTree = "<group>"; };
 		183626822057AD920099FE10 /* ADGoodsListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADGoodsListViewController.h; sourceTree = "<group>"; };
@@ -404,6 +408,15 @@
 		185174382020631300E7B8F8 /* DCCountDownHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCountDownHeadView.h; sourceTree = "<group>"; };
 		1851743B2020667500E7B8F8 /* DCZuoWenRightButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCZuoWenRightButton.h; sourceTree = "<group>"; };
 		1851743C2020667500E7B8F8 /* DCZuoWenRightButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCZuoWenRightButton.m; sourceTree = "<group>"; };
+		1851CE622071CA6C00629382 /* ADAdressModelNew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADAdressModelNew.h; sourceTree = "<group>"; };
+		1851CE632071CA6C00629382 /* ADAdressModelNew.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADAdressModelNew.m; sourceTree = "<group>"; };
+		18525A2C20736E13009FA1F4 /* Cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Cities.json; sourceTree = "<group>"; };
+		18525A2E20736E52009FA1F4 /* YWAddressDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWAddressDataTool.m; sourceTree = "<group>"; };
+		18525A3020736E8A009FA1F4 /* YWAddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAddressModel.h; sourceTree = "<group>"; };
+		18525A3120736E8B009FA1F4 /* YWAddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWAddressModel.m; sourceTree = "<group>"; };
+		18525A3320736EBB009FA1F4 /* YWAddressTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAddressTableViewCell.h; sourceTree = "<group>"; };
+		18525A3420736EBC009FA1F4 /* YWAddressTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWAddressTableViewCell.m; sourceTree = "<group>"; };
+		18525A3620736EDF009FA1F4 /* YWChooseAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWChooseAddressView.m; sourceTree = "<group>"; };
 		1856AB7F20523B4100E69BB8 /* ADReceivingAddressFootView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADReceivingAddressFootView.h; sourceTree = "<group>"; };
 		1856AB8020523B4100E69BB8 /* ADReceivingAddressFootView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADReceivingAddressFootView.m; sourceTree = "<group>"; };
 		18594627204D17A900BF5118 /* ADPaymentOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADPaymentOrderViewController.h; sourceTree = "<group>"; };
@@ -455,11 +468,9 @@
 		186547B52064D221006E50FF /* ClassiftyGoods06.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ClassiftyGoods06.plist; sourceTree = "<group>"; };
 		186547BB2064E188006E50FF /* UIView+YWFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YWFrame.h"; sourceTree = "<group>"; };
 		186547BC2064E189006E50FF /* UIView+YWFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YWFrame.m"; sourceTree = "<group>"; };
-		186547BE2064E199006E50FF /* YWAddressDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWAddressDataTool.m; sourceTree = "<group>"; };
 		186547BF2064E199006E50FF /* YWTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWTool.h; sourceTree = "<group>"; };
 		186547C02064E19A006E50FF /* YWAddressDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAddressDataTool.h; sourceTree = "<group>"; };
 		186547C12064E19A006E50FF /* YWTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWTool.m; sourceTree = "<group>"; };
-		186547C42064E219006E50FF /* Cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Cities.json; sourceTree = "<group>"; };
 		186547CA2064E2D2006E50FF /* YWAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAddressViewController.h; sourceTree = "<group>"; };
 		186547CB2064E2D2006E50FF /* YWAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWAddressViewController.m; sourceTree = "<group>"; };
 		186547CD2064E2D2006E50FF /* YWAddressInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAddressInfoModel.h; sourceTree = "<group>"; };
@@ -470,12 +481,7 @@
 		186547D32064E2D2006E50FF /* YWAddressTableViewCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAddressTableViewCell2.h; sourceTree = "<group>"; };
 		186547D42064E2D2006E50FF /* YWAddressTableViewCell1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAddressTableViewCell1.h; sourceTree = "<group>"; };
 		186547D52064E2D2006E50FF /* YWAddressTableViewCell3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWAddressTableViewCell3.m; sourceTree = "<group>"; };
-		186547DD2064E2EE006E50FF /* YWAddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWAddressModel.m; sourceTree = "<group>"; };
-		186547DE2064E2EE006E50FF /* YWAddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAddressModel.h; sourceTree = "<group>"; };
 		186547E02064E2EE006E50FF /* YWAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAddressView.h; sourceTree = "<group>"; };
-		186547E12064E2EE006E50FF /* YWChooseAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWChooseAddressView.m; sourceTree = "<group>"; };
-		186547E22064E2EE006E50FF /* YWAddressTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWAddressTableViewCell.h; sourceTree = "<group>"; };
-		186547E32064E2EE006E50FF /* YWAddressTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWAddressTableViewCell.m; sourceTree = "<group>"; };
 		186547E42064E2EE006E50FF /* YWChooseAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWChooseAddressView.h; sourceTree = "<group>"; };
 		186547E52064E2EE006E50FF /* YWAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWAddressView.m; sourceTree = "<group>"; };
 		186547EA2064E333006E50FF /* YWAddressTableViewCell3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YWAddressTableViewCell3.xib; sourceTree = "<group>"; };
@@ -972,6 +978,8 @@
 				182B39F8204E2D7F00462CAA /* ADSallingModel.m */,
 				185EC67A2060E8FF00721522 /* ADAddressModel.h */,
 				185EC67B2060E8FF00721522 /* ADAddressModel.m */,
+				1851CE622071CA6C00629382 /* ADAdressModelNew.h */,
+				1851CE632071CA6C00629382 /* ADAdressModelNew.m */,
 				18653C18206A2AAD00D7AE33 /* ADCountDownActivityModel.h */,
 				18653C19206A2AAD00D7AE33 /* ADCountDownActivityModel.m */,
 				1844BB66206B264400C260A5 /* ADAdvertModel.h */,
@@ -1142,9 +1150,9 @@
 		186547B02064B1D2006E50FF /* Plist */ = {
 			isa = PBXGroup;
 			children = (
+				18525A2C20736E13009FA1F4 /* Cities.json */,
 				185174352020593400E7B8F8 /* CountDownShop.plist */,
 				18B9651E201F2DD400A6DA59 /* MyServiceFlow.plist */,
-				186547C42064E219006E50FF /* Cities.json */,
 				186547B42064D221006E50FF /* ClassiftyGoods02.plist */,
 				186547B32064D221006E50FF /* ClassiftyGoods03.plist */,
 				186547B22064D221006E50FF /* ClassiftyGoods04.plist */,
@@ -1188,15 +1196,15 @@
 		186547CF2064E2D2006E50FF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				186547EB2064E333006E50FF /* YWAddressTableViewCell1.xib */,
-				186547EC2064E334006E50FF /* YWAddressTableViewCell2.xib */,
-				186547EA2064E333006E50FF /* YWAddressTableViewCell3.xib */,
-				186547D02064E2D2006E50FF /* YWAddressTableViewCell2.m */,
-				186547D12064E2D2006E50FF /* YWAddressTableViewCell3.h */,
-				186547D22064E2D2006E50FF /* YWAddressTableViewCell1.m */,
-				186547D32064E2D2006E50FF /* YWAddressTableViewCell2.h */,
 				186547D42064E2D2006E50FF /* YWAddressTableViewCell1.h */,
+				186547D22064E2D2006E50FF /* YWAddressTableViewCell1.m */,
+				186547EB2064E333006E50FF /* YWAddressTableViewCell1.xib */,
+				186547D32064E2D2006E50FF /* YWAddressTableViewCell2.h */,
+				186547D02064E2D2006E50FF /* YWAddressTableViewCell2.m */,
+				186547EC2064E334006E50FF /* YWAddressTableViewCell2.xib */,
+				186547D12064E2D2006E50FF /* YWAddressTableViewCell3.h */,
 				186547D52064E2D2006E50FF /* YWAddressTableViewCell3.m */,
+				186547EA2064E333006E50FF /* YWAddressTableViewCell3.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1213,8 +1221,10 @@
 		186547DC2064E2EE006E50FF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				186547DD2064E2EE006E50FF /* YWAddressModel.m */,
-				186547DE2064E2EE006E50FF /* YWAddressModel.h */,
+				18525A3020736E8A009FA1F4 /* YWAddressModel.h */,
+				18525A3120736E8B009FA1F4 /* YWAddressModel.m */,
+				182F891520737E5600C58A14 /* ADAddressLinkageModel.h */,
+				182F891620737E5600C58A14 /* ADAddressLinkageModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1222,12 +1232,12 @@
 		186547DF2064E2EE006E50FF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				18525A3320736EBB009FA1F4 /* YWAddressTableViewCell.h */,
+				18525A3420736EBC009FA1F4 /* YWAddressTableViewCell.m */,
 				186547E02064E2EE006E50FF /* YWAddressView.h */,
-				186547E12064E2EE006E50FF /* YWChooseAddressView.m */,
-				186547E22064E2EE006E50FF /* YWAddressTableViewCell.h */,
-				186547E32064E2EE006E50FF /* YWAddressTableViewCell.m */,
-				186547E42064E2EE006E50FF /* YWChooseAddressView.h */,
 				186547E52064E2EE006E50FF /* YWAddressView.m */,
+				186547E42064E2EE006E50FF /* YWChooseAddressView.h */,
+				18525A3620736EDF009FA1F4 /* YWChooseAddressView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1655,7 +1665,7 @@
 			isa = PBXGroup;
 			children = (
 				186547C02064E19A006E50FF /* YWAddressDataTool.h */,
-				186547BE2064E199006E50FF /* YWAddressDataTool.m */,
+				18525A2E20736E52009FA1F4 /* YWAddressDataTool.m */,
 				186547BF2064E199006E50FF /* YWTool.h */,
 				186547C12064E19A006E50FF /* YWTool.m */,
 				18B964F6201F014500A6DA59 /* DCSpeedy.h */,
@@ -1942,7 +1952,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				186547C52064E219006E50FF /* Cities.json in Resources */,
 				186547EE2064E334006E50FF /* YWAddressTableViewCell1.xib in Resources */,
 				1880968220280CF3006BF195 /* Localizable_cn.strings in Resources */,
 				18B9651F201F2DD400A6DA59 /* MyServiceFlow.plist in Resources */,
@@ -1955,6 +1964,7 @@
 				18F07B90204562F300F0761E /* ClassiftyGoods01.plist in Resources */,
 				18B964D4201EF2BE00A6DA59 /* LaunchScreen.storyboard in Resources */,
 				18F07B7720453A9200F0761E /* ShopCarNew.plist in Resources */,
+				18525A2D20736E14009FA1F4 /* Cities.json in Resources */,
 				185174362020593500E7B8F8 /* CountDownShop.plist in Resources */,
 				18B964D1201EF2BE00A6DA59 /* Assets.xcassets in Resources */,
 				186547EF2064E334006E50FF /* YWAddressTableViewCell2.xib in Resources */,
@@ -2037,6 +2047,7 @@
 				18508231205BAEE400C80DD7 /* ADAddressCell.m in Sources */,
 				1891F10B2042C72F001D9426 /* ADEvaluateLabelViewCell.m in Sources */,
 				18B96525201F386100A6DA59 /* ADLMyInfoModel.m in Sources */,
+				182F891720737E5600C58A14 /* ADAddressLinkageModel.m in Sources */,
 				186547D82064E2D2006E50FF /* YWAddressTableViewCell2.m in Sources */,
 				1880968920284096006BF195 /* orderHeader.m in Sources */,
 				182B39F9204E2D7F00462CAA /* ADSallingModel.m in Sources */,
@@ -2056,7 +2067,6 @@
 				18B964E6201EF8CF00A6DA59 /* DCBaseSetViewController.m in Sources */,
 				18B96517201F28F400A6DA59 /* DCGridItem.m in Sources */,
 				18594629204D17A900BF5118 /* ADPaymentOrderViewController.m in Sources */,
-				186547C22064E19A006E50FF /* YWAddressDataTool.m in Sources */,
 				18809693202846DF006BF195 /* GQGesVCTransition.m in Sources */,
 				18D4C5AC206DCBBE00674479 /* ADSallingSoonViewController.m in Sources */,
 				186C395C2049494A00CCBD37 /* ADShipAddressViewCell.m in Sources */,
@@ -2077,7 +2087,6 @@
 				18F1D2162029559E00F371CB /* ADWaitingPayViewController.m in Sources */,
 				18F07B872045614A00F0761E /* DCGoodsSortCell.m in Sources */,
 				1844BB68206B264400C260A5 /* ADAdvertModel.m in Sources */,
-				186547E82064E2EE006E50FF /* YWAddressTableViewCell.m in Sources */,
 				18E013DD20510DCA004A969C /* ADEvaluateDetailCell.m in Sources */,
 				183BF7932053CB5D00C1BB51 /* ADWaitingEvaluatedViewController.m in Sources */,
 				18F07B742045337300F0761E /* LZTableHeaderView.m in Sources */,
@@ -2093,13 +2102,13 @@
 				1851741420200DF200E7B8F8 /* ADLMyInfoTableViewFooterCell.m in Sources */,
 				182B3A18204EA59900462CAA /* ADNotUsedCouponCell.m in Sources */,
 				183626812057833D0099FE10 /* ADAddImage.m in Sources */,
+				18525A3520736EBC009FA1F4 /* YWAddressTableViewCell.m in Sources */,
 				18B964D7201EF2BE00A6DA59 /* main.m in Sources */,
 				1869B884206C967B00B107E7 /* UIView+animation.m in Sources */,
 				186547C32064E19A006E50FF /* YWTool.m in Sources */,
 				18F1D213202954E500F371CB /* ADAllOrderViewController.m in Sources */,
 				18653C17206A195200D7AE33 /* ADStarGoodsSubclassCell.m in Sources */,
 				1880969620284751006BF195 /* UIBarButtonItem+DCBarButtonItem.m in Sources */,
-				186547E62064E2EE006E50FF /* YWAddressModel.m in Sources */,
 				18454AF220479398001B9F9F /* ADOrderGoodsView.m in Sources */,
 				186C39432048F3E300CCBD37 /* ADAfterSaleServiceViewController.m in Sources */,
 				185174392020631300E7B8F8 /* DCCountDownHeadView.m in Sources */,
@@ -2120,6 +2129,7 @@
 				185EC67F2060F1AE00721522 /* ADAddressShowView.m in Sources */,
 				1850822E205BA2A100C80DD7 /* EdgeInsetsLabel.m in Sources */,
 				186C3959204947A000CCBD37 /* ADExpressInformationViewCell.m in Sources */,
+				18525A2F20736E52009FA1F4 /* YWAddressDataTool.m in Sources */,
 				18F1D2192029564D00F371CB /* ADWaitingReceiveViewController.m in Sources */,
 				18277AD6202AE63600973ECC /* ADVideoViewCell.m in Sources */,
 				18B9651A201F29D700A6DA59 /* UIColor+DCColorChange.m in Sources */,
@@ -2170,6 +2180,7 @@
 				18D4C5AF206DDDFB00674479 /* ADSallingSoonCell.m in Sources */,
 				188FB67F2068D9DE00F99670 /* UIView+Frame.m in Sources */,
 				1882AC7A202D3EA300D3DE4F /* ADOrderBasicViewCell.m in Sources */,
+				18525A3720736EE0009FA1F4 /* YWChooseAddressView.m in Sources */,
 				182B39FC204E317500462CAA /* ADSallingCell.m in Sources */,
 				1869B87E206C8D7500B107E7 /* ADLoginView.m in Sources */,
 				18508228205B584B00C80DD7 /* ADOnSallDetailHeadView.m in Sources */,
@@ -2194,6 +2205,7 @@
 				18F1D222202960DF00F371CB /* ADOrderModel.m in Sources */,
 				182B39F5204E2B7800462CAA /* ADSallingViewController.m in Sources */,
 				18BA79A720465BF7003833BA /* DCGoodsHandheldCell.m in Sources */,
+				1851CE642071CA6C00629382 /* ADAdressModelNew.m in Sources */,
 				1882AC90202D8B0700D3DE4F /* ADGoodsView.m in Sources */,
 				18483772205618C20070ABDA /* ADScoreViewCell.m in Sources */,
 				18454AFE204800E7001B9F9F /* ADTotalViewCell.m in Sources */,
@@ -2207,6 +2219,7 @@
 				18B96505201F064700A6DA59 /* UILabel+LBExt.m in Sources */,
 				1848377820561FA50070ABDA /* UIView+Extension.m in Sources */,
 				18B964F8201F014500A6DA59 /* DCSpeedy.m in Sources */,
+				18525A3220736E8B009FA1F4 /* YWAddressModel.m in Sources */,
 				18517431202055D400E7B8F8 /* DCRecommendItem.m in Sources */,
 				1869B87B206C8CB900B107E7 /* ADLoginController.m in Sources */,
 				1883CB5A204D54FB0061884E /* ADPaymentViewCell.m in Sources */,
@@ -2237,7 +2250,6 @@
 				188FB6742068D76C00F99670 /* BaseViewCtrl.m in Sources */,
 				18170FAB205D18ED00EA50A1 /* ADGoodsSpecCell.m in Sources */,
 				18454AEC204791FF001B9F9F /* ADPlaceOrderViewController.m in Sources */,
-				186547E72064E2EE006E50FF /* YWChooseAddressView.m in Sources */,
 				1856AB8120523B4100E69BB8 /* ADReceivingAddressFootView.m in Sources */,
 				186547DA2064E2D2006E50FF /* YWAddressTableViewCell3.m in Sources */,
 				18B96510201F256D00A6DA59 /* ADCenterOrderView.m in Sources */,

@@ -157,7 +157,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             for (int i = 0; i < self.tableViews.count && self.tableViews.count != 1; i++) {
                 [self removeLastItem];
             }
-            [self setUpAddress:provinceItem.name];
+            [self setUpAddress:provinceItem.area_name];
             return indexPath;
         }
         //1.1 判断是否是第一次选择,不是,则重新选择省,切换省.
@@ -170,7 +170,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             }
             [self addTopBarItem];
             [self addTableView];
-            [self scrollToNextItem:provinceItem.name];
+            [self scrollToNextItem:provinceItem.area_name];
             return indexPath;
             
         } else if ([indexPath0 compare:indexPath] == NSOrderedSame && indexPath0) {
@@ -180,7 +180,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             }
             [self addTopBarItem];
             [self addTableView];
-            [self scrollToNextItem:provinceItem.name];
+            [self scrollToNextItem:provinceItem.area_name];
             return indexPath;
         }
 
@@ -188,7 +188,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         [self addTopBarItem];
         [self addTableView];
         YWAddressModel * item = self.dataSouce[indexPath.row];
-        [self scrollToNextItem:item.name ];
+        [self scrollToNextItem:item.area_name];
         
     } else if ([self.tableViews indexOfObject:tableView] == 1) {
         
@@ -203,24 +203,24 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             }
             [self addTopBarItem];
             [self addTableView];
-            [self scrollToNextItem:cityItem.name];
+            [self scrollToNextItem:cityItem.area_name];
             return indexPath;
 
         } else if ([indexPath0 compare:indexPath] == NSOrderedSame && indexPath0) {
         
-            [self scrollToNextItem:cityItem.name];
+            [self scrollToNextItem:cityItem.area_name];
             return indexPath;
         }
         
         [self addTopBarItem];
         [self addTableView];
         YWAddressModel * item = self.cityDataSouce[indexPath.row];
-        [self scrollToNextItem:item.name];
+        [self scrollToNextItem:item.area_name];
         
     } else if ([self.tableViews indexOfObject:tableView] == 2) {
         
         YWAddressModel * item = self.districtDataSouce[indexPath.row];
-        [self setUpAddress:item.name];
+        [self setUpAddress:item.area_name];
     }
     return indexPath;
 }
@@ -392,7 +392,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 - (void)setSelectedProvince:(NSString *)provinceName andCity:(NSString *)cityName andDistrict:(NSString *)districtName {
     
     for (YWAddressModel * item in self.dataSouce) {
-        if ([item.name isEqualToString:provinceName]) {
+        if ([item.area_name isEqualToString:provinceName]) {
             NSIndexPath * indexPath = [NSIndexPath indexPathForRow:[self.dataSouce indexOfObject:item] inSection:0];
             UITableView * tableView  = self.tableViews.firstObject;
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
@@ -404,7 +404,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     for (int i = 0; i < self.cityDataSouce.count; i++) {
         YWAddressModel * item = self.cityDataSouce[i];
         
-        if ([item.name isEqualToString:cityName]) {
+        if ([item.area_name isEqualToString:cityName]) {
             NSIndexPath * indexPath = [NSIndexPath indexPathForRow:i inSection:0];
             UITableView * tableView  = self.tableViews[1];
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
@@ -415,7 +415,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     
     for (int i = 0; i <self.districtDataSouce.count; i++) {
         YWAddressModel * item = self.districtDataSouce[i];
-        if ([item.name isEqualToString:districtName]) {
+        if ([item.area_name isEqualToString:districtName]) {
             NSIndexPath * indexPath = [NSIndexPath indexPathForRow:i inSection:0];
             UITableView * tableView  = self.tableViews[2];
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];

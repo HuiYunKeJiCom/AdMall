@@ -76,6 +76,27 @@ typedef void (^FailBlock)(NSString *);
 /* 获取收货地址 */
 +(void)getAddress:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 
+/* 新增/编辑收货地址 */
++(void)saveAddress:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 删除收货地址 */
++(void)delAddress:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 设置默认收货地址 */
++(void)setDefaultAddress:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取省市区数据 */
++(void)getArea:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取所有省市区数据 */
++(void)getAllArea:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
 /* 获取购物车列表数据 */
 +(void)getCartList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取可领取的优惠券列表 */
++(void)getCouponList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取已领取的优惠券列表 */
++(void)getUserCoupon:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 @end

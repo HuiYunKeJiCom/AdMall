@@ -135,13 +135,13 @@ static YWAddressDataTool *shareInstance = nil;
         @try {
             for (YWAddressModel * item in self.dataArray) {
                 
-                if (item.level.intValue == 3 && [item.name isEqualToString:@"市辖区"]) {
+                if (item.level.intValue == 3 && [item.area_name isEqualToString:@"市辖区"]) {
                     continue;
                 }
                 
                 NSString *insertSql= [NSString stringWithFormat:
-                                      @"INSERT INTO %@ ('code','sheng','di','xian','name', 'level') VALUES ('%@','%@','%@','%@','%@','%@')",
-                                      locationTabbleName,item.code, item.sheng,item.di,item.xian ,item.name, item.level];
+                                      @"INSERT INTO %@ ('code','sheng','di','xian','area_name', 'level') VALUES ('%@','%@','%@','%@','%@','%@')",
+                                      locationTabbleName,item.code, item.sheng,item.di,item.xian ,item.area_name, item.level];
                 BOOL a = [self.fmdb executeUpdate:insertSql];
                 if (!a) {
                     NSLog(@"插入地址信息数据失败");
@@ -202,7 +202,7 @@ static YWAddressDataTool *shareInstance = nil;
         NSLog(@"地址数据库打开失败");
     } else {
         //'code','sheng','di','xian','name', 'level'
-        NSString *sql = [NSString stringWithFormat:@"create table if not exists %@ (code text primary key,sheng text,di text,xian text,name text,level text);",locationTabbleName];
+        NSString *sql = [NSString stringWithFormat:@"create table if not exists %@ (code text primary key,sheng text,di text,xian text,area_name text,level text);",locationTabbleName];
         result = [self.fmdb executeUpdate:sql];
         if (!result) {
             NSLog(@"创建地址表失败");
@@ -228,7 +228,7 @@ static YWAddressDataTool *shareInstance = nil;
             model.sheng = [result stringForColumn:@"sheng"];
             model.di = [result stringForColumn:@"di"];
             model.xian = [result stringForColumn:@"xian"];
-            model.name = [result stringForColumn:@"name"];
+            model.area_name = [result stringForColumn:@"area_name"];
             model.level = [result stringForColumn:@"level"];
             [array addObject:model];
         }
@@ -251,14 +251,14 @@ static YWAddressDataTool *shareInstance = nil;
             model.sheng = [result stringForColumn:@"sheng"];
             model.di = [result stringForColumn:@"di"];
             model.xian = [result stringForColumn:@"xian"];
-            model.name = [result stringForColumn:@"name"];
+            model.area_name = [result stringForColumn:@"area_name"];
             model.level = [result stringForColumn:@"level"];
             [array addObject:model];
         }
         [self.fmdb close];
         if (array.count > 0) {
             YWAddressModel * model = array.firstObject;
-            return model.name;
+            return model.area_name;
         }
     }
     return nil;
@@ -277,7 +277,7 @@ static YWAddressDataTool *shareInstance = nil;
             model.sheng = [result stringForColumn:@"sheng"];
             model.di = [result stringForColumn:@"di"];
             model.xian = [result stringForColumn:@"xian"];
-            model.name = [result stringForColumn:@"name"];
+            model.area_name = [result stringForColumn:@"area_name"];
             model.level = [result stringForColumn:@"level"];
             [array addObject:model];
         }
@@ -300,7 +300,7 @@ static YWAddressDataTool *shareInstance = nil;
             model.sheng = [result stringForColumn:@"sheng"];
             model.di = [result stringForColumn:@"di"];
             model.xian = [result stringForColumn:@"xian"];
-            model.name = [result stringForColumn:@"name"];
+            model.area_name = [result stringForColumn:@"area_name"];
             model.level = [result stringForColumn:@"level"];
             [array addObject:model];
         }
@@ -325,7 +325,7 @@ static YWAddressDataTool *shareInstance = nil;
             model.sheng = [result stringForColumn:@"sheng"];
             model.di = [result stringForColumn:@"di"];
             model.xian = [result stringForColumn:@"xian"];
-            model.name = [result stringForColumn:@"name"];
+            model.area_name = [result stringForColumn:@"area_name"];
             model.level = [result stringForColumn:@"level"];
             [array addObject:model];
         }

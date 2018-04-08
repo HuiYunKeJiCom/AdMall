@@ -130,6 +130,13 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 }
 
 -(void)loadData{
+    
+    [RequestTool getArea:@{@"parent_id":@"4521984"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取省市区数据result = %@",result);
+    } withFailBlock:^(NSString *msg) {
+        
+    }];
+    
     [RequestTool getFloorData:nil withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"获取首页楼层数据result = %@",result);
         if([result[@"code"] integerValue] == 1){

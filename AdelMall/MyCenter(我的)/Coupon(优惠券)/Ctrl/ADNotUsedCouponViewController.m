@@ -37,21 +37,14 @@
 
 - (void)requestAllOrder:(BOOL)more {
     [self.goodsTable updateLoadState:more];
-    
+//    优惠券状态【-1=已失效，0=未使用（包括未生效），1=已使用，2=未生效且未使用，3=已生效且未使用】
     WEAKSELF
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-    //                                       [weak_self showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
-    
+    [RequestTool getUserCoupon:@{@"status":@"0"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取已领取的优惠券列表result = %@",result);
+    } withFailBlock:^(NSString *msg) {
+        
+    }];
+//    [weakSelf handleTransferResult:nil more:more];
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{

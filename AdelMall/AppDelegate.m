@@ -42,8 +42,8 @@
 //    NSLog(@"当前版本 = %@，上一次版本 = %@",BUNDLE_VERSION,[DCAppVersionTool dc_GetLastOneAppVersion]);
 //    if ([BUNDLE_VERSION isEqualToString:[DCAppVersionTool dc_GetLastOneAppVersion]]) {//判断是否当前版本号等于上一次储存版本号
 //        //        NSLog(@"不更新版本");
-        self.window.rootViewController = [[DCTabBarController alloc] init];
-//    self.window.rootViewController = [[ADLoginController alloc] init];
+//        self.window.rootViewController = [[DCTabBarController alloc] init];
+    self.window.rootViewController = [[ADLoginController alloc] init];
 //    }else{
         //        NSLog(@"更新版本");
 //        [DCAppVersionTool dc_SaveNewAppVersion:BUNDLE_VERSION]; //储存当前版本号

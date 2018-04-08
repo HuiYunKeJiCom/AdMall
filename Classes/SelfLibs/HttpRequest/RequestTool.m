@@ -52,6 +52,26 @@ static NSString * const kRequestCodeGetFlashSaleDetail = @"kRequestGetFlashSaleD
 static NSString * const kApiUrlGetAddress = @"getAddress.htm?";
 static NSString * const kRequestCodeGetAddress = @"kRequestGetAddress";
 
+/* 新增/编辑收货地址 */
+static NSString * const kApiUrlSaveAddress = @"saveAddress.htm?";
+static NSString * const kRequestCodeSaveAddress = @"kRequestSaveAddress";
+
+/* 删除收货地址 */
+static NSString * const kApiUrlDelAddress = @"delAddress.htm?";
+static NSString * const kRequestCodeDelAddress = @"kRequestDelAddress";
+
+/* 设置默认收货地址 */
+static NSString * const kApiUrlSetDefaultAddress = @"setDefaultAddress.htm?";
+static NSString * const kRequestCodeSetDefaultAddress = @"kRequestSetDefaultAddress";
+
+/* 获取省市区数据 */
+static NSString * const kApiUrlGetArea = @"getArea.htm?";
+static NSString * const kRequestCodeGetArea = @"kRequestGetArea";
+
+/* 获取所有省市区数据 */
+static NSString * const kApiUrlGetAllArea = @"getAllArea.htm?";
+static NSString * const kRequestCodeGetAllArea = @"kRequestGetAllArea";
+
 /* 获取购物车列表 */
 static NSString * const kApiUrlGetCartList = @"cartList.htm?";
 static NSString * const kRequestCodeGetCartList = @"kRequestGetCartList";
@@ -366,9 +386,100 @@ static NSString * const kLockItunesAppSystemCode =  @"";
     }];
 }
 
+/* 新增/编辑收货地址 */
++(void)saveAddress:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlSaveAddress params:paramsDic requestCode:kRequestCodeSaveAddress withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 删除收货地址 */
++(void)delAddress:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlDelAddress params:paramsDic requestCode:kRequestCodeDelAddress withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 设置默认收货地址 */
++(void)setDefaultAddress:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlSetDefaultAddress params:paramsDic requestCode:kRequestCodeSetDefaultAddress withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取省市区数据 */
++(void)getArea:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetArea params:paramsDic requestCode:kRequestCodeGetArea withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取所有省市区数据 */
++(void)getAllArea:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetAllArea params:paramsDic requestCode:kRequestCodeGetAllArea withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
 /* 获取购物车列表数据 */
 +(void)getCartList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetCartList params:paramsDic requestCode:kRequestCodeGetCartList withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取可领取的优惠券列表 */
++(void)getCouponList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetCouponList params:paramsDic requestCode:kRequestCodeGetCouponList withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取已领取的优惠券列表 */
++(void)getUserCoupon:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetUserCoupon params:paramsDic requestCode:kRequestCodeGetUserCoupon withSuccessBlock:^(NSDictionary *result) {
         
         successBlock(result);
         

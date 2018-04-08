@@ -120,8 +120,6 @@
 //                self.scrollView.frame = CGRectMake(0, 0, kWidth, 0);
 //            });
 
-
-            
             /// 遍历
             @weakify(self);
             [self.labelArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -166,7 +164,7 @@
 
 // MARK: 根据选项设置 scrollView
 - (void)_initUIWithOptions:(NSMutableArray *)options{
-    
+
     if(options.count < 5)
         self.scrollHeight = options.count * 60;
     else
@@ -174,20 +172,12 @@
     
     CGFloat imgWidth = 15;
     self.upDownImgView.size = CGSizeMake(imgWidth, imgWidth);
-    
-    ADAddressView *temp = self.optionArray[self.seletedIndex];
-    // 更新 标题
-    self.addressShowView.model = temp.model;
-//    [self.addressView.titleLab sizeToFit];
-//    self.addressView.centerY = self.height / 2;
-//    self.addressView.centerX = kWidth;
-//    self.titleLabel.text = self.optionArray[self.seletedIndex];
-//    [self.titleLabel sizeToFit];
-//    self.titleLabel.centerY = self.height / 2;
-//    self.titleLabel.centerX = self.width / 2 - 10;
-    
-    // 设置 上下图片的 frame
-//    self.upDownImgView.left = self.titleLabel.left + self.titleLabel.width + 5;
+    if(self.seletedIndex != options.count-1){
+        ADAddressView *temp = self.optionArray[self.seletedIndex];
+        // 更新 标题
+        self.addressShowView.model = temp.model;
+    }
+
     self.upDownImgView.left = kScreenWidth - imgWidth*2;
     self.upDownImgView.centerY = self.height / 2;
 }
@@ -295,9 +285,12 @@
                 @strongify(self);
                 NSInteger index = addressView.tag - 100;
                 self.seletedIndex = index;
-                ADAddressView *temp = self.optionArray[self.seletedIndex];
-                // 更新 标题
-                self.addressShowView.model = temp.model;
+                if(self.seletedIndex != self.optionArray.count-1){
+                    ADAddressView *temp = self.optionArray[self.seletedIndex];
+                    // 更新 标题
+                    self.addressShowView.model = temp.model;
+                }
+                
 //                [self.addressView.titleLab sizeToFit];
 //                self.titleLabel.text = self.optionArray[self.seletedIndex];
 //                [self.titleLabel sizeToFit];

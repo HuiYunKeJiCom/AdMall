@@ -8,6 +8,7 @@
 
 #import "ADAddressView.h"
 #import "EdgeInsetsLabel.h"
+#import "ADAdressModelNew.h"
 
 @interface ADAddressView()
 /** 地址 */
@@ -63,13 +64,13 @@
 //    NSLog(@"self.homeLab = %@",NSStringFromCGRect(self.homeLab.frame));
 }
 
-- (void)setModel:(ADAddressModel *)model {
+- (void)setModel:(ADAdressModelNew *)model {
     _model = model;
-    self.addressLab.text = model.address;
-    self.homeLab.text = model.addressLabelName;
-    self.receiverLab.text = model.receiverName;
-    self.phoneLab.text = model.phone;
-    self.zipCodeLab.text = model.zipCode;
+    self.addressLab.text = model.detail_address;
+//    self.homeLab.text = model.addressLabelName;
+    self.receiverLab.text = model.trueName;
+    self.phoneLab.text = model.mobile;
+    self.zipCodeLab.text = model.post_code;
 }
 
 #pragma mark - 填充数据

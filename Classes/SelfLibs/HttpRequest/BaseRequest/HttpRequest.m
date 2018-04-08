@@ -94,6 +94,34 @@
         fullUrl = tempArr[0];
     }
     
+    //新增收货地址
+    if([fullUrl containsString:@"saveAddress.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"mobile"];
+        fullUrl = tempArr[0];
+    }
+    
+    //设置默认收货地址
+    if([fullUrl containsString:@"setDefaultAddress.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"addressId"];
+        fullUrl = tempArr[0];
+    }
+    
+    //新增/编辑收货地址
+    if([fullUrl containsString:@"saveAddress.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"mobile"];
+        fullUrl = tempArr[0];
+    }
+    
+    //获取省市区数据
+    if([fullUrl containsString:@"getArea.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"parent_id"];
+        fullUrl = tempArr[0];
+    }
+    
     if (requsetType == RequsetTypeGet) {
 //        NSLog(@"get");
         requestOperation = [manager GET:fullUrl parameters:newParams progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -114,8 +142,6 @@
         }];
     }
     else if (requsetType == RequsetTypePost){
-        NSLog(@"post");
-        NSLog(@"fullUrl = %@,newParams = %@",fullUrl,newParams);
         if (!isFormData) {  //没有文件
             requestOperation = [manager POST:fullUrl parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
                 

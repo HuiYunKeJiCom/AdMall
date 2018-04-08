@@ -66,25 +66,38 @@
 
 - (void)setModel:(ADReceivingAddressModel *)model {
     _model = model;
+    self.receiverLab.text = model.trueName;
+    self.phoneLab.text = model.mobile;
+    self.addressLab.text = [NSString stringWithFormat:@"%@ %@",model.area_name,model.detail_address];
     
-    self.receiverLab.text = model.receiverName;
-    self.phoneLab.text = model.phone;
-    self.addressLab.text = model.address;
+    if([model.is_default isEqualToString:@"1"]){
+        [self.setDefaultBtn setTitle:@"默认地址" forState:UIControlStateNormal];
+        self.setDefaultBtn.userInteractionEnabled = NO;
+        [self.setDefaultBtn.layer setMasksToBounds:NO];
+        [self.setDefaultBtn.layer setBorderWidth:0];
+        [self.setDefaultBtn setTitleColor:kMAINCOLOR forState:UIControlStateNormal];
+    }else{
+        [self.setDefaultBtn setTitle:@"设为默认" forState:UIControlStateNormal];
+        self.setDefaultBtn.userInteractionEnabled = YES;
+        [_setDefaultBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_setDefaultBtn.layer setBorderColor:[UIColor blackColor].CGColor];
+        [_setDefaultBtn.layer setBorderWidth:1];
+        [_setDefaultBtn.layer setMasksToBounds:YES];
+        _setDefaultBtn.layer.cornerRadius = 3.0;
+    }
     
-    
-    [self.setDefaultBtn setTitle:@"设为默认" forState:UIControlStateNormal];
     [self.editBtn setTitle:@"编辑" forState:UIControlStateNormal];
     [self.deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
     
-    if([model.homeLabelName isEqualToString:@"家"]){
+    if([model.label isEqualToString:@"家"]){
         _homeLab.backgroundColor = [UIColor brownColor];
 //        self.homeLab.text = @" 家 ";
     }else{
 //        self.homeLab.text = @" 公司 ";
     }
-    self.homeLab.text = model.homeLabelName;
+    self.homeLab.text = model.label;
     
-    CGSize labelSize = [DCSpeedy dc_calculateTextSizeWithText:model.homeLabelName WithTextFont:kFontNum12 WithMaxW:80];
+    CGSize labelSize = [DCSpeedy dc_calculateTextSizeWithText:model.label WithTextFont:kFontNum12 WithMaxW:80];
     self.homeLab.frame = CGRectMake(kScreenWidth-40-labelSize.width, 20, labelSize.width+10, labelSize.height);
     
 }
@@ -207,10 +220,10 @@
         [_setDefaultBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_setDefaultBtn addTarget:self action:@selector(setDefaultButtonClick) forControlEvents:UIControlEventTouchUpInside];
         
-        [_setDefaultBtn.layer setBorderColor:[UIColor blackColor].CGColor];
-        [_setDefaultBtn.layer setBorderWidth:1];
-        [_setDefaultBtn.layer setMasksToBounds:YES];
-        _setDefaultBtn.layer.cornerRadius = 3.0;
+//        [_setDefaultBtn.layer setBorderColor:[UIColor blackColor].CGColor];
+//        [_setDefaultBtn.layer setBorderWidth:1];
+//        [_setDefaultBtn.layer setMasksToBounds:YES];
+//        _setDefaultBtn.layer.cornerRadius = 3.0;
 //        [_setDefaultBtn setImage:[UIImage imageNamed:@"shouye_icon_jiantou"] forState:UIControlStateNormal];
     }
     return _setDefaultBtn;
@@ -240,7 +253,7 @@
 
 #pragma mark - 设为默认 点击
 - (void)setDefaultButtonClick {
-    NSLog(@"设为默认 点击");
+//    [self setDefaultAddressWithID:self.model.address_id];
     !_setDefaultBtnClickBlock ? : _setDefaultBtnClickBlock();
 }
 
@@ -255,6 +268,7 @@
     NSLog(@"删除 点击");
     !_deleteBtnClickBlock ? : _deleteBtnClickBlock();
 }
+
 
 
 @end

@@ -79,20 +79,20 @@
 - (void)setModel:(ADCouponModel *)model {
     _model = model;
     
-    self.couponNameLab.text = model.couponName;
+    self.couponNameLab.text = model.coupon_name;
     self.symbolLab.text = @"¥";
     self.seriesTitLab1.text = @"可用于";
-    self.couponSeriesLab.text = model.couponSeries;
+    self.couponSeriesLab.text = model.class_name;
     self.seriesTitLab2.text = @"系列产品";
     self.couponInstructionsLab.text = @"(满3900元可使用)";
     self.effectiveTitLab.text = @"*有效期：";
-    self.couponStartTimeLab.text = model.couponStartTime;
+    self.couponStartTimeLab.text = model.coupon_begin_time;
     self.toLab.text = @"至";
-    self.couponEndTimeLab.text = model.couponEndTime;
+    self.couponEndTimeLab.text = model.coupon_end_time;
     [self.receiveBtn setTitle:@"领取" forState:UIControlStateNormal];
     
-    NSArray *tempArr = [model.couponPrice componentsSeparatedByString:@"."];
-    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:model.couponPrice];
+    NSArray *tempArr = [model.coupon_amount componentsSeparatedByString:@"."];
+    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:model.coupon_amount];
     [AttributedStr addAttribute:NSFontAttributeName
                           value:[UIFont systemFontOfSize:45.0]
                           range:NSMakeRange(0, ((NSString *)tempArr[0]).length)];

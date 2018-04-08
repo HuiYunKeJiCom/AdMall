@@ -79,12 +79,13 @@
 //    [NSString getMd5_32Bit_String:pwd]
     
 //    WEAKSELF
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [RequestTool loginWithDictionary:@{@"userName":[NSString limitStringNotEmpty:userName],
                                        @"password":[NSString limitStringNotEmpty:pwd]} withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"登录result = %@",result);
         if([result[@"code"] integerValue] == 1){
 //            result[@"data"]
+            hud.hidden = YES;
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             ADLUserModel *model = [ADLUserModel mj_objectWithKeyValues:result[@"data"]];
@@ -98,6 +99,7 @@
         }else{
         }
     } withFailBlock:^(NSString *msg) {
+        hud.hidden = YES;
         NSLog(@"登录msg = %@",msg);
     }];
 }

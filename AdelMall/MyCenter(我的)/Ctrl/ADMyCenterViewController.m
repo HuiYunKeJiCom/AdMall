@@ -115,21 +115,21 @@
             // 这里传入需要编辑的地址信息，例如:
             YWAddressViewController *addressVC = [[YWAddressViewController alloc] init];
             YWAddressInfoModel *model = [YWAddressInfoModel alloc];
-            model.phoneStr = @"18888888888";
-            model.nameStr = @"袁伟";
-            model.areaAddress = @"四川省成都市武侯区";
+            model.mobile = @"18888888888";
+            model.trueName = @"袁伟";
+            model.areaId = @"四川省成都市武侯区";
             model.detailAddress = @"下一站都市B座406";
-            model.isDefaultAddress = NO; // 如果是默认地址则传入YES
+            model.isDefault = 0; // 如果是默认地址则传入YES
             addressVC.model = model;
             // 保存后的地址回调
-            addressVC.addressBlock = ^(YWAddressInfoModel *model) {
-                NSLog(@"用户地址信息填写回调：");
-                NSLog(@"姓名：%@", model.nameStr);
-                NSLog(@"电话：%@", model.phoneStr);
-                NSLog(@"地区：%@", model.areaAddress);
-                NSLog(@"详细地址：%@", model.detailAddress);
-                NSLog(@"是否设为默认：%@", model.isDefaultAddress ? @"是" : @"不是");
-            };
+//            addressVC.addressBlock = ^(YWAddressInfoModel *model) {
+//                NSLog(@"用户地址信息填写回调：");
+//                NSLog(@"姓名：%@", model.nameStr);
+//                NSLog(@"电话：%@", model.phoneStr);
+//                NSLog(@"地区：%@", model.areaAddress);
+//                NSLog(@"详细地址：%@", model.detailAddress);
+//                NSLog(@"是否设为默认：%@", model.isDefaultAddress ? @"是" : @"不是");
+//            };
             
             [weakSelf.navigationController pushViewController:addressVC animated:YES];
         };

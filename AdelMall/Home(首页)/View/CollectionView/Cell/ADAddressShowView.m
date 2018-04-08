@@ -7,6 +7,7 @@
 //
 
 #import "ADAddressShowView.h"
+#import "ADAdressModelNew.h"
 
 @interface ADAddressShowView()
 /** 收货人 标题 */
@@ -46,10 +47,10 @@
     [self makeConstraints];
 }
 
-- (void)setModel:(ADAddressModel *)model {
+- (void)setModel:(ADAdressModelNew *)model {
     _model = model;
-    self.receiverLab.text = model.receiverName;
-    self.addressLab.text = model.address;
+    self.receiverLab.text = model.trueName;
+    self.addressLab.text = model.detail_address;
 }
 
 #pragma mark - 填充数据
