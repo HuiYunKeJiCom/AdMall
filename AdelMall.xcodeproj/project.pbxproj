@@ -29,6 +29,9 @@
 		182B3A15204E9DF700462CAA /* ADCouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 182B3A14204E9DF700462CAA /* ADCouponModel.m */; };
 		182B3A18204EA59900462CAA /* ADNotUsedCouponCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182B3A17204EA59900462CAA /* ADNotUsedCouponCell.m */; };
 		182F891720737E5600C58A14 /* ADAddressLinkageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 182F891620737E5600C58A14 /* ADAddressLinkageModel.m */; };
+		183505BB207B504000BCF7CE /* ADDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183505BA207B504000BCF7CE /* ADDetailViewModel.m */; };
+		183505BE207B505C00BCF7CE /* PageSelectBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 183505BC207B505B00BCF7CE /* PageSelectBar.m */; };
+		183505C1207B507600BCF7CE /* ADGoodsParameterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183505BF207B507600BCF7CE /* ADGoodsParameterViewController.m */; };
 		183626812057833D0099FE10 /* ADAddImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 183626802057833D0099FE10 /* ADAddImage.m */; };
 		183626842057AD920099FE10 /* ADGoodsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183626832057AD920099FE10 /* ADGoodsListViewController.m */; };
 		183626872057B02D0099FE10 /* ADPriceGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183626862057B02D0099FE10 /* ADPriceGoodsViewController.m */; };
@@ -39,7 +42,6 @@
 		183730512044F47200136106 /* ADEvaluateDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183730502044F47200136106 /* ADEvaluateDetailViewController.m */; };
 		183766DD202982B40055FF97 /* ADOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 183766DC202982B40055FF97 /* ADOrderCell.m */; };
 		183766E02029ACE20055FF97 /* ADOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183766DF2029ACE20055FF97 /* ADOrderDetailViewController.m */; };
-		183766E82029B71D0055FF97 /* ADGoodsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183766E72029B71D0055FF97 /* ADGoodsDetailViewController.m */; };
 		183BF7902053CA1700C1BB51 /* ADEvaluationGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183BF78F2053CA1700C1BB51 /* ADEvaluationGoodsViewController.m */; };
 		183BF7932053CB5D00C1BB51 /* ADWaitingEvaluatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183BF7922053CB5D00C1BB51 /* ADWaitingEvaluatedViewController.m */; };
 		183BF7962053CBA600C1BB51 /* ADHasEvaluatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183BF7952053CBA600C1BB51 /* ADHasEvaluatedViewController.m */; };
@@ -300,6 +302,12 @@
 		182B3A17204EA59900462CAA /* ADNotUsedCouponCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADNotUsedCouponCell.m; sourceTree = "<group>"; };
 		182F891520737E5600C58A14 /* ADAddressLinkageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADAddressLinkageModel.h; sourceTree = "<group>"; };
 		182F891620737E5600C58A14 /* ADAddressLinkageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADAddressLinkageModel.m; sourceTree = "<group>"; };
+		183505B9207B504000BCF7CE /* ADDetailViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADDetailViewModel.h; sourceTree = "<group>"; };
+		183505BA207B504000BCF7CE /* ADDetailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADDetailViewModel.m; sourceTree = "<group>"; };
+		183505BC207B505B00BCF7CE /* PageSelectBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSelectBar.m; sourceTree = "<group>"; };
+		183505BD207B505C00BCF7CE /* PageSelectBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSelectBar.h; sourceTree = "<group>"; };
+		183505BF207B507600BCF7CE /* ADGoodsParameterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ADGoodsParameterViewController.m; path = "../../../../AdelMallMain/AdelMall/GoodsDetail(商品详情)/Ctrl/ADGoodsParameterViewController.m"; sourceTree = "<group>"; };
+		183505C0207B507600BCF7CE /* ADGoodsParameterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ADGoodsParameterViewController.h; path = "../../../../AdelMallMain/AdelMall/GoodsDetail(商品详情)/Ctrl/ADGoodsParameterViewController.h"; sourceTree = "<group>"; };
 		1836267F2057833C0099FE10 /* ADAddImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADAddImage.h; sourceTree = "<group>"; };
 		183626802057833D0099FE10 /* ADAddImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADAddImage.m; sourceTree = "<group>"; };
 		183626822057AD920099FE10 /* ADGoodsListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADGoodsListViewController.h; sourceTree = "<group>"; };
@@ -320,8 +328,6 @@
 		183766DC202982B40055FF97 /* ADOrderCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADOrderCell.m; sourceTree = "<group>"; };
 		183766DE2029ACE20055FF97 /* ADOrderDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADOrderDetailViewController.h; sourceTree = "<group>"; };
 		183766DF2029ACE20055FF97 /* ADOrderDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADOrderDetailViewController.m; sourceTree = "<group>"; };
-		183766E62029B71D0055FF97 /* ADGoodsDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADGoodsDetailViewController.h; sourceTree = "<group>"; };
-		183766E72029B71D0055FF97 /* ADGoodsDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADGoodsDetailViewController.m; sourceTree = "<group>"; };
 		183BF78E2053CA1700C1BB51 /* ADEvaluationGoodsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADEvaluationGoodsViewController.h; sourceTree = "<group>"; };
 		183BF78F2053CA1700C1BB51 /* ADEvaluationGoodsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADEvaluationGoodsViewController.m; sourceTree = "<group>"; };
 		183BF7912053CB5D00C1BB51 /* ADWaitingEvaluatedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADWaitingEvaluatedViewController.h; sourceTree = "<group>"; };
@@ -803,9 +809,19 @@
 			path = Ctrl;
 			sourceTree = "<group>";
 		};
+		183505B8207B504000BCF7CE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				183505B9207B504000BCF7CE /* ADDetailViewModel.h */,
+				183505BA207B504000BCF7CE /* ADDetailViewModel.m */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		183766E12029B6260055FF97 /* GoodsDetail(商品详情) */ = {
 			isa = PBXGroup;
 			children = (
+				183505B8207B504000BCF7CE /* ViewModel */,
 				183766E42029B6750055FF97 /* Ctrl */,
 				183766E32029B66E0055FF97 /* Model */,
 				183766E22029B6680055FF97 /* View */,
@@ -856,8 +872,8 @@
 		183766E42029B6750055FF97 /* Ctrl */ = {
 			isa = PBXGroup;
 			children = (
-				183766E62029B71D0055FF97 /* ADGoodsDetailViewController.h */,
-				183766E72029B71D0055FF97 /* ADGoodsDetailViewController.m */,
+				183505C0207B507600BCF7CE /* ADGoodsParameterViewController.h */,
+				183505BF207B507600BCF7CE /* ADGoodsParameterViewController.m */,
 				18277AC2202A8E0E00973ECC /* ADDetailViewController.h */,
 				18277AC3202A8E0E00973ECC /* ADDetailViewController.m */,
 				18277AC5202A8E4D00973ECC /* ADGoodsParameterViewController.h */,
@@ -1655,6 +1671,8 @@
 		18B964F4201F011400A6DA59 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				183505BD207B505C00BCF7CE /* PageSelectBar.h */,
+				183505BC207B505B00BCF7CE /* PageSelectBar.m */,
 				188FB6692068D11D00F99670 /* Extension */,
 				1851743A2020665F00E7B8F8 /* CustionButton */,
 				18B96529201F3C1500A6DA59 /* SelfLibs */,
@@ -2055,6 +2073,7 @@
 				18508234205BB32700C80DD7 /* MRDropDownView.m in Sources */,
 				18F07B6D2045336900F0761E /* LZGoodsModel.m in Sources */,
 				186C394C20492B0500CCBD37 /* ADAfterSaleServiceHeaderView.m in Sources */,
+				183505BE207B505C00BCF7CE /* PageSelectBar.m in Sources */,
 				182B39F2204E26A700462CAA /* ADFlashSaleViewController.m in Sources */,
 				18277AD3202AD0EF00973ECC /* ADDetailViewCell.m in Sources */,
 				18508231205BAEE400C80DD7 /* ADAddressCell.m in Sources */,
@@ -2104,7 +2123,6 @@
 				183BF7932053CB5D00C1BB51 /* ADWaitingEvaluatedViewController.m in Sources */,
 				18F07B742045337300F0761E /* LZTableHeaderView.m in Sources */,
 				18F07B732045337300F0761E /* LZCartTableViewCell.m in Sources */,
-				183766E82029B71D0055FF97 /* ADGoodsDetailViewController.m in Sources */,
 				18277ACD202A8F6B00973ECC /* ADRelatedGoodsViewController.m in Sources */,
 				18F07B682045335200F0761E /* LZCartViewController.m in Sources */,
 				1882AC81202D40FE00D3DE4F /* ADOrderStateView.m in Sources */,
@@ -2177,6 +2195,7 @@
 				188FB67B2068D89300F99670 /* RequestDataAndSafeDeal.m in Sources */,
 				186547F22064F2D7006E50FF /* ADAddressTopView.m in Sources */,
 				184837812056731B0070ABDA /* UIScrollView+Extension.m in Sources */,
+				183505C1207B507600BCF7CE /* ADGoodsParameterViewController.m in Sources */,
 				183626902057C34F0099FE10 /* ADApplyAfterSaleModel.m in Sources */,
 				18B964FF201F02D500A6DA59 /* UIImage+DCCircle.m in Sources */,
 				18483775205619CF0070ABDA /* ADStarView.m in Sources */,
@@ -2235,6 +2254,7 @@
 				18525A3220736E8B009FA1F4 /* YWAddressModel.m in Sources */,
 				18517431202055D400E7B8F8 /* DCRecommendItem.m in Sources */,
 				1869B87B206C8CB900B107E7 /* ADLoginController.m in Sources */,
+				183505BB207B504000BCF7CE /* ADDetailViewModel.m in Sources */,
 				1883CB5A204D54FB0061884E /* ADPaymentViewCell.m in Sources */,
 				18454B02204813C4001B9F9F /* ADBottomView.m in Sources */,
 				1869B889206CD02200B107E7 /* ADLGlobalHandleModel.m in Sources */,
