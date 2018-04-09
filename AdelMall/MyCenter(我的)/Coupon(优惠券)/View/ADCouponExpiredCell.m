@@ -69,21 +69,21 @@
     
 }
 
-- (void)setModel:(ADCouponExpiredModel *)model {
+- (void)setModel:(ADCouponModel *)model {
     _model = model;
     
-    self.couponNameLab.text = model.couponName;
+    self.couponNameLab.text = model.coupon_name;
     self.symbolLab.text = @"¥";
     
     self.seriesTitLab1.text = @"可用于";
-    self.couponSeriesLab.text = model.couponSeries;
+    self.couponSeriesLab.text = model.class_name;
     self.seriesTitLab2.text = @"系列产品";
-    self.couponInstructionsLab.text = @"(满3900元可使用)";
+    self.couponInstructionsLab.text = [NSString stringWithFormat:@"(满%@元可使用)",model.coupon_order_amount];
     self.useTimeTitLab.text = @"失效日期：";
-    self.couponExpiredTimeLab.text = model.couponExpiredTime;
-    
-    NSArray *tempArr = [model.couponPrice componentsSeparatedByString:@"."];
-    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:model.couponPrice];
+    self.couponExpiredTimeLab.text = model.coupon_end_time;
+    NSString *couponPrice = [NSString stringWithFormat:@"%.2f",[model.coupon_amount floatValue]];
+    NSArray *tempArr = [couponPrice componentsSeparatedByString:@"."];
+    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:couponPrice];
     [AttributedStr addAttribute:NSFontAttributeName
                           value:[UIFont systemFontOfSize:45.0]
                           range:NSMakeRange(0, ((NSString *)tempArr[0]).length)];

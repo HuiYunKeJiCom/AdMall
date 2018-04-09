@@ -7,8 +7,8 @@
 //
 
 #import "BaseTableCell.h"
-#import "ADCouponExpiredModel.h"
+#import "ADCouponModel.h"
 
 @interface ADCouponExpiredCell : BaseTableCell
-@property (nonatomic, strong) ADCouponExpiredModel  *model;
+@property (nonatomic, strong) ADCouponModel  *model;
 @end

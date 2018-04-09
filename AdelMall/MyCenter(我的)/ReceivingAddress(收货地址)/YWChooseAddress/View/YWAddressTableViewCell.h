@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class YWAddressModel;
+@class ADAddressLinkageModel;
 
 @interface YWAddressTableViewCell : UITableViewCell
 
-@property (nonatomic,strong) YWAddressModel * item;
+@property (nonatomic,strong) ADAddressLinkageModel * item;
 
 @end

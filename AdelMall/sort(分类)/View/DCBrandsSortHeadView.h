@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class DCClassMianItem;
+@class DCClassGoodsItem;
 @interface DCBrandsSortHeadView : UICollectionReusableView
 
 /* 头部标题 */
-@property (strong , nonatomic)DCClassMianItem *headTitle;
+@property (strong , nonatomic)DCClassGoodsItem *headTitle;
 
 @end

@@ -7,8 +7,8 @@
 //
 
 #import "BaseTableCell.h"
-#import "ADUseCouponModel.h"
+#import "ADCouponModel.h"
 
 @interface ADUseCouponRecordCell : BaseTableCell
-@property (nonatomic, strong) ADUseCouponModel  *model;
+@property (nonatomic, strong) ADCouponModel  *model;
 @end

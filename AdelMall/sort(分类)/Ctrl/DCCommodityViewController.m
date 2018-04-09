@@ -14,8 +14,8 @@
 #import "ADGoodsListViewController.h"//分类列表
 //#import "DCGoodsSetViewController.h"
 // Models
-#import "DCClassMianItem.h"
-#import "DCCalssSubItem.h"
+//#import "DCClassMianItem.h"
+//#import "DCCalssSubItem.h"
 #import "DCClassGoodsItem.h"
 // Views
 #import "ADOrderTopToolView.h"
@@ -46,7 +46,7 @@
 /* 左边数据 */
 @property (strong , nonatomic)NSMutableArray<DCClassGoodsItem *> *titleItem;
 /* 右边数据 */
-@property (strong , nonatomic)NSMutableArray<DCClassMianItem *> *mainItem;
+@property (strong , nonatomic)NSArray<DCClassGoodsItem *> *mainItem;
 
 @end
 
@@ -104,18 +104,34 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
     
     [self setUpNavTopView];
     [self setUpTab];
-    
-    [self setUpData];
+
     [self requestAllOrder:NO];
+//    [self setUpData];
 }
 
+#pragma mark - 加载数据
 - (void)requestAllOrder:(BOOL)more{
     
     [RequestTool getGoodsCategory:nil withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"分类result = %@",result);
+        [self withNSDictionary:result];
     } withFailBlock:^(NSString *msg) {
         NSLog(@"msg = %@",msg);
     }];
+}
+
+-(void)withNSDictionary:(NSDictionary *)dict
+{
+    _titleItem = [DCClassGoodsItem mj_objectArrayWithKeyValuesArray:dict[@"data"][@"result"]];
+    _mainItem = _titleItem[0].children;
+//    for (DCClassGoodsItem *model in _mainItem)
+//    {
+//        NSLog(@"分类model = %@",model.icon_path);
+//    }
+    [_tableView reloadData];
+    [self.collectionView reloadData];
+    //默认选择第一行（注意一定要在加载完数据之后）
+    [_tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
 }
 
 #pragma mark - initizlize
@@ -129,14 +145,14 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
     self.tableView.tableFooterView = [UIView new];
 }
 
-#pragma mark - 加载数据
-- (void)setUpData
-{
-    _titleItem = [DCClassGoodsItem mj_objectArrayWithFilename:@"ClassifyTitles.plist"];
-    _mainItem = [DCClassMianItem mj_objectArrayWithFilename:@"ClassiftyGoods01.plist"];
-    //默认选择第一行（注意一定要在加载完数据之后）
-    [_tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
-}
+
+//- (void)setUpData
+//{
+//
+////    _titleItem = [DCClassGoodsItem mj_objectArrayWithFilename:@"ClassifyTitles.plist"];
+////    _mainItem = [DCClassMianItem mj_objectArrayWithFilename:@"ClassiftyGoods01.plist"];
+//
+//}
 
 #pragma mark - 导航栏处理
 - (void)setUpNavTopView
@@ -180,8 +196,8 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    _mainItem = [DCClassMianItem mj_objectArrayWithFilename:_titleItem[indexPath.row].fileName];
-    NSLog(@"选择了 %@",_titleItem[indexPath.row].fileName);
+    _mainItem = _titleItem[indexPath.row].children;
+//    NSLog(@"选择了 %@",_titleItem[indexPath.row].fileName);
     [self.collectionView reloadData];
 }
 
@@ -191,26 +207,26 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _mainItem[section].goods.count;
+    return _mainItem[section].children.count;
 }
 
 #pragma mark - <UICollectionViewDelegate>
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *gridcell = nil;
-    if ([_mainItem[_mainItem.count - 1].title isEqualToString:@"房地产专用锁"]) {
+    if ([_mainItem[_mainItem.count - 1].className isEqualToString:@"房地产专用锁"]) {
         if (indexPath.section == _mainItem.count - 1) {//品牌
             DCBrandSortCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCBrandSortCellID forIndexPath:indexPath];
-            cell.subItem = _mainItem[indexPath.section].goods[indexPath.row];
+            cell.subItem = _mainItem[indexPath.section].children[indexPath.row];
             gridcell = cell;
         }
         else {//商品
             DCGoodsSortCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsSortCellID forIndexPath:indexPath];
-            cell.subItem = _mainItem[indexPath.section].goods[indexPath.row];
+            cell.subItem = _mainItem[indexPath.section].children[indexPath.row];
             gridcell = cell;
         }
     }else{//商品
         DCGoodsSortCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsSortCellID forIndexPath:indexPath];
-        cell.subItem = _mainItem[indexPath.section].goods[indexPath.row];
+        cell.subItem = _mainItem[indexPath.section].children[indexPath.row];
         gridcell = cell;
     }
 
@@ -229,7 +245,7 @@ static NSString *const DCBrandSortCellID = @"DCBrandSortCell";
 }
 #pragma mark - item宽高
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-        if ([_mainItem[_mainItem.count - 1].title isEqualToString:@"热门品牌"]) {
+        if ([_mainItem[_mainItem.count - 1].className isEqualToString:@"热门品牌"]) {
             if (indexPath.section == _mainItem.count - 1) {//品牌
                 return CGSizeMake((kScreenWidth - tableViewH - 6 - DCMargin)/3, 60);
             }else{//商品

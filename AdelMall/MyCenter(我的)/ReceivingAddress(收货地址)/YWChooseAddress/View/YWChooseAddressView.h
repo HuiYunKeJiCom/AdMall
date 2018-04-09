@@ -16,5 +16,6 @@
 @property (nonatomic, copy) void(^chooseFinish)(void);
 
 @property (nonatomic,copy) NSString * areaCode;
-
+/** 所属区域ID【省、市ID省略，只需要传县区ID】 */
+@property (nonatomic,copy) NSString * areaId;
 @end

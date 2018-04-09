@@ -117,7 +117,7 @@
     _model.trueName = nameCell.textField.text;
     _model.mobile = phoneCell.textField.text;
     _model.detailAddress = _detailTextViw.text;
-    _model.areaId = _chooseAddressView.address;
+    _model.areaId = _chooseAddressView.areaId;
     _model.isDefault = [NSString stringWithFormat:@"%d",defaultCell.rightSwitch.isOn];
 
     if (_model.trueName.length == 0) {
@@ -137,8 +137,6 @@
         return;
     }else{
         NSLog(@"提交地址");
-        NSLog(@"addressId = %@",_model.addressId);
-
         if([_model.addressId isEqualToString:@"请选择"]){
             NSLog(@"新增收货地址");
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -168,9 +166,9 @@
             NSLog(@"编辑收货地址");
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [RequestTool saveAddress:@{@"trueName":_model.trueName,@"areaId":_model.areaId,@"detailAddress":_model.detailAddress,@"mobile":_model.mobile,@"isDefault":_model.isDefault,@"addressId":_model.addressId} withSuccessBlock:^(NSDictionary *result) {
-                NSLog(@"新增收货地址result = %@",result);
+                NSLog(@"编辑收货地址result = %@",result);
                 if([result[@"code"] integerValue] == 1){
-                    NSLog(@"新增收货地址成功");
+                    NSLog(@"编辑收货地址成功");
                 }else if([result[@"code"] integerValue] == -2){
                     hud.detailsLabelText = @"登录失效";
                     hud.mode = MBProgressHUDModeText;
@@ -192,10 +190,10 @@
         }
     }
     
-//    // 回调所填写的地址信息（姓名、电话、地址等等）
-//    if (self.addressBlock) {
-//        self.addressBlock(_model);
-//    }
+    // 回调所填写的地址信息（姓名、电话、地址等等）
+    if (self.addressBlock) {
+        self.addressBlock(_model);
+    }
     [self.navigationController popViewControllerAnimated:YES];
     
 }

@@ -4,13 +4,15 @@
 //
 //  Created by 90Candy on 17/12/22.
 //  Copyright © 2017年 apple. All rights reserved.
-//
+//  选择地址
 
 #import "YWChooseAddressView.h"
 #import "YWAddressView.h"
 #import "YWAddressTableViewCell.h"
 #import "YWAddressModel.h"
 #import "YWAddressDataTool.h"
+
+#import "ADAddressLinkageModel.h"
 
 static  CGFloat  const  kHYTopViewHeight = 40; //顶部视图的高度
 static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
@@ -19,9 +21,9 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 @property (nonatomic,weak) YWAddressView        * topTabbar;
 @property (nonatomic,weak) UIScrollView         * contentView;
 @property (nonatomic,weak) UIView               * underLine;
-@property (nonatomic,strong) NSArray            * dataSouce;
-@property (nonatomic,strong) NSArray            * cityDataSouce;
-@property (nonatomic,strong) NSArray            * districtDataSouce;
+@property (nonatomic,strong) NSArray<ADAddressLinkageModel *>            * dataSouce;
+@property (nonatomic,strong) NSArray<ADAddressLinkageModel *>            * cityDataSouce;
+@property (nonatomic,strong) NSArray<ADAddressLinkageModel *>            * districtDataSouce;
 @property (nonatomic,strong) NSMutableArray     * tableViews;
 @property (nonatomic,strong) NSMutableArray     * topTabbarItems;
 @property (nonatomic,weak) UIButton             * selectedBtn;
@@ -116,6 +118,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if([self.tableViews indexOfObject:tableView] == 0){
+//        NSLog(@"self.dataSouce.count = %lu",self.dataSouce.count);
         return self.dataSouce.count;
     } else if ([self.tableViews indexOfObject:tableView] == 1) {
         return self.cityDataSouce.count;
@@ -129,7 +132,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
     YWAddressTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"YWAddressTableViewCell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    YWAddressModel * item;
+    ADAddressLinkageModel * item;
     //省级别
     if([self.tableViews indexOfObject:tableView] == 0){
         item = self.dataSouce[indexPath.row];
@@ -146,25 +149,43 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
 #pragma mark - TableViewDelegate
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     if([self.tableViews indexOfObject:tableView] == 0){
-        
 
         //1.1 获取下一级别的数据源(市级别,如果是直辖市时,下级则为区级别)
-        YWAddressModel * provinceItem = self.dataSouce[indexPath.row];
-        self.cityDataSouce = [[YWAddressDataTool sharedManager] queryAllRecordWithShengID:[provinceItem.code substringWithRange:(NSRange){0,2}]];
-        if(self.cityDataSouce.count == 0) {
-            for (int i = 0; i < self.tableViews.count && self.tableViews.count != 1; i++) {
-                [self removeLastItem];
+        ADAddressLinkageModel * provinceItem = self.dataSouce[indexPath.row];
+//        self.cityDataSouce = [[YWAddressDataTool sharedManager] queryAllRecordWithShengID:[provinceItem.code substringWithRange:(NSRange){0,2}]];
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+        [RequestTool getArea:@{@"parentId":provinceItem.idx} withSuccessBlock:^(NSDictionary *result) {
+            NSLog(@"获取市区数据result = %@",result);
+
+            NSArray *dataInfo = result[@"data"][@"result"];
+            self.cityDataSouce = [ADAddressLinkageModel mj_objectArrayWithKeyValuesArray:dataInfo];
+            
+                    if(self.cityDataSouce.count == 0) {
+                        for (int i = 0; i < self.tableViews.count && self.tableViews.count != 1; i++) {
+                            [self removeLastItem];
+                        }
+                        [self setUpAddress:provinceItem.area_name];
+                        return;
+                    }
+            
+            for (int i=0; i<self.tableViews.count; i++) {
+                if(i == self.tableViews.count-1){
+                    UITableView *tableView = self.tableViews[i];
+                    [tableView reloadData];
+                }
             }
-            [self setUpAddress:provinceItem.area_name];
-            return indexPath;
-        }
+            hud.hidden = YES;
+        } withFailBlock:^(NSString *msg) {
+            NSLog(@"获取省市区数据msg = %@",msg);
+        }];
         //1.1 判断是否是第一次选择,不是,则重新选择省,切换省.
         NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
 
         if ([indexPath0 compare:indexPath] != NSOrderedSame && indexPath0) {
-            
+
             for (int i = 0; i < self.tableViews.count && self.tableViews.count != 1; i++) {
                 [self removeLastItem];
             }
@@ -172,9 +193,9 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             [self addTableView];
             [self scrollToNextItem:provinceItem.area_name];
             return indexPath;
-            
+
         } else if ([indexPath0 compare:indexPath] == NSOrderedSame && indexPath0) {
-            
+
             for (int i = 0; i < self.tableViews.count && self.tableViews.count != 1 ; i++) {
                 [self removeLastItem];
             }
@@ -183,17 +204,30 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             [self scrollToNextItem:provinceItem.area_name];
             return indexPath;
         }
-
         //之前未选中省，第一次选择省
         [self addTopBarItem];
         [self addTableView];
-        YWAddressModel * item = self.dataSouce[indexPath.row];
+        ADAddressLinkageModel * item = self.dataSouce[indexPath.row];
         [self scrollToNextItem:item.area_name];
         
     } else if ([self.tableViews indexOfObject:tableView] == 1) {
         
-        YWAddressModel * cityItem = self.cityDataSouce[indexPath.row];
-        self.districtDataSouce = [[YWAddressDataTool sharedManager] queryAllRecordWithShengID:cityItem.sheng cityID:cityItem.di];
+        ADAddressLinkageModel * cityItem = self.cityDataSouce[indexPath.row];
+//        self.districtDataSouce = [[YWAddressDataTool sharedManager] queryAllRecordWithShengID:cityItem.sheng cityID:cityItem.di];
+        [RequestTool getArea:@{@"parentId":cityItem.idx} withSuccessBlock:^(NSDictionary *result) {
+            NSLog(@"获取省市区数据result = %@",result);
+            NSArray *dataInfo = result[@"data"][@"result"];
+            self.districtDataSouce = [ADAddressLinkageModel mj_objectArrayWithKeyValuesArray:dataInfo];
+            for (int i=0; i<self.tableViews.count; i++) {
+                if(i == self.tableViews.count-1){
+                    UITableView *tableView = self.tableViews[i];
+                    [tableView reloadData];
+                }
+            }
+            
+        } withFailBlock:^(NSString *msg) {
+            NSLog(@"获取省市区数据msg = %@",msg);
+        }];
         NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
         
         if ([indexPath0 compare:indexPath] != NSOrderedSame && indexPath0) {
@@ -214,12 +248,12 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         
         [self addTopBarItem];
         [self addTableView];
-        YWAddressModel * item = self.cityDataSouce[indexPath.row];
+        ADAddressLinkageModel * item = self.cityDataSouce[indexPath.row];
         [self scrollToNextItem:item.area_name];
         
     } else if ([self.tableViews indexOfObject:tableView] == 2) {
         
-        YWAddressModel * item = self.districtDataSouce[indexPath.row];
+        ADAddressLinkageModel * item = self.districtDataSouce[indexPath.row];
         [self setUpAddress:item.area_name];
     }
     return indexPath;
@@ -227,14 +261,16 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    YWAddressModel * item;
+    ADAddressLinkageModel * item;
     if([self.tableViews indexOfObject:tableView] == 0) {
        item = self.dataSouce[indexPath.row];
+        
     } else if ([self.tableViews indexOfObject:tableView] == 1) {
        item = self.cityDataSouce[indexPath.row];
     } else if ([self.tableViews indexOfObject:tableView] == 2) {
        item = self.districtDataSouce[indexPath.row];
+        NSLog(@"item.idx = %@",item.idx);
+        self.areaId = item.idx;
     }
     item.isSelected = YES;
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -243,7 +279,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    YWAddressModel * item;
+    ADAddressLinkageModel * item;
     if([self.tableViews indexOfObject:tableView] == 0) {
         item = self.dataSouce[indexPath.row];
     } else if ([self.tableViews indexOfObject:tableView] == 1) {
@@ -391,7 +427,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 //初始化选中状态
 - (void)setSelectedProvince:(NSString *)provinceName andCity:(NSString *)cityName andDistrict:(NSString *)districtName {
     
-    for (YWAddressModel * item in self.dataSouce) {
+    for (ADAddressLinkageModel * item in self.dataSouce) {
         if ([item.area_name isEqualToString:provinceName]) {
             NSIndexPath * indexPath = [NSIndexPath indexPathForRow:[self.dataSouce indexOfObject:item] inSection:0];
             UITableView * tableView  = self.tableViews.firstObject;
@@ -402,7 +438,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     }
     
     for (int i = 0; i < self.cityDataSouce.count; i++) {
-        YWAddressModel * item = self.cityDataSouce[i];
+        ADAddressLinkageModel * item = self.cityDataSouce[i];
         
         if ([item.area_name isEqualToString:cityName]) {
             NSIndexPath * indexPath = [NSIndexPath indexPathForRow:i inSection:0];
@@ -414,7 +450,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     }
     
     for (int i = 0; i <self.districtDataSouce.count; i++) {
-        YWAddressModel * item = self.districtDataSouce[i];
+        ADAddressLinkageModel * item = self.districtDataSouce[i];
         if ([item.area_name isEqualToString:districtName]) {
             NSIndexPath * indexPath = [NSIndexPath indexPathForRow:i inSection:0];
             UITableView * tableView  = self.tableViews[2];
@@ -455,8 +491,18 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 - (NSArray *)dataSouce {
     
     if (!_dataSouce) {
-       
-        _dataSouce = [[YWAddressDataTool sharedManager] queryAllProvince];
+//       @{@"parentId":@"4524131"}
+//        _dataSouce = [[YWAddressDataTool sharedManager] queryAllProvince];
+        [RequestTool getArea:nil withSuccessBlock:^(NSDictionary *result) {
+            NSLog(@"获取省级数据result = %@",result);
+            NSArray *dataInfo = result[@"data"][@"result"];
+            _dataSouce = [ADAddressLinkageModel mj_objectArrayWithKeyValuesArray:dataInfo];
+            for (UITableView *tableView in self.tableViews) {
+                [tableView reloadData];
+            }
+        } withFailBlock:^(NSString *msg) {
+            NSLog(@"获取省市区数据msg = %@",msg);
+        }];
     }
     return _dataSouce;
 }

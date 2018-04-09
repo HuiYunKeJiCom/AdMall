@@ -15,4 +15,6 @@
 @property (nonatomic, copy) NSString      *area_name;
 /** 父级ID */
 @property (nonatomic, copy) NSString      *parent_id;
+
+@property (nonatomic, assign) BOOL  isSelected;
 @end

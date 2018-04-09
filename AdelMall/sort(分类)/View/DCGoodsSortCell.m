@@ -12,7 +12,7 @@
 
 // Models
 #import "DCClassMianItem.h"
-#import "DCCalssSubItem.h"
+#import "DCClassGoodsItem.h"
 // Views
 #import <UIImageView+WebCache.h>
 // Vendors
@@ -73,15 +73,16 @@
 
 
 #pragma mark - Setter Getter Methods
-- (void)setSubItem:(DCCalssSubItem *)subItem
+- (void)setSubItem:(DCClassGoodsItem *)subItem
 {
     _subItem = subItem;
-    if ([subItem.image_url containsString:@"http"]) {
-        [_goodsImageView sd_setImageWithURL:[NSURL URLWithString:subItem.image_url]];
+    NSLog(@"icon_path = %@",subItem.icon_path);
+    if ([subItem.icon_path containsString:@"http"]) {
+        [_goodsImageView sd_setImageWithURL:[NSURL URLWithString:subItem.icon_path]];
     }else{
-        _goodsImageView.image = [UIImage imageNamed:subItem.image_url];
+        _goodsImageView.image = [UIImage imageNamed:subItem.icon_path];
     }
-    _goodsTitleLabel.text = subItem.goods_title;
+    _goodsTitleLabel.text = subItem.className;
 }
 
 @end

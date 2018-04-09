@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class DCCalssSubItem;
+@class DCClassGoodsItem;
 @interface DCBrandSortCell : UICollectionViewCell
 
 /* 品牌数据 */
-@property (strong , nonatomic)DCCalssSubItem *subItem;
+@property (strong , nonatomic)DCClassGoodsItem *subItem;
 
 @end

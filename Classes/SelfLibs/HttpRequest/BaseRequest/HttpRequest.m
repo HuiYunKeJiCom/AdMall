@@ -9,6 +9,7 @@
 #import "HttpRequest.h"
 #import "NSString+wrapper.h"
 #import "NSError+httpError.h"
+#import "ADAppToken.h"
 
 @interface HttpRequest()
 
@@ -67,8 +68,6 @@
         manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingMutableContainers];
     }
     
-    
-    
     //设置返回数据的解析方式
     NSURLSessionDataTask *requestOperation = nil;
     [manager setSecurityPolicy:[self customSecurityPolicy]];
@@ -84,6 +83,14 @@
     [manager.requestSerializer didChangeValueForKey:@"timeoutinterval"];
     manager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringCacheData;
     manager.responseSerializer.acceptableContentTypes  = [NSSet setWithObjects:@"application/xml",@"text/xml",@"text/plain",@"application/json",@"text/html",@"text/javascript",@"text/json",nil];
+    
+    NSString *myAppToken = [ADAppToken dc_GetLastOneAppToken];
+//    NSLog(@"请求头myAppToken = %@",myAppToken);
+    if(myAppToken)
+    {
+//        NSLog(@"添加请求头myAppToken = %@",myAppToken);
+        [manager.requestSerializer setValue:myAppToken forHTTPHeaderField:@"app_token"];
+    }
     
     NSLog(@"调用接口fullUrl = %@",fullUrl);
     
@@ -118,9 +125,24 @@
     //获取省市区数据
     if([fullUrl containsString:@"getArea.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"parent_id"];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"parentId"];
         fullUrl = tempArr[0];
     }
+    
+    //获取已领取的优惠券列表
+    if([fullUrl containsString:@"auth/getUserCoupon.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"status"];
+        fullUrl = tempArr[0];
+    }
+    
+    //领取优惠券
+    if([fullUrl containsString:@"auth/receiveCoupon.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"couponId"];
+        fullUrl = tempArr[0];
+    }
+    
     
     if (requsetType == RequsetTypeGet) {
 //        NSLog(@"get");

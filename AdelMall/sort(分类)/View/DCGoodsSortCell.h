@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class DCCalssSubItem;
+@class DCClassGoodsItem;
 
 @interface DCGoodsSortCell : UICollectionViewCell
 
 /* 品牌数据 */
-@property (strong , nonatomic)DCCalssSubItem *subItem;
+@property (strong , nonatomic)DCClassGoodsItem *subItem;
 
 @end

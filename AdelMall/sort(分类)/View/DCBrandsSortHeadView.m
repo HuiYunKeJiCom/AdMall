@@ -11,7 +11,7 @@
 // Controllers
 
 // Models
-#import "DCClassMianItem.h"
+#import "DCClassGoodsItem.h"
 // Views
 
 // Vendors
@@ -50,10 +50,10 @@
 }
 
 #pragma mark - Setter Getter Methods
-- (void)setHeadTitle:(DCClassMianItem *)headTitle
+- (void)setHeadTitle:(DCClassGoodsItem *)headTitle
 {
     _headTitle = headTitle;
-    _headLabel.text = headTitle.title;
+    _headLabel.text = headTitle.className;
 }
 
 @end

@@ -44,8 +44,12 @@
     
     [self setupCustomBottomView];
     [self makeConstraints];
-    [self requestAllOrder:NO];
+//    [self requestAllOrder:NO];
     
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self requestAllOrder:NO];
 }
 
 #pragma mark - 导航栏处理
@@ -240,10 +244,10 @@
 - (void)addBtnAction{
     
     YWAddressViewController *addressVC = [[YWAddressViewController alloc] init];
-//    // 保存后的地址回调
-//    addressVC.addressBlock = ^(YWAddressInfoModel *model) {
-//        NSLog(@"用户地址信息填写回调：");
-//    };
+    // 保存后的地址回调
+    addressVC.addressBlock = ^(YWAddressInfoModel *model) {
+        NSLog(@"新增用户地址信息填写回调：");
+    };
     [self.navigationController pushViewController:addressVC animated:YES];
 }
 
@@ -260,9 +264,9 @@
     model.isDefault = 0; // 如果是默认地址则传入YES
     addressVC.model = model;
     // 保存后的地址回调
-//    addressVC.addressBlock = ^(YWAddressInfoModel *model) {
-//        NSLog(@"用户地址信息填写回调：");
-//    };
+    addressVC.addressBlock = ^(YWAddressInfoModel *model) {
+        NSLog(@"编辑用户地址信息填写回调：");
+    };
     
     [self.navigationController pushViewController:addressVC animated:YES];
 }

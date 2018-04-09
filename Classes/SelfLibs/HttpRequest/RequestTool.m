@@ -49,19 +49,19 @@ static NSString * const kApiUrlGetFlashSaleDetail = @"flashSaleDetail.htm?";
 static NSString * const kRequestCodeGetFlashSaleDetail = @"kRequestGetFlashSaleDetail";
 
 /* 获取收货地址 */
-static NSString * const kApiUrlGetAddress = @"getAddress.htm?";
+static NSString * const kApiUrlGetAddress = @"auth/getAddress.htm?";
 static NSString * const kRequestCodeGetAddress = @"kRequestGetAddress";
 
 /* 新增/编辑收货地址 */
-static NSString * const kApiUrlSaveAddress = @"saveAddress.htm?";
+static NSString * const kApiUrlSaveAddress = @"auth/saveAddress.htm?";
 static NSString * const kRequestCodeSaveAddress = @"kRequestSaveAddress";
 
 /* 删除收货地址 */
-static NSString * const kApiUrlDelAddress = @"delAddress.htm?";
+static NSString * const kApiUrlDelAddress = @"auth/delAddress.htm?";
 static NSString * const kRequestCodeDelAddress = @"kRequestDelAddress";
 
 /* 设置默认收货地址 */
-static NSString * const kApiUrlSetDefaultAddress = @"setDefaultAddress.htm?";
+static NSString * const kApiUrlSetDefaultAddress = @"auth/setDefaultAddress.htm?";
 static NSString * const kRequestCodeSetDefaultAddress = @"kRequestSetDefaultAddress";
 
 /* 获取省市区数据 */
@@ -77,15 +77,15 @@ static NSString * const kApiUrlGetCartList = @"cartList.htm?";
 static NSString * const kRequestCodeGetCartList = @"kRequestGetCartList";
 
 /* 获取可领取的优惠券列表 */
-static NSString * const kApiUrlGetCouponList = @"couponList.htm?";
+static NSString * const kApiUrlGetCouponList = @"auth/couponList.htm?";
 static NSString * const kRequestCodeGetCouponList = @"kRequestGetCouponList";
 
 /* 获取已领取的优惠券列表 */
-static NSString * const kApiUrlGetUserCoupon = @"getUserCoupon.htm?";
+static NSString * const kApiUrlGetUserCoupon = @"auth/getUserCoupon.htm?";
 static NSString * const kRequestCodeGetUserCoupon = @"kRequestGetUserCoupon";
 
 /* 领取优惠券 */
-static NSString * const kApiUrlGetReceiveCoupon = @"receiveCoupon.htm?";
+static NSString * const kApiUrlGetReceiveCoupon = @"auth/receiveCoupon.htm?";
 static NSString * const kRequestCodeGetReceiveCoupon = @"kRequestGetReceiveCoupon";
 
 //检测系统版本更新
@@ -480,6 +480,19 @@ static NSString * const kLockItunesAppSystemCode =  @"";
 /* 获取已领取的优惠券列表 */
 +(void)getUserCoupon:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetUserCoupon params:paramsDic requestCode:kRequestCodeGetUserCoupon withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 领取优惠券 */
++(void)receiveCoupon:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetReceiveCoupon params:paramsDic requestCode:kRequestCodeGetReceiveCoupon withSuccessBlock:^(NSDictionary *result) {
         
         successBlock(result);
         

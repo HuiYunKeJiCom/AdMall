@@ -7,7 +7,7 @@
 //
 
 #import "YWAddressTableViewCell.h"
-#import "YWAddressModel.h"
+#import "ADAddressLinkageModel.h"
 #import "UIView+YWFrame.h"
 
 static  CGFloat  const  YWFontH = 22; //地址字体高度限制
@@ -32,7 +32,7 @@ static  CGFloat  const  YWFontH = 22; //地址字体高度限制
 }
 
 
-- (void)setItem:(YWAddressModel *)item {
+- (void)setItem:(ADAddressLinkageModel *)item {
     
     _item = item;
     _addressNameLabel.text = item.area_name;

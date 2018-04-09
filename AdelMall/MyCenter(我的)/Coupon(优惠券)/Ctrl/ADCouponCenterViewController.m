@@ -69,7 +69,6 @@
     [RequestTool getCouponList:nil withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"获取可领取的优惠券列表result = %@",result);
         if([result[@"code"] integerValue] == 1){
-            NSLog(@"获取可领取的优惠券列表");
             [hud hide:YES];
             [weakSelf handleTransferResult:result more:more];
         }else if([result[@"code"] integerValue] == -2){
@@ -116,7 +115,6 @@
     [self.goodsTable updatePage:more];
     //    self.allOrderTable.isLoadMore = dataArr.count >= k_RequestPageSize ? YES : NO;
     self.goodsTable.noDataView.hidden = self.goodsTable.data.count;
-    
     [self.goodsTable reloadData];
 }
 

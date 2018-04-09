@@ -99,4 +99,7 @@ typedef void (^FailBlock)(NSString *);
 
 /* 获取已领取的优惠券列表 */
 +(void)getUserCoupon:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 领取优惠券 */
++(void)receiveCoupon:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 @end

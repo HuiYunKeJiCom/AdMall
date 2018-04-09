@@ -84,15 +84,15 @@
     self.seriesTitLab1.text = @"可用于";
     self.couponSeriesLab.text = model.class_name;
     self.seriesTitLab2.text = @"系列产品";
-    self.couponInstructionsLab.text = @"(满3900元可使用)";
+    self.couponInstructionsLab.text = [NSString stringWithFormat:@"(满%@元可使用)",model.coupon_order_amount];
     self.effectiveTitLab.text = @"*有效期：";
     self.couponStartTimeLab.text = model.coupon_begin_time;
     self.toLab.text = @"至";
     self.couponEndTimeLab.text = model.coupon_end_time;
     [self.receiveBtn setTitle:@"领取" forState:UIControlStateNormal];
-    
-    NSArray *tempArr = [model.coupon_amount componentsSeparatedByString:@"."];
-    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:model.coupon_amount];
+    NSString *couponPrice = [NSString stringWithFormat:@"%.2f",[model.coupon_amount floatValue]];
+    NSArray *tempArr = [couponPrice componentsSeparatedByString:@"."];
+    NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:couponPrice];
     [AttributedStr addAttribute:NSFontAttributeName
                           value:[UIFont systemFontOfSize:45.0]
                           range:NSMakeRange(0, ((NSString *)tempArr[0]).length)];
@@ -196,8 +196,7 @@
 -(UIImageView *)bgIV{
     if (!_bgIV) {
         _bgIV = [[UIImageView alloc] init];
-        //        [_goodsIV setImage:[UIImage imageNamed:@"icon"]];
-        [_bgIV setBackgroundColor:[UIColor redColor]];
+        [_bgIV setImage:[UIImage imageNamed:@"coupon_bg_1"]];
         [_bgIV setContentMode:UIViewContentModeScaleAspectFill];
     }
     return _bgIV;
@@ -299,10 +298,34 @@
 
 #pragma mark - 领取 点击
 - (void)receiveBtnClick:(UIButton *)btn {
-    NSLog(@"领取 点击");
-    btn.backgroundColor = [UIColor lightGrayColor];
-    [btn setTitle:@"已领取" forState:UIControlStateNormal];
-    btn.userInteractionEnabled = NO;
+//    NSLog(@"领取 点击");
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.superview animated:YES];
+    [RequestTool receiveCoupon:@{@"couponId":self.model.idx} withSuccessBlock:^(NSDictionary *result) {
+        if([result[@"code"] integerValue] == 1){
+            NSLog(@"领取优惠券成功");
+            hud.hidden = YES;
+            btn.backgroundColor = [UIColor lightGrayColor];
+            [btn setTitle:@"已领取" forState:UIControlStateNormal];
+            btn.userInteractionEnabled = NO;
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
+
 //    !_toLoginClickBlock ? : _toLoginClickBlock();
     
 }

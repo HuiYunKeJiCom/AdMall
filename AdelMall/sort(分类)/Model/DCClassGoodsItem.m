@@ -9,5 +9,10 @@
 #import "DCClassGoodsItem.h"
 
 @implementation DCClassGoodsItem
-
++(NSDictionary *)mj_objectClassInArray
+{
+    return @{
+             @"children" : @"DCClassGoodsItem"
+             };
+}
 @end

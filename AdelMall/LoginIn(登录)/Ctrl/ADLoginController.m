@@ -10,6 +10,7 @@
 #import "ADLoginView.h"
 #import "ADLUserModel.h"
 #import "ADLGlobalHandleModel.h"
+#import "ADAppToken.h"
 
 @interface ADLoginController ()<ADLoginViewDelegate>
 
@@ -94,6 +95,11 @@
             [[ADLGlobalHandleModel sharedInstance] saveLoginName:userName];
             [[ADLGlobalHandleModel sharedInstance] savePassword:pwd];
             
+            if(![model.app_token isEqualToString:[ADAppToken dc_GetLastOneAppToken]]){
+                [ADAppToken dc_SaveNewAppToken:model.app_token];
+//                NSLog(@"请求myAppToken = %@",model.app_token);
+            }
+//            NSLog(@"请头myAppToken = %@",model.app_token);
             [kAppDelegate initRootUI];
             
         }else{

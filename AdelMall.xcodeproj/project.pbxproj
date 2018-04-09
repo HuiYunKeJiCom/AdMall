@@ -229,6 +229,7 @@
 		18E013E320512EED004A969C /* ADEvaluateListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E013E220512EED004A969C /* ADEvaluateListViewCell.m */; };
 		18E013E620513814004A969C /* ADEvaluateListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E013E520513814004A969C /* ADEvaluateListModel.m */; };
 		18E013E920513A79004A969C /* ADEvaluateListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E013E820513A79004A969C /* ADEvaluateListTableViewCell.m */; };
+		18E1AB4F2079F37700C5B922 /* ADAppToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E1AB4D2079F37600C5B922 /* ADAppToken.m */; };
 		18F07B682045335200F0761E /* LZCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F07B672045335200F0761E /* LZCartViewController.m */; };
 		18F07B6D2045336900F0761E /* LZGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F07B692045336600F0761E /* LZGoodsModel.m */; };
 		18F07B6E2045336900F0761E /* LZShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F07B6C2045336800F0761E /* LZShopModel.m */; };
@@ -687,6 +688,8 @@
 		18E013E520513814004A969C /* ADEvaluateListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADEvaluateListModel.m; sourceTree = "<group>"; };
 		18E013E720513A79004A969C /* ADEvaluateListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADEvaluateListTableViewCell.h; sourceTree = "<group>"; };
 		18E013E820513A79004A969C /* ADEvaluateListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADEvaluateListTableViewCell.m; sourceTree = "<group>"; };
+		18E1AB4D2079F37600C5B922 /* ADAppToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADAppToken.m; sourceTree = "<group>"; };
+		18E1AB4E2079F37700C5B922 /* ADAppToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADAppToken.h; sourceTree = "<group>"; };
 		18F07B662045335200F0761E /* LZCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LZCartViewController.h; sourceTree = "<group>"; };
 		18F07B672045335200F0761E /* LZCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LZCartViewController.m; sourceTree = "<group>"; };
 		18F07B692045336600F0761E /* LZGoodsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LZGoodsModel.m; sourceTree = "<group>"; };
@@ -1286,6 +1289,7 @@
 		1869B875206C8C4E00B107E7 /* LoginIn(登录) */ = {
 			isa = PBXGroup;
 			children = (
+				18E1AB4C2079F35900C5B922 /* AppToken */,
 				1869B878206C8C8E00B107E7 /* Ctrl */,
 				1869B877206C8C8800B107E7 /* Model */,
 				1869B876206C8C8200B107E7 /* View */,
@@ -1769,6 +1773,15 @@
 			path = SelfLibs;
 			sourceTree = "<group>";
 		};
+		18E1AB4C2079F35900C5B922 /* AppToken */ = {
+			isa = PBXGroup;
+			children = (
+				18E1AB4E2079F37700C5B922 /* ADAppToken.h */,
+				18E1AB4D2079F37600C5B922 /* ADAppToken.m */,
+			);
+			path = AppToken;
+			sourceTree = "<group>";
+		};
 		18F07B782045542600F0761E /* sort(分类) */ = {
 			isa = PBXGroup;
 			children = (
@@ -2248,6 +2261,7 @@
 				182B39FF204E6E3C00462CAA /* ADOriginalPriceView.m in Sources */,
 				18277AC7202A8E4D00973ECC /* ADGoodsParameterViewController.m in Sources */,
 				188FB6742068D76C00F99670 /* BaseViewCtrl.m in Sources */,
+				18E1AB4F2079F37700C5B922 /* ADAppToken.m in Sources */,
 				18170FAB205D18ED00EA50A1 /* ADGoodsSpecCell.m in Sources */,
 				18454AEC204791FF001B9F9F /* ADPlaceOrderViewController.m in Sources */,
 				1856AB8120523B4100E69BB8 /* ADReceivingAddressFootView.m in Sources */,
