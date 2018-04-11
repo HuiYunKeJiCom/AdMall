@@ -55,7 +55,7 @@ static NSString *const DCExceedApplianceCellID = @"DCExceedApplianceCell";
 static NSString *const ADButtonViewCellID = @"ADButtonViewCell";
 static NSString *const ADRecommendCellID = @"ADRecommendCell";
 /* head */
-static NSString *const DCSlideshowHeadViewID = @"DCSlideshowHeadView";
+//static NSString *const DCSlideshowHeadViewID = @"DCSlideshowHeadView";
 static NSString *const DCCountDownHeadViewID = @"DCCountDownHeadView";
 static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 

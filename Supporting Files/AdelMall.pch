@@ -14,6 +14,17 @@
 
 #endif /* AdelMall_pch */
 
+#define StatusBarHeight [[UIApplication sharedApplication] statusBarFrame].size.height //状态栏高度
+#define NavBarHeight 44.f //导航栏高度
+#define TopBarHeight (StatusBarHeight + NavBarHeight)//总起始高度，使用这个
+
+#define AppWindow [UIApplication sharedApplication].keyWindow
+#define AppHeight AppWindow.height
+#define AppWidth AppWindow.width
+#define AppCenter CGPointMake(AppWidth/2,AppHeight/2)
+
+
+
 #import "AppDelegate.h"
 #import "BaseTableCell.h"
 #import "BaseTableView.h"

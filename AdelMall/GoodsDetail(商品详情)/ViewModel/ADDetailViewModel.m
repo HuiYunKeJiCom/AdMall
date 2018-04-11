@@ -32,6 +32,7 @@
         _detailView.delegate = self;
         _detailView.showsVerticalScrollIndicator = NO;
         _detailView.showsHorizontalScrollIndicator = NO;
+        _detailView.backgroundColor = [UIColor whiteColor];
         
         [_detailView registerClass:[ADDetailViewCell class] forCellWithReuseIdentifier:ADDetailViewCellID];
         [_detailView registerClass:[ADVideoViewCell class] forCellWithReuseIdentifier:ADVideoViewCellID];

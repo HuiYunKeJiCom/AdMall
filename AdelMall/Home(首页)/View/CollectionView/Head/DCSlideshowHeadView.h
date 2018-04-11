@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static const NSString *DCSlideshowHeadViewID = @"DCSlideshowHeadViewID";
+
 @interface DCSlideshowHeadView : UICollectionReusableView
 
 /* 轮播图数组 */
