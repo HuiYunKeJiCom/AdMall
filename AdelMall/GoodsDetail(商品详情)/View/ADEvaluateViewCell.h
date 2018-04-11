@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static const NSString *ADEvaluateViewCellID = @"ADEvaluateViewCellID";
+
 @interface ADEvaluateViewCell : UICollectionViewCell
 /* 评论按钮 点击回调 */
 @property (nonatomic, copy) dispatch_block_t evaluateBtnClickBlock;

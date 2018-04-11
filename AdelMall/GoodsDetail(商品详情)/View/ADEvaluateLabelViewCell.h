@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static const NSString *ADEvaluateLabelViewCellID = @"ADEvaluateLabelViewCellID";
+
 @interface ADEvaluateLabelViewCell : UICollectionViewCell
 /* 箭头按钮 点击回调 */
 @property (nonatomic, copy) dispatch_block_t moreBtnClickBlock;

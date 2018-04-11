@@ -32,6 +32,8 @@
 		183505BB207B504000BCF7CE /* ADDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183505BA207B504000BCF7CE /* ADDetailViewModel.m */; };
 		183505BE207B505C00BCF7CE /* PageSelectBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 183505BC207B505B00BCF7CE /* PageSelectBar.m */; };
 		18350885207DB2E300BCF7CE /* ADGoodsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18350884207DB2E300BCF7CE /* ADGoodsDetailViewController.m */; };
+		18350888207DF61100BCF7CE /* ADUserEvaluationViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18350887207DF61100BCF7CE /* ADUserEvaluationViewModel.m */; };
+		1835088B207E02F000BCF7CE /* ADRelatedGoodsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1835088A207E02F000BCF7CE /* ADRelatedGoodsViewModel.m */; };
 		183626812057833D0099FE10 /* ADAddImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 183626802057833D0099FE10 /* ADAddImage.m */; };
 		183626842057AD920099FE10 /* ADGoodsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183626832057AD920099FE10 /* ADGoodsListViewController.m */; };
 		183626872057B02D0099FE10 /* ADPriceGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183626862057B02D0099FE10 /* ADPriceGoodsViewController.m */; };
@@ -308,6 +310,10 @@
 		183505BD207B505C00BCF7CE /* PageSelectBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSelectBar.h; sourceTree = "<group>"; };
 		18350883207DB2E300BCF7CE /* ADGoodsDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADGoodsDetailViewController.h; sourceTree = "<group>"; };
 		18350884207DB2E300BCF7CE /* ADGoodsDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADGoodsDetailViewController.m; sourceTree = "<group>"; };
+		18350886207DF61100BCF7CE /* ADUserEvaluationViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADUserEvaluationViewModel.h; sourceTree = "<group>"; };
+		18350887207DF61100BCF7CE /* ADUserEvaluationViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADUserEvaluationViewModel.m; sourceTree = "<group>"; };
+		18350889207E02F000BCF7CE /* ADRelatedGoodsViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADRelatedGoodsViewModel.h; sourceTree = "<group>"; };
+		1835088A207E02F000BCF7CE /* ADRelatedGoodsViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADRelatedGoodsViewModel.m; sourceTree = "<group>"; };
 		1836267F2057833C0099FE10 /* ADAddImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADAddImage.h; sourceTree = "<group>"; };
 		183626802057833D0099FE10 /* ADAddImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADAddImage.m; sourceTree = "<group>"; };
 		183626822057AD920099FE10 /* ADGoodsListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADGoodsListViewController.h; sourceTree = "<group>"; };
@@ -814,6 +820,10 @@
 			children = (
 				183505B9207B504000BCF7CE /* ADDetailViewModel.h */,
 				183505BA207B504000BCF7CE /* ADDetailViewModel.m */,
+				18350886207DF61100BCF7CE /* ADUserEvaluationViewModel.h */,
+				18350887207DF61100BCF7CE /* ADUserEvaluationViewModel.m */,
+				18350889207E02F000BCF7CE /* ADRelatedGoodsViewModel.h */,
+				1835088A207E02F000BCF7CE /* ADRelatedGoodsViewModel.m */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2125,6 +2135,7 @@
 				18F07B732045337300F0761E /* LZCartTableViewCell.m in Sources */,
 				18277ACD202A8F6B00973ECC /* ADRelatedGoodsViewController.m in Sources */,
 				18F07B682045335200F0761E /* LZCartViewController.m in Sources */,
+				1835088B207E02F000BCF7CE /* ADRelatedGoodsViewModel.m in Sources */,
 				1882AC81202D40FE00D3DE4F /* ADOrderStateView.m in Sources */,
 				1851741B20204BDD00E7B8F8 /* ADHomePageViewController.m in Sources */,
 				186547D62064E2D2006E50FF /* YWAddressViewController.m in Sources */,
@@ -2295,6 +2306,7 @@
 				18BA799E20464251003833BA /* ADHomeSearchView.m in Sources */,
 				185AEB96202BF8040059A725 /* ADParameterView.m in Sources */,
 				188FB6682068D05F00F99670 /* HttpRequest.m in Sources */,
+				18350888207DF61100BCF7CE /* ADUserEvaluationViewModel.m in Sources */,
 				1850822B205B5F0300C80DD7 /* ADGoodsIntroduceCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

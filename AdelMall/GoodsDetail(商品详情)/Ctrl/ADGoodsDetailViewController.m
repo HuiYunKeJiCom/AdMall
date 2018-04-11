@@ -10,7 +10,8 @@
 #import "PageSelectBar.h"
 #import "ADDetailViewModel.h"
 #import "ADParameterView.h"
-
+#import "ADUserEvaluationViewModel.h"
+#import "ADRelatedGoodsViewModel.h"
 
 
 @interface ADGoodsDetailViewController ()
@@ -21,6 +22,8 @@
 
 @property (nonatomic,strong)ADDetailViewModel *detailViewModel;//
 @property (nonatomic,strong)ADParameterView *detailParameterView;//
+@property (nonatomic,strong)ADUserEvaluationViewModel *userEvaluationiViewModel;//
+@property (nonatomic,strong)ADRelatedGoodsViewModel *relatedGoodsViewModel;//
 
 @end
 
@@ -33,6 +36,8 @@
     _shellViews = [NSMutableArray array];
     
     _detailViewModel = [[ADDetailViewModel alloc]init];
+    _userEvaluationiViewModel = [[ADUserEvaluationViewModel alloc]init];
+    _relatedGoodsViewModel = [[ADRelatedGoodsViewModel alloc]init];
     
     self.view.backgroundColor = [UIColor whiteColor];
     [self buildUI];
@@ -96,6 +101,12 @@
     
     _detailParameterView = [[ADParameterView alloc]initWithFrame:((UIView *)_shellViews[1]).bounds];
     [(UIView *)_shellViews[1] addSubview:_detailParameterView];
+    
+    _userEvaluationiViewModel.userEvaluationListView.frame = ((UIView *)_shellViews[2]).bounds;
+    [(UIView *)_shellViews[2] addSubview:_userEvaluationiViewModel.userEvaluationListView];
+    
+    _relatedGoodsViewModel.goodsTable.frame = ((UIView *)_shellViews[3]).bounds;
+    [(UIView *)_shellViews[3] addSubview:_relatedGoodsViewModel.goodsTable];
     
 }
 
