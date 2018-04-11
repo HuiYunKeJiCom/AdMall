@@ -9,7 +9,7 @@
 #import "ADGoodsDetailViewController.h"
 #import "PageSelectBar.h"
 #import "ADDetailViewModel.h"
-
+#import "ADParameterView.h"
 
 
 
@@ -20,6 +20,7 @@
 @property (nonatomic,strong)NSMutableArray *shellViews;//shellViews数组
 
 @property (nonatomic,strong)ADDetailViewModel *detailViewModel;//
+@property (nonatomic,strong)ADParameterView *detailParameterView;//
 
 @end
 
@@ -93,7 +94,8 @@
     _detailViewModel.detailView.frame = ((UIView *)_shellViews[0]).bounds;
     [(UIView *)_shellViews[0] addSubview:_detailViewModel.detailView];
     
-    
+    _detailParameterView = [[ADParameterView alloc]initWithFrame:((UIView *)_shellViews[1]).bounds];
+    [(UIView *)_shellViews[1] addSubview:_detailParameterView];
     
 }
 
