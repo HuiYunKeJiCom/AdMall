@@ -20,10 +20,10 @@
 
 @end
 
-/* head */
-static NSString *const DCSlideshowHeadViewID = @"DCSlideshowHeadView";
-static NSString *const ADDetailViewCellID = @"ADDetailViewCell";
-static NSString *const ADVideoViewCellID = @"ADVideoViewCell";
+///* head */
+//static NSString *const DCSlideshowHeadViewID = @"DCSlideshowHeadView";
+//static NSString *const ADDetailViewCellID = @"ADDetailViewCell";
+//static NSString *const ADVideoViewCellID = @"ADVideoViewCell";
 
 @implementation ADDetailViewController
 

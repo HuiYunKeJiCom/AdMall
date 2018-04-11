@@ -154,6 +154,9 @@
 - (void)baseTableView:(BaseTableView *)tableView loadMore:(BOOL)flag {
     [self requestAllOrder:YES];
 }
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

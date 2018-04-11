@@ -8,5 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static const NSString *ADVideoViewCellID = @"ADVideoViewCellID";
+
 @interface ADVideoViewCell : UICollectionViewCell
+
 @end
