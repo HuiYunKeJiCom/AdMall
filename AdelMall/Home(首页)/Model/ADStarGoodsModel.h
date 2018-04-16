@@ -19,7 +19,6 @@
 @property (nonatomic, copy) NSString      *goods_inventory;
 /** 商品图片path */
 @property (nonatomic, copy) NSString      *goods_image_path;
-
 /** 创建时间 */
 @property (nonatomic, copy) NSString      *addTime;
 /** 商品价格 */

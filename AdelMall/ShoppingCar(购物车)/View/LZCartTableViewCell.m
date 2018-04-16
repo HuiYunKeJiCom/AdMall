@@ -62,10 +62,11 @@
 #pragma mark - public method
 - (void)reloadDataWithModel:(LZGoodsModel*)model {
     
-    self.lzImageView.image = model.image;
-    self.nameLabel.text = model.goodsName;
-    self.detail1Label.text = model.detail1;
-    self.detail2Label.text = model.detail2;
+//    self.lzImageView.image = model.goods_image_path;
+    [self.lzImageView sd_setImageWithURL:[NSURL URLWithString:model.goods_image_path]];
+    self.nameLabel.text = model.goods_name;
+    self.detail1Label.text = model.spec_info;
+    self.detail2Label.text = model.total_price;
     self.dateLabel.text = [NSString stringWithFormat:@"%.2f 元",[model.price floatValue]];
     self.numberTF.text = [NSString stringWithFormat:@"%ld",(long)model.count];
 //    self.sizeLabel.text = model.sizeStr;
@@ -106,10 +107,39 @@
     
     NSInteger count = [self.numberTF.text integerValue];
     count++;
-    
-    if (numberAddBlock) {
-        numberAddBlock(count);
-    }
+
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    [RequestTool changeCartCount:@{@"count":[NSString stringWithFormat:@"%ld",(long)count],@"goodsCartId":self.model.goodscart_id} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"购物车商品数量增result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+
+            if (numberAddBlock) {
+                numberAddBlock(count);
+            }
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"购物车商品数量增msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
 }
 
 - (void)cutBtnClick:(UIButton*)button {
@@ -118,11 +148,46 @@
     if(count <= 0){
         return ;
     }
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    [RequestTool changeCartCount:@{@"count":[NSString stringWithFormat:@"%ld",(long)count],@"goodsCartId":self.model.goodscart_id} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"购物车商品数量减result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+            
+            if (numberCutBlock) {
+                numberCutBlock(count);
+            }
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"购物车商品数量减msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
 
-    if (numberCutBlock) {
-        numberCutBlock(count);
-    }
 }
+
+- (void)setModel:(LZGoodsModel *)model {
+    _model = model;
+}
+
 #pragma mark - 布局主视图
 -(void)setupMainView {
     //白色背景
@@ -136,7 +201,7 @@
     //选中按钮
     UIButton* selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     selectBtn.center = CGPointMake(20, 20);
-    selectBtn.bounds = CGRectMake(0, 0, 10, 10);
+    selectBtn.bounds = CGRectMake(0, 0, 15, 15);
     [selectBtn setImage:[UIImage imageNamed:lz_Bottom_UnSelectButtonString] forState:UIControlStateNormal];
     [selectBtn setImage:[UIImage imageNamed:lz_Bottom_SelectButtonString] forState:UIControlStateSelected];
     [selectBtn addTarget:self action:@selector(selectBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -184,14 +249,6 @@
     [bgView addSubview:detail2Label];
     self.detail2Label = detail2Label;
     
-//    //尺寸
-//    UILabel* sizeLabel = [[UILabel alloc]init];
-//    sizeLabel.frame = CGRectMake(nameLabel.left, nameLabel.bottom + 5, width, 20);
-//    sizeLabel.textColor = LZColorFromRGB(132, 132, 132);
-//    sizeLabel.font = [UIFont systemFontOfSize:12];
-//    [bgView addSubview:sizeLabel];
-//    self.sizeLabel = sizeLabel;
-    
     //价格
     UILabel* dateLabel = [[UILabel alloc]init];
     dateLabel.frame = CGRectMake(imageView.right+10, bgView.height - 40 , width, 20);
@@ -229,6 +286,42 @@
     [cutBtn setImage:[UIImage imageNamed:@"buycar_ico_sub"] forState:UIControlStateHighlighted];
     [cutBtn addTarget:self action:@selector(cutBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [bgView addSubview:cutBtn];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    NSInteger count = [self.numberTF.text integerValue];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    [RequestTool changeCartCount:@{@"count":[NSString stringWithFormat:@"%ld",(long)count],@"goodsCartId":self.model.goodscart_id} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"购物车商品数量增result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+            
+            if (numberAddBlock) {
+                numberAddBlock(count);
+            }
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"购物车商品数量增msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
 }
 
 @end

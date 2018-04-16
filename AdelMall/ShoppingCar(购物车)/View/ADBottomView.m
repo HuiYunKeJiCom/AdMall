@@ -9,12 +9,11 @@
 #import "ADBottomView.h"
 
 @interface ADBottomView()
-/** 标题标签 */
-@property(nonatomic,strong)UILabel *titleLab;
-/** 数量 */
-@property(nonatomic,strong)UILabel *numLab;
-/** 单位 */
-@property(nonatomic,strong)UILabel *unitLab;
+
+///** 数量 */
+//@property(nonatomic,strong)UILabel *numLab;
+///** 单位 */
+//@property(nonatomic,strong)UILabel *unitLab;
 /* 金额合计：右边按钮 */
 @property (strong , nonatomic)UIButton *rightButton;
 @end
@@ -38,17 +37,17 @@
 {
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.titleLab];
-    [self addSubview:self.numLab];
-    [self addSubview:self.unitLab];
+//    [self addSubview:self.numLab];
+//    [self addSubview:self.unitLab];
     [self addSubview:self.rightButton];
     
 }
 
 #pragma mark - 填充数据
 -(void)setUpData{
-    self.titleLab.text = @"合计（不含运费）：";
-    self.numLab.text = @"7450.00";
-    self.unitLab.text = @"元";
+//    self.titleLab.text = @"合计（不含运费）：";
+//    self.numLab.text = @"7450.00";
+//    self.unitLab.text = @"元";
     [self.rightButton setTitle:@"马上下单" forState:UIControlStateNormal];
 }
     
@@ -68,15 +67,15 @@
         make.centerY.equalTo(weakSelf.mas_centerY);
     }];
     
-    [self.numLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(weakSelf.titleLab.mas_right);
-        make.centerY.equalTo(weakSelf.mas_centerY);
-    }];
-    
-    [self.unitLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(weakSelf.numLab.mas_right);
-        make.centerY.equalTo(weakSelf.mas_centerY);
-    }];
+//    [self.numLab mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(weakSelf.titleLab.mas_right);
+//        make.centerY.equalTo(weakSelf.mas_centerY);
+//    }];
+//
+//    [self.unitLab mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(weakSelf.numLab.mas_right);
+//        make.centerY.equalTo(weakSelf.mas_centerY);
+//    }];
     
     [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(weakSelf.mas_right);
@@ -89,24 +88,24 @@
 
 - (UILabel *)titleLab {
     if (!_titleLab) {
-        _titleLab = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum12 TextColor:[UIColor lightGrayColor]];
+        _titleLab = [[UILabel alloc] initWithFrame:CGRectZero FontSize:18.0 TextColor:[UIColor redColor]];
     }
     return _titleLab;
 }
 
-- (UILabel *)numLab {
-    if (!_numLab) {
-        _numLab = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum14 TextColor:[UIColor redColor]];
-    }
-    return _numLab;
-}
-
-- (UILabel *)unitLab {
-    if (!_unitLab) {
-        _unitLab = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum14 TextColor:[UIColor redColor]];
-    }
-    return _unitLab;
-}
+//- (UILabel *)numLab {
+//    if (!_numLab) {
+//        _numLab = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum14 TextColor:[UIColor redColor]];
+//    }
+//    return _numLab;
+//}
+//
+//- (UILabel *)unitLab {
+//    if (!_unitLab) {
+//        _unitLab = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum14 TextColor:[UIColor redColor]];
+//    }
+//    return _unitLab;
+//}
 
 - (UIButton *)rightButton {
     if (!_rightButton) {
@@ -125,5 +124,12 @@
     !_rightBtnClickBlock ? : _rightBtnClickBlock();
 }
 
+- (NSDictionary *)dict
+{
+    if (!_dict) {
+        _dict = [NSDictionary dictionary];
+    }
+    return _dict;
+}
 
 @end

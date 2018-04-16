@@ -10,10 +10,13 @@
 #import "ADGoodsModel.h"
 #import "ADGoodsCell.h"
 #import "ADGoodsDetailViewController.h"//商品详情
+#import "DCClassGoodsItem.h"
+#import "ADBottomCell.h"
 
 @interface ADPriceGoodsViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
 @property (nonatomic, strong) BaseTableView         *goodsTable;
-
+/** 当前页数 */
+@property(nonatomic)NSInteger currentPage;
 @end
 
 @implementation ADPriceGoodsViewController
@@ -23,7 +26,6 @@
     // Do any additional setup after loading the view.
     [self.view addSubview:self.goodsTable];
     [self makeConstraints];
-    [self requestAllOrder:NO];
 }
 
 #pragma mark - Constraints
@@ -36,57 +38,78 @@
     
 }
 
+-(void)loadDataWith:(DCClassGoodsItem *)goodsItem{
+    self.currentPage = 1;
+    [self requestAllOrder:NO];
+}
+
 - (void)requestAllOrder:(BOOL)more {
     [self.goodsTable updateLoadState:more];
-    
+    NSLog(@"商品列表goodsID = %@",self.subItem.idx);
     WEAKSELF
-    [RequestTool getGoodsList:@{@"orderBy":@"store_price"} withSuccessBlock:^(NSDictionary *result) {
-        NSLog(@"result = %@",result);
-        [weakSelf handleTransferResult:result more:more];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getGoodsList:@{@"orderBy":@"store_price",@"gc_id":self.subItem.idx} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取列表result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+            [weakSelf handleTransferResult:result more:more];
+        }else if([result[@"code"] integerValue] == -2){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
     } withFailBlock:^(NSString *msg) {
-        NSLog(@"msg = %@",msg);
+        self.currentPage -= 1;
+        NSLog(@"商品列表价格msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
     }];
     
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-    //                                       [weak_self showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
+//    [weakSelf handleTransferResult:nil more:more];
     //                                   }];
     
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
     
-    NSArray *dataArr = @[@{@"id":@"123456",@"goods_name":@"ADEL爱迪尔4920B",@"goods_choice_type":@"智能指纹锁",@"goods_price":@"1968.00"},@{@"id":@"123456",@"goods_name":@"ADEL爱迪尔4920B",@"goods_choice_type":@"智能指纹锁",@"goods_price":@"1968.00"},@{@"id":@"123456",@"goods_name":@"ADEL爱迪尔4920B",@"goods_choice_type":@"智能指纹锁",@"goods_price":@"1968.00"},@{@"id":@"123456",@"goods_name":@"ADEL爱迪尔4920B",@"goods_choice_type":@"智能指纹锁",@"goods_price":@"1968.00"}];
-//    NSArray *dataArr = [NSArray array];
-//        if ([result isKindOfClass:[NSDictionary class]]) {
-//            NSArray *dataInfo = result[@"data"];
-//            if ([dataInfo isKindOfClass:[NSArray class]]) {
-//                dataArr = dataInfo;
-//            }
-//        }
+    NSArray *dataArr = [NSArray array];
+    if ([result isKindOfClass:[NSDictionary class]]) {
+//        NSLog(@"来这里了吗");
+        NSArray *dataInfo = result[@"data"][@"goodsList"];
+        if ([dataInfo isKindOfClass:[NSArray class]]) {
+            dataArr = dataInfo;
+        }
+    }
     
     [self.goodsTable.data removeAllObjects];
     for (NSDictionary *dic in dataArr) {
-        
         ADGoodsModel *model = [ADGoodsModel mj_objectWithKeyValues:dic];
         [self.goodsTable.data addObject:model];
-        NSLog(@"model = %@",model.mj_keyValues);
     }
     
     [self.goodsTable updatePage:more];
     //    self.allOrderTable.isLoadMore = dataArr.count >= k_RequestPageSize ? YES : NO;
     self.goodsTable.noDataView.hidden = self.goodsTable.data.count;
-    
     [self.goodsTable reloadData];
 }
+
 
 - (BaseTableView *)goodsTable {
     if (!_goodsTable) {
@@ -97,7 +120,7 @@
         _goodsTable.isRefresh = YES;
         _goodsTable.delegateBase = self;
         [_goodsTable registerClass:[ADGoodsCell class] forCellReuseIdentifier:@"ADGoodsCell"];
-        
+        [_goodsTable registerClass:[ADBottomCell class] forCellReuseIdentifier:@"ADBottomCell"];
     }
     return _goodsTable;
 }
@@ -109,11 +132,15 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.goodsTable.data.count;
+    return self.goodsTable.data.count+1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return kScreenWidth == 320 ? 140 : GetScaleWidth(140);
+    if(indexPath.row == self.goodsTable.data.count){
+        return 40+15;
+    }else{
+        return kScreenWidth == 320 ? 140 : GetScaleWidth(140);
+    }
 }
 
 //-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -130,19 +157,31 @@
 //}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ADGoodsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADGoodsCell"];
-    if (self.goodsTable.data.count > indexPath.row) {
-        ADGoodsModel *model = self.goodsTable.data[indexPath.row];
-        cell.model = model;
+    
+    if(indexPath.row == self.goodsTable.data.count){
+        ADBottomCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADBottomCell"];
+        
+        if (!cell) {
+            cell = [[ADBottomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ADBottomCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        return cell;
+    }else{
+        ADGoodsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADGoodsCell"];
+        if (self.goodsTable.data.count > indexPath.row) {
+            ADGoodsModel *model = self.goodsTable.data[indexPath.row];
+            cell.model = model;
+        }
+        
+        cell.imageViewBtnClickBlock = ^{
+            //商品详情
+            ADGoodsDetailViewController *goodsDetailVC = [[ADGoodsDetailViewController alloc] init];
+            [self.navigationController pushViewController:goodsDetailVC animated:YES];
+        };
+        
+        return cell;
     }
-    
-    cell.imageViewBtnClickBlock = ^{
-        //商品详情
-        ADGoodsDetailViewController *goodsDetailVC = [[ADGoodsDetailViewController alloc] init];
-        [self.navigationController pushViewController:goodsDetailVC animated:YES];
-    };
-    
-    return cell;
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -162,6 +201,7 @@
 }
 
 - (void)baseTableView:(BaseTableView *)tableView loadMore:(BOOL)flag {
+    self.currentPage += 1;
     [self requestAllOrder:YES];
 }
 - (void)didReceiveMemoryWarning {

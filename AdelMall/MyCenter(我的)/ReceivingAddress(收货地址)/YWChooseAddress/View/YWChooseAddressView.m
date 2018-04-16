@@ -154,7 +154,6 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
         //1.1 获取下一级别的数据源(市级别,如果是直辖市时,下级则为区级别)
         ADAddressLinkageModel * provinceItem = self.dataSouce[indexPath.row];
-//        self.cityDataSouce = [[YWAddressDataTool sharedManager] queryAllRecordWithShengID:[provinceItem.code substringWithRange:(NSRange){0,2}]];
         
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
         [RequestTool getArea:@{@"parentId":provinceItem.idx} withSuccessBlock:^(NSDictionary *result) {
@@ -213,7 +212,6 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     } else if ([self.tableViews indexOfObject:tableView] == 1) {
         
         ADAddressLinkageModel * cityItem = self.cityDataSouce[indexPath.row];
-//        self.districtDataSouce = [[YWAddressDataTool sharedManager] queryAllRecordWithShengID:cityItem.sheng cityID:cityItem.di];
         [RequestTool getArea:@{@"parentId":cityItem.idx} withSuccessBlock:^(NSDictionary *result) {
             NSLog(@"获取省市区数据result = %@",result);
             NSArray *dataInfo = result[@"data"][@"result"];
@@ -385,7 +383,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 #pragma mark - 开始就有地址时.
 
 - (void)setAreaCode:(NSString *)areaCode {
-    
+
     _areaCode = areaCode;
     //2.1 添加市级别,地区级别列表
     [self addTableView];
@@ -397,25 +395,25 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     //2.3 添加底部对应按钮
     [self addTopBarItem];
     [self addTopBarItem];
-    
+
     NSString * code = [self.areaCode stringByReplacingCharactersInRange:(NSRange){2,4} withString:@"0000"];
     NSString * provinceName = [[YWAddressDataTool sharedManager] queryAllRecordWithAreaCode:code];
     UIButton * firstBtn = self.topTabbarItems.firstObject;
     [firstBtn setTitle:provinceName forState:UIControlStateNormal];
-    
+
     NSString * cityName = [[YWAddressDataTool sharedManager] queryAllRecordWithAreaCode:[self.areaCode stringByReplacingCharactersInRange:(NSRange){4,2} withString:@"00"]];
     UIButton * midBtn = self.topTabbarItems[1];
     [midBtn setTitle:cityName forState:UIControlStateNormal];
-    
+
      NSString * districtName = [[YWAddressDataTool sharedManager] queryAllRecordWithAreaCode:self.areaCode];
     UIButton * lastBtn = self.topTabbarItems.lastObject;
     [lastBtn setTitle:districtName forState:UIControlStateNormal];
     [self.topTabbarItems makeObjectsPerformSelector:@selector(sizeToFit)];
     [_topTabbar layoutIfNeeded];
-    
-    
+
+
     [self changeUnderLineFrame:lastBtn];
-    
+
     //2.4 设置偏移量
     self.contentView.contentSize = (CGSize){self.tableViews.count * YWScreenW,0};
     CGPoint offset = self.contentView.contentOffset;
@@ -491,8 +489,6 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 - (NSArray *)dataSouce {
     
     if (!_dataSouce) {
-//       @{@"parentId":@"4524131"}
-//        _dataSouce = [[YWAddressDataTool sharedManager] queryAllProvince];
         [RequestTool getArea:nil withSuccessBlock:^(NSDictionary *result) {
             NSLog(@"获取省级数据result = %@",result);
             NSArray *dataInfo = result[@"data"][@"result"];

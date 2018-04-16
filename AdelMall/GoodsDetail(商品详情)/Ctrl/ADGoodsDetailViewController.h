@@ -10,4 +10,7 @@
 
 @interface ADGoodsDetailViewController : UIViewController
 @property (nonatomic,assign) NSInteger index;
+/** 购买数量 */
+@property (nonatomic, assign) int buyNum;
+-(void)loadDataWithGoodsID:(NSString *)goodsID;
 @end

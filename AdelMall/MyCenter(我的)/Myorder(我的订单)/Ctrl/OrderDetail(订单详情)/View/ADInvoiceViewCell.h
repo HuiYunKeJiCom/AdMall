@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ADInvoiceViewCell : UICollectionViewCell
-
+@class ADOrderBasicModel;
+@interface ADInvoiceViewCell : BaseTableCell
+/** 订单模型 */
+@property(nonatomic,strong)ADOrderBasicModel *orderBasicModel;
 @end

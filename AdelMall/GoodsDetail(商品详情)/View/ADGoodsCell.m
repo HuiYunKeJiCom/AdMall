@@ -102,11 +102,13 @@
 
 - (void)setModel:(ADGoodsModel *)model {
     _model = model;
-    
-    self.goodsNameLab.text = model.goodsName;
-    self.typeLab.text = model.type;
-    self.advertiseLab.text = @"门锁618 疯狂抢购中";
-    self.priceLab.text = model.price;
+//    NSLog(@"model.goods_image_path = %@",model.goods_image_path);
+    [self.goodsIV sd_setImageWithURL:[NSURL URLWithString:model.goods_image_path]];
+    self.goodsNameLab.text = model.goods_name;
+    self.typeLab.text = @"智能指纹锁";
+//    NSLog(@"model.goods_details = %@",model.goods_details);
+    self.advertiseLab.text = model.goods_details;//@"门锁618 疯狂抢购中"
+    self.priceLab.text = [NSString stringWithFormat:@"%.2f",[model.goods_current_price floatValue]];
     self.unitLab.text = @"元起";
 }
 
@@ -157,7 +159,7 @@
     if (!_goodsIV) {
         _goodsIV = [[UIImageView alloc] init];
 //        [_goodsIV setImage:[UIImage imageNamed:@"icon"]];
-        [_goodsIV setBackgroundColor:[UIColor greenColor]];
+//        [_goodsIV setBackgroundColor:[UIColor greenColor]];
         [_goodsIV setContentMode:UIViewContentModeScaleAspectFill];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doTap:)];

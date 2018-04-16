@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ADPaymentOrderViewController : UIViewController
-
+-(void)getOrderWithNSDictionary:(NSDictionary *)dict;
 @end

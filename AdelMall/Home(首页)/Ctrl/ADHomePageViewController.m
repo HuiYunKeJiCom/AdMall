@@ -27,6 +27,9 @@
 
 #import "ADCountDownActivityModel.h"
 #import "ADFloorModel.h"
+#import "ADAdvertModel.h"//广告轮播图模型
+#import "ADStarGoodsModel.h"//智能硬件模型
+#import "ADCountDownGoodsModel.h"//限时秒杀模型
 
 //#import "ADGoodsTempModel.h"
 
@@ -44,6 +47,28 @@
 @property(nonatomic,copy)NSString *goodsID;
 /* 首页楼层数据数组 */
 @property (strong , nonatomic)NSMutableArray<ADFloorModel *> *floorDataItem;
+/* 智能硬件图片数组 */
+@property (copy , nonatomic)NSArray *goodExceedArray;
+/* 智能硬件数据数组 */
+@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *goodExceedItem;
+/** 数据模型 */
+@property(nonatomic,strong)ADStarGoodsModel *model;
+
+/* 轮播图数组 */
+@property (copy , nonatomic)NSArray *imageGroupArray;
+/* 轮播图数据数组 */
+@property (strong , nonatomic)NSMutableArray<ADAdvertModel *> *advertItem;
+
+/* 抢购商品数组 */
+@property (strong , nonatomic)NSMutableArray<ADCountDownGoodsModel *> *countDownItem;
+
+/* 明星产品数据数组 */
+@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *starGoodsItem;
+
+/* 为您推荐数据数组 */
+@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *recommendItem;
+/* 为您推荐数组 */
+@property (copy , nonatomic)NSArray *recommendArray;
 ///* floorId数组 */
 //@property (copy , nonatomic)NSMutableArray *floorIdArray;
 @end
@@ -115,6 +140,9 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     //抢购详情的商品id
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGoodsID:) name:@"goodsID" object:nil];
     
+    //商品详情的商品id
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStarGoodsID:) name:@"starGoodsID" object:nil];
+    
     [self loadData];
 }
 
@@ -129,6 +157,15 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     [self.navigationController pushViewController:sallGoodsDetailVC animated:YES];
 }
 
+//跳转到商品详情页面
+-(void)getStarGoodsID:(NSNotification *)text{
+    ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
+    [detailVC loadDataWithGoodsID:text.userInfo[@"starGoodsID"]];
+    
+    [self.navigationController pushViewController:detailVC animated:YES];
+}
+
+
 -(void)loadData{
 //    @{@"parentId":@"4524131"}
 //    [RequestTool getArea:nil withSuccessBlock:^(NSDictionary *result) {
@@ -137,6 +174,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 //        NSLog(@"获取省市区数据msg = %@",msg);
 //    }];
     
+    //(智能硬件)
     [RequestTool getFloorData:nil withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"获取首页楼层数据result = %@",result);
         if([result[@"code"] integerValue] == 1){
@@ -145,16 +183,150 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     } withFailBlock:^(NSString *msg) {
         NSLog(@"获取首页楼层数据msg = %@",msg);
     }];
+    
+    [RequestTool getImagePathForAD:@{@"advert_id":@"1"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取轮播图result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [self getSlideshowWithNSDictionary:result];
+        }else{
+            NSMutableArray *tempAdvertArr = [NSMutableArray array];
+            self.imageGroupArray = tempAdvertArr;
+        }
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"msg = %@",msg);
+        NSMutableArray *tempAdvertArr = [NSMutableArray array];
+        self.imageGroupArray = tempAdvertArr;
+    }];
+    
+    [RequestTool getGoodsForFlashSale:nil withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"限时秒杀result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [self getCountDownWithNSDictionary:result];
+        }
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"限时秒杀msg = %@",msg);
+    }];
+    
+    [RequestTool getStarGoods:nil withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"明星产品result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [self getStarGoodsWithNSDictionary:result];
+        }
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"明星产品msg = %@",msg);
+    }];
+    
+    [RequestTool getRecommendData:nil withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"为您推荐result = %@",result);
+        
+        if([result[@"code"] integerValue] == 1){
+            [self getRecommendWithNSDictionary:result];
+        }else{
+            NSMutableArray *tempAdvertArr = [NSMutableArray array];
+            self.recommendArray = tempAdvertArr;
+        }
+        
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"为您推荐msg = %@",msg);
+        NSMutableArray *tempAdvertArr = [NSMutableArray array];
+        self.recommendArray = tempAdvertArr;
+    }];
+    
 }
 
+//获取轮播图数据
+-(void)getSlideshowWithNSDictionary:(NSDictionary *)dict
+{
+    NSArray *dataInfo = dict[@"data"][@"advert"];
+    NSMutableArray *tempAdvertArr = [NSMutableArray array];
+    _advertItem = [ADAdvertModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    for (ADAdvertModel *model in _advertItem) {
+        //            NSLog(@"model = %@",model.mj_keyValues);
+        [tempAdvertArr addObject:model.ad_image_path];
+    }
+    self.imageGroupArray = tempAdvertArr;
+    [self.collectionView reloadData];
+//    NSLog(@"self.imageGroupArray = %@",self.imageGroupArray);
+}
+
+//限时秒杀
+-(void)getCountDownWithNSDictionary:(NSDictionary *)dict
+{
+    NSArray *dataInfo = dict[@"data"][@"group_goodsList"][@"resultList"];
+    //    NSLog(@"抢购dataInfo = %@",dataInfo);
+    _countDownItem = [ADCountDownGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    [self.collectionView reloadData];
+}
+
+//获取明星产品数据
+-(void)getStarGoodsWithNSDictionary:(NSDictionary *)dict
+{
+    NSArray *dataInfo = dict[@"data"][@"goodsList"];
+    _starGoodsItem = [ADStarGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    [self.collectionView reloadData];
+}
+
+//获取为您推荐数据
+-(void)getRecommendWithNSDictionary:(NSDictionary *)dict
+{
+    NSArray *dataInfo = dict[@"data"][@"goodsList"];
+    NSMutableArray *tempAdvertArr = [NSMutableArray array];
+    _recommendItem = [ADStarGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    for (ADStarGoodsModel *model in _recommendItem) {
+        NSLog(@"model = %@",model.mj_keyValues);
+        [tempAdvertArr addObject:model.goods_image_path];
+    }
+    self.recommendArray = tempAdvertArr;
+    [self.collectionView reloadData];
+    //    NSLog(@"self.imageGroupArray = %@",self.imageGroupArray);
+}
+
+//获取首页楼层数据(智能硬件)
 -(void)withNSDictionary:(NSDictionary *)dict
 {
     NSArray *dataInfo = dict[@"data"][@"result"];
     _floorDataItem = [ADFloorModel mj_objectArrayWithKeyValuesArray:dataInfo];
-//    for (ADFloorModel *model in _floorDataItem) {
-//            NSLog(@"获取首页楼层数据model = %@",model.mj_keyValues);
-//
-//    }
+    for (ADFloorModel *model in _floorDataItem) {
+        //            if([model.floorName isEqualToString:@"酒店门锁"]){
+        [self loadDataWithFloorID:model.floorId];
+        //            }
+    }
+}
+
+-(void)loadDataWithFloorID:(NSString *)floorID{
+    //    @"65680"
+    [RequestTool getAppointFloorData:@{@"floorId":floorID} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"智能硬件result = %@",result);
+        
+        if([result[@"code"] integerValue] == 1){
+            [self getGoodExceedWithNSDictionary:result];
+        }else{
+            NSMutableArray *tempAdvertArr = [NSMutableArray array];
+            self.goodExceedArray = tempAdvertArr;
+        }
+        
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"智能硬件msg = %@",msg);
+        NSMutableArray *tempAdvertArr = [NSMutableArray array];
+        self.goodExceedArray = tempAdvertArr;
+    }];
+}
+
+-(void)getGoodExceedWithNSDictionary:(NSDictionary *)dict
+{
+    NSArray *dataInfo = dict[@"data"][@"goodsList"][@"resultList"];
+    NSMutableArray *tempAdvertArr = [NSMutableArray array];
+    _goodExceedItem = [ADStarGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    if(_goodExceedItem.count <6){
+        self.model = [ADStarGoodsModel mj_objectWithKeyValues:dataInfo];
+    }
+    for (ADStarGoodsModel *model in _goodExceedItem) {
+        NSLog(@"model = %@",model.mj_keyValues);
+        [tempAdvertArr addObject:model.goods_image_path];
+    }
+    self.goodExceedArray = tempAdvertArr;
+    [self.collectionView reloadData];
+    //    NSLog(@"self.imageGroupArray = %@",self.imageGroupArray);
 }
 
 - (NSMutableArray<ADFloorModel *> *)floorDataItem
@@ -203,6 +375,8 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 #pragma mark - 刷新
 - (void)setUpRecData
 {
+    [self loadData];
+
     WEAKSELF
     if (@available(iOS 10.0, *)) {
         UIImpactFeedbackGenerator *generator = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
@@ -231,6 +405,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     UICollectionViewCell *gridcell = nil;
         if (indexPath.section == 1) {//倒计时
         DCGoodsCountDownCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsCountDownCellID forIndexPath:indexPath];
+            [cell loadDataWithArray:self.countDownItem];
 //            cell.lookDetailBlock = ^{
 //                //进入抢购商品详情页面
 //            };
@@ -238,19 +413,17 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     }
     else if (indexPath.section == 2) {//明星产品
         ADStarGoodsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADStarGoodsCellID forIndexPath:indexPath];
-        cell.lookDetailBlock = ^{
-            ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
-            [self.navigationController pushViewController:detailVC animated:YES];
-        };
+        [cell loadDataWithArray:self.starGoodsItem];
+//        cell.lookDetailBlock = ^{
+//            ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
+//            [self.navigationController pushViewController:detailVC animated:YES];
+//        };
         gridcell = cell;
     }else if (indexPath.section == 3) {//智能硬件
         DCExceedApplianceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCExceedApplianceCellID forIndexPath:indexPath];
+        [cell loadDataWithArray:self.goodExceedArray and:self.goodExceedItem];
 //        cell.goodExceedArray = GoodsRecommendArray;
-        for (ADFloorModel *model in _floorDataItem) {
-            if([model.floorName isEqualToString:@"酒店门锁"]){
-                [cell loadDataWithFloorID:model.floorId];
-            }
-        }
+
         cell.lookDetailBlock = ^{
             ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
             [self.navigationController pushViewController:detailVC animated:YES];
@@ -266,12 +439,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     }
     else  if (indexPath.section == 5){//为您推荐
         ADRecommendCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADRecommendCellID forIndexPath:indexPath];
-//        cell.goodExceedArray = GoodsRecommendArray;
-//        for (ADFloorModel *model in _floorDataItem) {
-//            if([model.floorName isEqualToString:@"酒店门锁"]){
-//                [cell loadDataWithFloorID:model.floorId];
-//            }
-//        }
+        [cell loadDataWithArray:self.recommendArray and:self.recommendItem];
         cell.lookDetailBlock = ^{
             ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
             [self.navigationController pushViewController:detailVC animated:YES];
@@ -287,7 +455,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     UICollectionReusableView *reusableview = nil;
         if (indexPath.section == 0) {
             DCSlideshowHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCSlideshowHeadViewID forIndexPath:indexPath];
-            [headerView loadDataWithAdvertID:@"1"];
+            [headerView loadDataWithArray:self.imageGroupArray];
 //            headerView.imageGroupArray = GoodsHomeSilderImagesArray;
             reusableview = headerView;
         }else if(indexPath.section == 1){
@@ -308,10 +476,10 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
             [headerView setTopTitleWithNSString:@"明星产品"];
             headerView.lookAllBlock = ^{
                 //进入列表页面
-                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
-                goodsListVC.titleString = @"明星产品";
-                goodsListVC.index = 0;
-                [self.navigationController pushViewController:goodsListVC animated:YES];
+//                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
+//                goodsListVC.titleString = @"明星产品";
+//                goodsListVC.index = 0;
+//                [self.navigationController pushViewController:goodsListVC animated:YES];
             };
             reusableview = headerView;
         }else if(indexPath.section == 3){
@@ -320,10 +488,10 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
             [headerView setTopTitleWithNSString:@"智能硬件"];
             headerView.lookAllBlock = ^{
                 //进入列表页面
-                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
-                goodsListVC.titleString = @"智能硬件";
-                goodsListVC.index = 0;
-                [self.navigationController pushViewController:goodsListVC animated:YES];
+//                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
+//                goodsListVC.titleString = @"智能硬件";
+//                goodsListVC.index = 0;
+//                [self.navigationController pushViewController:goodsListVC animated:YES];
             };
             reusableview = headerView;
         }
@@ -333,10 +501,10 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
             [headerView setTopTitleWithNSString:@"为您推荐"];
             headerView.lookAllBlock = ^{
                 //进入列表页面
-                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
-                goodsListVC.titleString = @"为您推荐";
-                goodsListVC.index = 0;
-                [self.navigationController pushViewController:goodsListVC animated:YES];
+//                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
+//                goodsListVC.titleString = @"为您推荐";
+//                goodsListVC.index = 0;
+//                [self.navigationController pushViewController:goodsListVC animated:YES];
             };
             reusableview = headerView;
         }
@@ -417,30 +585,6 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    NSLog(@"有没有来这");
-//    if(indexPath.section == 5){
-//        NSLog(@"有没有来这里");
-//        ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
-//        [self.navigationController pushViewController:detailVC animated:YES];
-//    }
-//    if (indexPath.section == 0) {//10
-//
-//        DCGoodsSetViewController *goodSetVc = [[DCGoodsSetViewController alloc] init];
-//        goodSetVc.goodPlisName = @"ClasiftyGoods.plist";
-//        [self.navigationController pushViewController:goodSetVc animated:YES];
-//        NSLog(@"点击了10个属性第%zd",indexPath.row);
-//    }else if (indexPath.section == 5){
-//        NSLog(@"点击了推荐的第%zd个商品",indexPath.row);
-//
-//        DCGoodDetailViewController *dcVc = [[DCGoodDetailViewController alloc] init];
-//        dcVc.goodTitle = _youLikeItem[indexPath.row].main_title;
-//        dcVc.goodPrice = _youLikeItem[indexPath.row].price;
-//        dcVc.goodSubtitle = _youLikeItem[indexPath.row].goods_title;
-//        dcVc.shufflingArray = _youLikeItem[indexPath.row].images;
-//        dcVc.goodImageView = _youLikeItem[indexPath.row].image_url;
-//
-//        [self.navigationController pushViewController:dcVc animated:YES];
-//    }
 }
 
 #pragma mark - <UIScrollViewDelegate>

@@ -14,7 +14,8 @@
 
 @interface ADSallingViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
 @property (nonatomic, strong) BaseTableView         *goodsTable;
-
+/** 当前页数 */
+@property(nonatomic)NSInteger currentPage;
 @end
 
 @implementation ADSallingViewController
@@ -24,6 +25,11 @@
     // Do any additional setup after loading the view.
     [self.view addSubview:self.goodsTable];
     [self makeConstraints];
+//    [self requestAllOrder:NO];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.currentPage = 1;
     [self requestAllOrder:NO];
 }
 
@@ -41,15 +47,38 @@
     [self.goodsTable updateLoadState:more];
     
     WEAKSELF
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [RequestTool getGoodsForFlashSale:@{@"type":@"start"} withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"正在抢购result = %@",result);
         if([result[@"code"] integerValue] == 1){
             [weakSelf handleTransferResult:result more:more];
+        }else if([result[@"code"] integerValue] == -2){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
         }
-        
     } withFailBlock:^(NSString *msg) {
-        NSLog(@"msg = %@",msg);
+        self.currentPage -= 1;
+        NSLog(@"正在抢购msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
     }];
     //    NSLog(@"类型type = %ld",(long)weak_self.type);
     //    [RequestTool appTransferList:@{k_Type:@(self.type),
@@ -165,6 +194,7 @@
 }
 
 - (void)baseTableView:(BaseTableView *)tableView loadMore:(BOOL)flag {
+    self.currentPage += 1;
     [self requestAllOrder:YES];
 }
 

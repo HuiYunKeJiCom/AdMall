@@ -7,10 +7,11 @@
 //
 
 #import "BaseTableCell.h"
-#import "ADOrderModel.h"
 
+
+@class ADGoodsOrderModel;
 @interface ADOrderCell : BaseTableCell
-@property (nonatomic, strong) ADOrderModel  *model;
+@property (nonatomic, strong) ADGoodsOrderModel  *model;
 
 /* 售后 点击回调 */
 @property (nonatomic, copy) dispatch_block_t afterSaleBtnClickBlock;

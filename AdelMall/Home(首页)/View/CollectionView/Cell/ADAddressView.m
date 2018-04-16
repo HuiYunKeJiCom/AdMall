@@ -8,7 +8,7 @@
 
 #import "ADAddressView.h"
 #import "EdgeInsetsLabel.h"
-#import "ADAdressModelNew.h"
+#import "ADAddressModel.h"
 
 @interface ADAddressView()
 /** 地址 */
@@ -64,7 +64,7 @@
 //    NSLog(@"self.homeLab = %@",NSStringFromCGRect(self.homeLab.frame));
 }
 
-- (void)setModel:(ADAdressModelNew *)model {
+- (void)setModel:(ADAddressModel *)model {
     _model = model;
     self.addressLab.text = model.detail_address;
 //    self.homeLab.text = model.addressLabelName;

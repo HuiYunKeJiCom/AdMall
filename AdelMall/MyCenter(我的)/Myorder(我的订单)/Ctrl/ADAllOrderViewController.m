@@ -8,14 +8,18 @@
 
 #import "ADAllOrderViewController.h"
 #import "ADOrderDetailViewController.h"
-#import "ADOrderModel.h"
 #import "ADOrderCell.h"
 #import "ADApplyAfterSaleViewController.h"//选择订单中的商品 申请售后
 #import "ADPlaceOrderViewController.h"//下单页面
 
+#import "ADGoodsOrderModel.h"//订单模型
+
 @interface ADAllOrderViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
 @property (nonatomic, strong) BaseTableView         *allOrderTable;
-
+/* 为您推荐数据数组 */
+@property (strong , nonatomic)NSMutableArray<ADGoodsOrderModel *> *goodsOrderArray;
+/** 当前页数 */
+@property(nonatomic)NSInteger currentPage;
 @end
 
 @implementation ADAllOrderViewController
@@ -25,6 +29,10 @@
     // Do any additional setup after loading the view.
     [self.view addSubview:self.allOrderTable];
     [self makeConstraints];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.currentPage = 1;
     [self requestAllOrder:NO];
 }
 
@@ -42,48 +50,63 @@
     [self.allOrderTable updateLoadState:more];
     
     WEAKSELF
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-//    [RequestTool appTransferList:@{k_Type:@(self.type),
-//                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-//                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-//
-//                                       [weak_self showHUD:NO];
-//                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-//                                   } fail:^(NSString *msg) {
-//                                       [weak_self showHUD:NO];
-//                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
-//                                   }];
-
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getOrderList:@{@"currentPage":[NSNumber numberWithInteger:self.currentPage]} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"订单列表result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+            [weakSelf handleTransferResult:result more:more];
+        }else if([result[@"code"] integerValue] == -2){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        self.currentPage -= 1;
+        NSLog(@"订单列表msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
-
-    NSArray *dataArr = @[@{@"id":@"123456",@"orderNo":@"1314520",@"goodsName":@"商品名AA-01",@"date":@"2017-08-09 12:03",@"price":@"1968",@"state":@"未支付"}];
-//    if ([result isKindOfClass:[NSDictionary class]]) {
-//        NSArray *dataInfo = result[@"data"];
-//        if ([dataInfo isKindOfClass:[NSArray class]]) {
-//            dataArr = dataInfo;
-//        }
-//    }
+    NSLog(@"这里有吗");
+    NSArray *dataArr = result[@"data"][@"orderList"];
 
     [self.allOrderTable.data removeAllObjects];
+    
     for (NSDictionary *dic in dataArr) {
     
-        ADOrderModel *model = [ADOrderModel mj_objectWithKeyValues:dic];
+        ADGoodsOrderModel *model = [ADGoodsOrderModel mj_objectWithKeyValues:dic];
         [self.allOrderTable.data addObject:model];
     }
 
     [self.allOrderTable updatePage:more];
-//    self.allOrderTable.isLoadMore = dataArr.count >= k_RequestPageSize ? YES : NO;
     self.allOrderTable.noDataView.hidden = self.allOrderTable.data.count;
-
+    NSLog(@"self.allOrderTable.data = %lu",(unsigned long)self.allOrderTable.data.count);
     [self.allOrderTable reloadData];
 }
 
 - (BaseTableView *)allOrderTable {
     if (!_allOrderTable) {
-        _allOrderTable = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _allOrderTable = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _allOrderTable.delegate = self;
         _allOrderTable.dataSource = self;
         _allOrderTable.isLoadMore = YES;
@@ -98,12 +121,26 @@
 
 #pragma mark - UITableViewDelegate
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return 30.0;
-//}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return self.allOrderTable.data.count;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.allOrderTable.data.count;
+    return 1;
+}
+
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, GetScaleWidth(10))];
+    sectionView.backgroundColor = kBACKGROUNDCOLOR;
+    return sectionView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if(section == 0){
+        return 1;
+    }else{
+        return GetScaleWidth(10);
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -112,12 +149,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ADOrderCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADOrderCell"];
-    if (self.allOrderTable.data.count > indexPath.row) {
-        ADOrderModel *model = self.allOrderTable.data[indexPath.row];
+    if (self.allOrderTable.data.count > indexPath.section) {
+        ADGoodsOrderModel *model = self.allOrderTable.data[indexPath.section];
         cell.model = model;
         cell.detailBtnClickBlock = ^{
             //订单详情
             ADOrderDetailViewController *orderDetailVC = [[ADOrderDetailViewController alloc]init];
+            [orderDetailVC loadDataWithOrderID:model.order_id];
             [self.navigationController pushViewController:orderDetailVC animated:YES];
         };
         cell.afterSaleBtnClickBlock = ^{
@@ -126,9 +164,9 @@
             [self.navigationController pushViewController:applyAfterSaleVC animated:YES];
         };
         cell.toPayBtnClickBlock = ^{
-            //下单页面
-            ADPlaceOrderViewController *placeOrderVC = [[ADPlaceOrderViewController alloc] init];
-            [self.navigationController pushViewController:placeOrderVC animated:YES];
+            //支付页面
+//            ADPlaceOrderViewController *placeOrderVC = [[ADPlaceOrderViewController alloc] init];
+//            [self.navigationController pushViewController:placeOrderVC animated:YES];
         };
     };
     
@@ -152,6 +190,8 @@
 }
 
 - (void)baseTableView:(BaseTableView *)tableView loadMore:(BOOL)flag {
+//    NSLog(@"currentPage = %lu",self.currentPage);
+    self.currentPage += 1;
     [self requestAllOrder:YES];
 }
 

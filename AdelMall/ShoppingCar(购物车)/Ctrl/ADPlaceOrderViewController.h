@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ADPlaceOrderViewController : UIViewController
-
+-(void)loadDataWithNSString:(NSString *)string;
 @end

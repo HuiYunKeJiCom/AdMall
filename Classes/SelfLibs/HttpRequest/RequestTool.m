@@ -36,6 +36,10 @@ static NSString * const kRequestCodeGetGoodsFlashSale = @"kRequestGetGoodsFlashS
 static NSString * const kApiUrlGetStarGoods = @"starGoods.htm?";
 static NSString * const kRequestCodeGetStarGoods = @"kRequestGetStarGoods";
 
+/* 获取商品详情数据 */
+static NSString * const kApiUrlGetGoods = @"goods.htm?";
+static NSString * const kRequestCodeGetGoods = @"kRequestGetGoods";
+
 /* 获取商品分类 */
 static NSString * const kApiUrlGetGoodsCategory = @"category.htm?";
 static NSString * const kRequestCodeGetGoodsCategory = @"kRequestGetGoodsCategory";
@@ -73,8 +77,44 @@ static NSString * const kApiUrlGetAllArea = @"getAllArea.htm?";
 static NSString * const kRequestCodeGetAllArea = @"kRequestGetAllArea";
 
 /* 获取购物车列表 */
-static NSString * const kApiUrlGetCartList = @"cartList.htm?";
+static NSString * const kApiUrlGetCartList = @"auth/cartList.htm?";
 static NSString * const kRequestCodeGetCartList = @"kRequestGetCartList";
+
+/* 购物车商品移除 */
+static NSString * const kApiUrlRemoveCart = @"auth/removeCart.htm?";
+static NSString * const kRequestCodeRemoveCart = @"kRequestRemoveCart";
+
+/* 购物车商品数量增减 */
+static NSString * const kApiUrlChangeCartCount = @"auth/addCartCount.htm?";
+static NSString * const kRequestCodeChangeCartCount = @"kRequestChangeCartCount";
+
+/* 添加到购物车 */
+static NSString * const kApiUrlAddCart = @"auth/addCart.htm?";
+static NSString * const kRequestCodeAddCart = @"kRequestAddCart";
+
+/* 获取购物车结算页数据 */
+static NSString * const kApiUrlCartAccount = @"auth/cartAccount.htm?";
+static NSString * const kRequestCodeCartAccount = @"kRequestCartAccount";
+
+/* 获取选购商品各种运送方式的邮费 */
+static NSString * const kApiUrlGetTransport = @"auth/getTransport.htm?";
+static NSString * const kRequestCodeGetTransport = @"kRequestGetTransport";
+
+/* 下单【生成订单】 */
+static NSString * const kApiUrlBulidOrder = @"auth/bulidOrder.htm?";
+static NSString * const kRequestCodeBulidOrder = @"kRequestBulidOrder";
+
+/* 订单列表 */
+static NSString * const kApiUrlGetOrderList = @"auth/orderList.htm?";
+static NSString * const kRequestCodeGetOrderList = @"kRequestGetOrderList";
+
+/* 订单详情 */
+static NSString * const kApiUrlGetOrderDetail = @"auth/orderDetail.htm?";
+static NSString * const kRequestCodeGetOrderDetail = @"kRequestGetOrderDetail";
+
+/* 获取当前订单可用的平台优惠券 */
+static NSString * const kApiUrlGetSystemCoupon = @"auth/getSystemCoupon.htm?";
+static NSString * const kRequestCodeGetSystemCoupon = @"kRequestGetSystemCoupon";
 
 /* 获取可领取的优惠券列表 */
 static NSString * const kApiUrlGetCouponList = @"auth/couponList.htm?";
@@ -334,6 +374,19 @@ static NSString * const kLockItunesAppSystemCode =  @"";
     }];
 }
 
+/* 获取商品详情数据 */
++(void)getGoods:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetGoods params:paramsDic requestCode:kRequestCodeGetGoods withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
 /* 获取商品分类 */
 +(void)getGoodsCategory:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetGoodsCategory params:paramsDic requestCode:kRequestCodeGetGoodsCategory withSuccessBlock:^(NSDictionary *result) {
@@ -451,9 +504,126 @@ static NSString * const kLockItunesAppSystemCode =  @"";
     }];
 }
 
-/* 获取购物车列表数据 */
+/* 获取购物车列表 */
 +(void)getCartList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetCartList params:paramsDic requestCode:kRequestCodeGetCartList withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 购物车商品移除 */
++(void)removeCart:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlRemoveCart params:paramsDic requestCode:kRequestCodeRemoveCart withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 购物车商品数量增减 */
++(void)changeCartCount:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlChangeCartCount params:paramsDic requestCode:kRequestCodeChangeCartCount withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 添加到购物车 */
++(void)addCart:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlAddCart params:paramsDic requestCode:kRequestCodeAddCart withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取购物车结算页数据 */
++(void)getCartAccount:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlCartAccount params:paramsDic requestCode:kRequestCodeCartAccount withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取选购商品各种运送方式的邮费 */
++(void)getTransport:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetTransport params:paramsDic requestCode:kRequestCodeGetTransport withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 下单【生成订单】 */
++(void)bulidOrder:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlBulidOrder params:paramsDic requestCode:kRequestCodeBulidOrder withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 订单列表 */
++(void)getOrderList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetOrderList params:paramsDic requestCode:kRequestCodeGetOrderList withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 订单详情 */
++(void)getOrderDetail:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetOrderDetail params:paramsDic requestCode:kRequestCodeGetOrderDetail withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取当前订单可用的平台优惠券 */
++(void)getSystemCoupon:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetSystemCoupon params:paramsDic requestCode:kRequestCodeGetSystemCoupon withSuccessBlock:^(NSDictionary *result) {
         
         successBlock(result);
         

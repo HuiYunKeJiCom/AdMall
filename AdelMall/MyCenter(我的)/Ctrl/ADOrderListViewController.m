@@ -45,11 +45,11 @@
 }
 
 -(void)createUI{
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=kBACKGROUNDCOLOR;
     //消除强引用
     __weak typeof(self) weakSelf = self;
-    _headView = [[orderHeader alloc]initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 40)];
-    _headView.items = @[@"全部",@"待付款",@"待收货",@"待评价"];
+    _headView = [[orderHeader alloc]initWithFrame:CGRectMake(0, 65, self.view.bounds.size.width, 40)];
+    _headView.items = @[@"全部",@"待付款",@"待收货",@"已完成"];
     _headView.itemClickAtIndex = ^(NSInteger index){
         [weakSelf adjustScrollView:index];
     };
@@ -73,6 +73,7 @@
 {
     _topToolView = [[ADOrderTopToolView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
     _topToolView.hidden = NO;
+    _topToolView.backgroundColor = [UIColor whiteColor];
     [_topToolView setTopTitleWithNSString:KLocalizableStr(@"我的订单")];
         WEAKSELF
         _topToolView.leftItemClickBlock = ^{

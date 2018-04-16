@@ -37,10 +37,11 @@
 
 - (void)requestAllOrder:(BOOL)more {
     [self.goodsTable updateLoadState:more];
-//    优惠券状态【-1=已失效，0=未使用（包括未生效），1=已使用，2=未生效且未使用，3=已生效且未使用】
+//    优惠券状态  -1=已失效，0=未使用，1=已使用
     WEAKSELF
      MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [RequestTool getUserCoupon:@{@"status":@"0"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"未使用result = %@",result);
         if([result[@"code"] integerValue] == 1){
             [hud hide:YES];
             [weakSelf handleTransferResult:result more:more];
@@ -62,6 +63,7 @@
             [hud hide:YES afterDelay:1.0];
         }
     } withFailBlock:^(NSString *msg) {
+        NSLog(@"未使用msg = %@",msg);
         hud.detailsLabelText = msg;
         hud.mode = MBProgressHUDModeText;
         [hud hide:YES afterDelay:1.0];

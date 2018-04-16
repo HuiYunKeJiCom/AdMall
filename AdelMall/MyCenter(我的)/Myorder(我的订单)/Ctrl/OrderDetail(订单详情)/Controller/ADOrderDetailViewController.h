@@ -10,4 +10,5 @@
 
 @interface ADOrderDetailViewController : UIViewController
 
+-(void)loadDataWithOrderID:(NSString *)orderID;
 @end

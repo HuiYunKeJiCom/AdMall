@@ -29,7 +29,7 @@
 - (void)setupUI {
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(15, 10, 10, 10);
+    button.frame = CGRectMake(13, 10, 15, 15);
     
     [button setImage:[UIImage imageNamed:@"buycar_ico_check"] forState:UIControlStateNormal];
     [button setImage:[UIImage imageNamed:@"buycar_ico_checked"] forState:UIControlStateSelected];

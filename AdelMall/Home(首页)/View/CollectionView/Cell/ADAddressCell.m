@@ -9,8 +9,7 @@
 #import "ADAddressCell.h"
 #import "MRDropDownView.h"
 #import "ADAddressView.h"
-//#import "ADAddressModel.h"//旧地址模型
-#import "ADAdressModelNew.h"
+#import "ADAddressModel.h"//地址模型
 
 
 @interface ADAddressCell()
@@ -19,7 +18,7 @@
 @property (nonatomic, strong) MRDropDownView *dropView;
 //@property (nonatomic, assign) CGRect cellFrame;
 /** 模型数组 */
-@property(nonatomic,strong)NSMutableArray<ADAdressModelNew *> *modelArr;
+@property(nonatomic,strong)NSMutableArray<ADAddressModel *> *modelArr;
 @end
 
 @implementation ADAddressCell
@@ -41,7 +40,6 @@
 - (void)setUpUI{
 
     [self.contentView addSubview:self.bgView];
-    
     [self loadData];
 }
 
@@ -57,14 +55,9 @@
 }
 
 -(void)makeDataForModel:(NSDictionary *)dict{
-//    NSArray *dataArr = @[@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"家",@"receiverName":@"黄先生",@"phone":@"137 0000 0000",@"zipCode":@"518000"},@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"公司",@"receiverName":@"老张",@"phone":@"137 0000 0000",@"zipCode":@"518000"},@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"公司",@"receiverName":@"刘先生",@"phone":@"137 0000 0000",@"zipCode":@"518000"},@{@"id":@"123456",@"address":@"广东省 深圳市 宝安区 松柏路南岗第二工业区",@"addressLabelName":@"公司",@"receiverName":@"叶先生",@"phone":@"137 0000 0000",@"zipCode":@"518000"}];
-    //    for (NSDictionary *dic in dataArr) {
-    //        ADAdressModelNew *model = [ADAdressModelNew mj_objectWithKeyValues:dic];
-    //        [self.modelArr addObject:model];
-    //    }
     
     NSArray *dataArr = dict[@"data"][@"addressList"];
-    self.modelArr = [ADAdressModelNew mj_objectArrayWithKeyValuesArray:dataArr];
+    self.modelArr = [ADAddressModel mj_objectArrayWithKeyValuesArray:dataArr];
     
     NSMutableArray *viewArray = [NSMutableArray array];
     
@@ -178,6 +171,7 @@
 }
 
 -(void)openView{
+//    [self loadData];
     !_openViewClickBlock ? : _openViewClickBlock();
 }
 

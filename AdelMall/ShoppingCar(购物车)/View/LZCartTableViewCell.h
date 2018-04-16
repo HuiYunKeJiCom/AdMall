@@ -17,6 +17,8 @@ typedef void(^LZCellSelectedBlock)(BOOL select);
 //商品数量
 @property (assign,nonatomic)NSInteger lzNumber;
 @property (assign,nonatomic)BOOL lzSelected;
+/** 商品模型 */
+@property(nonatomic,strong)LZGoodsModel *model;
 
 - (void)reloadDataWithModel:(LZGoodsModel*)model;
 - (void)numberAddWithBlock:(LZNumberChangedBlock)block;

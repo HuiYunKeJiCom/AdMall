@@ -77,17 +77,21 @@
 #pragma mark - 填充数据
 -(void)setUpData{
     self.totalGoodsLab.text = @"商品件数：";
-    self.goodsNumLab.text = @"3";
     self.goodsUnitLab.text = @"件";
     self.totalMoneyLab.text = @"金额合计：";
-    self.moneyNumLab.text = @"7400";
     self.moneyUnitLab.text = @"元";
     self.totalCouponLab.text = @"优惠券抵扣：";
     self.couponNumLab.text = @"-0";
     self.couponUnitLab.text = @"元";
     self.totalFreightLab.text = @"运费：";
-    self.freightNumLab.text = @"50";
     self.freightUnitLab.text = @"元";
+}
+
+-(void)setUpDataWithNSDictionary:(NSDictionary *)dict{
+    
+    self.moneyNumLab.text = [NSString stringWithFormat:@"%.2f",[[dict valueForKey:@"totalPrice"] floatValue]];
+    self.goodsNumLab.text = [NSString stringWithFormat:@"%ld",[[dict valueForKey:@"goodsNumber"] integerValue]];
+    self.freightNumLab.text = [NSString stringWithFormat:@"%.0f",[[dict valueForKey:@"expressFee"] doubleValue]];
 }
 
 #pragma mark - Constraints

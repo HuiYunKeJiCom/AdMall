@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class ADStarGoodsModel;
 @interface DCExceedApplianceCell : UICollectionViewCell
 /** 商品详情点击回调 */
 @property (nonatomic, copy) dispatch_block_t lookDetailBlock;
-/* 推荐图片数组 */
-@property (copy , nonatomic)NSArray *goodExceedArray;
--(void)loadDataWithFloorID:(NSString *)floorID;
+///* 推荐图片数组 */
+//@property (copy , nonatomic)NSArray *goodExceedArray;
+-(void)loadDataWithArray:(NSArray *)goodExceedArray and:(NSMutableArray<ADStarGoodsModel *> *)goodExceedItem;
+
 @end

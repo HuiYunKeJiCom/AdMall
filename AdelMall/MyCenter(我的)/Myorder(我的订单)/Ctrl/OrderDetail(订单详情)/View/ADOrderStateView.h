@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ADOrderStateView : UICollectionReusableView
+@class ADOrderBasicModel;
+@interface ADOrderStateView : UITableViewHeaderFooterView
+
 /* 取消订单 点击回调 */
 @property (nonatomic, copy) dispatch_block_t cancelClickBlock;
+/** 订单模型 */
+@property(nonatomic,strong)ADOrderBasicModel *orderBasicModel;
 @end

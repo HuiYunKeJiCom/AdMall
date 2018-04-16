@@ -19,14 +19,15 @@
 @implementation ADPolicyViewCell
 
 #pragma mark - Intial
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-    self = [super initWithFrame:frame];
     if (self) {
         
         [self setUpUI];
         [self setUpData];
     }
+    
     return self;
 }
 
@@ -34,12 +35,13 @@
     [self addSubview:self.bgView];
     [self addSubview:self.titleLab];
     [self addSubview:self.checkBtn];
+    [self makeConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self makeConstraints];
+    
 }
 
 #pragma mark - 填充数据

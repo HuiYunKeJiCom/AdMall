@@ -8,8 +8,6 @@
 
 #import "ADApplyAfterSaleViewController.h"
 #import "ADOrderTopToolView.h"//自定义导航栏
-//#import "ADOrderModel.h"
-//#import "ADOrderCell.h"
 #import "ADApplyAfterSaleModel.h"
 #import "ADApplyAfterSaleCell.h"
 

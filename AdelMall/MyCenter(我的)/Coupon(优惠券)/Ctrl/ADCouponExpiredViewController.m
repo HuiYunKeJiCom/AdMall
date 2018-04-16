@@ -7,7 +7,7 @@
 //  我的-优惠券-已失效
 
 #import "ADCouponExpiredViewController.h"
-#import "ADCouponExpiredModel.h"
+#import "ADCouponModel.h"
 #import "ADCouponExpiredCell.h"
 
 @interface ADCouponExpiredViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
@@ -39,42 +39,56 @@
     [self.goodsTable updateLoadState:more];
     
     WEAKSELF
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-    //                                       [weak_self showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getUserCoupon:@{@"status":@"-1"} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"已失效result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+            [weakSelf handleTransferResult:result more:more];
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"已失效msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
     
-    NSArray *dataArr = @[@{@"id":@"123456",@"couponName":@"新人专享红包购物券",@"couponPrice":@"100.00",@"couponSeries":@"家庭智能门锁",@"couponExpiredTime":@"2018-01-01 15:00"},@{@"id":@"123456",@"couponName":@"新人专享红包购物券",@"couponPrice":@"100.00",@"couponSeries":@"家庭智能门锁",@"couponExpiredTime":@"2018-01-01 15:00"}];
-    //    if ([result isKindOfClass:[NSDictionary class]]) {
-    //        NSArray *dataInfo = result[@"data"];
-    //        if ([dataInfo isKindOfClass:[NSArray class]]) {
-    //            dataArr = dataInfo;
-    //        }
-    //    }
+    NSArray *dataArr = [NSArray array];
+    if ([result isKindOfClass:[NSDictionary class]]) {
+        NSArray *dataInfo = result[@"data"][@"couponList"];
+        if ([dataInfo isKindOfClass:[NSArray class]]) {
+            dataArr = dataInfo;
+        }
+    }
     
     [self.goodsTable.data removeAllObjects];
     for (NSDictionary *dic in dataArr) {
-        
-        ADCouponExpiredModel *model = [ADCouponExpiredModel mj_objectWithKeyValues:dic];
+        ADCouponModel *model = [ADCouponModel mj_objectWithKeyValues:dic];
         [self.goodsTable.data addObject:model];
     }
     
     [self.goodsTable updatePage:more];
     //    self.allOrderTable.isLoadMore = dataArr.count >= k_RequestPageSize ? YES : NO;
     self.goodsTable.noDataView.hidden = self.goodsTable.data.count;
-    
     [self.goodsTable reloadData];
 }
 
@@ -122,7 +136,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ADCouponExpiredCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADCouponExpiredCell"];
     if (self.goodsTable.data.count > indexPath.row) {
-        ADCouponExpiredModel *model = self.goodsTable.data[indexPath.row];
+        ADCouponModel *model = self.goodsTable.data[indexPath.row];
         cell.model = model;
     }
     

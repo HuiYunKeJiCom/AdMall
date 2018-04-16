@@ -25,8 +25,8 @@
 @property (copy , nonatomic)NSArray *imagesArray;
 /* 广告数据数组 */
 @property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *goodExceedItem;
-/** 数据模型 */
-@property(nonatomic,strong)ADStarGoodsModel *model;
+///** 数据模型 */
+//@property(nonatomic,strong)ADStarGoodsModel *model;
 @end
 
 static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
@@ -54,7 +54,6 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
     return _collectionView;
 }
 
-
 #pragma mark - Intial
 - (instancetype)initWithFrame:(CGRect)frame {
     
@@ -73,42 +72,6 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
     _headImageView = [[UIImageView alloc] init];
     [self addSubview:_headImageView];
 
-}
-
--(void)loadDataWithFloorID:(NSString *)floorID{
-//    @"65680"
-    [RequestTool getAppointFloorData:@{@"floorId":floorID} withSuccessBlock:^(NSDictionary *result) {
-        NSLog(@"智能硬件result = %@",result);
-        
-        if([result[@"code"] integerValue] == 1){
-            [self withNSDictionary:result];
-        }else{
-            NSMutableArray *tempAdvertArr = [NSMutableArray array];
-            self.goodExceedArray = tempAdvertArr;
-        }
-        
-    } withFailBlock:^(NSString *msg) {
-        NSLog(@"智能硬件msg = %@",msg);
-        NSMutableArray *tempAdvertArr = [NSMutableArray array];
-        self.goodExceedArray = tempAdvertArr;
-    }];
-}
-
--(void)withNSDictionary:(NSDictionary *)dict
-{
-    NSArray *dataInfo = dict[@"data"][@"goodsList"][@"resultList"];
-    NSMutableArray *tempAdvertArr = [NSMutableArray array];
-    _goodExceedItem = [ADStarGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
-    if(_goodExceedItem.count <6){
-        self.model = [ADStarGoodsModel mj_objectWithKeyValues:dataInfo];
-    }
-    for (ADStarGoodsModel *model in _goodExceedItem) {
-                    NSLog(@"model = %@",model.mj_keyValues);
-        [tempAdvertArr addObject:model.goods_image_path];
-    }
-    self.goodExceedArray = tempAdvertArr;
-    [self.collectionView reloadData];
-    //    NSLog(@"self.imageGroupArray = %@",self.imageGroupArray);
 }
 
 - (NSMutableArray<ADStarGoodsModel *> *)goodExceedItem
@@ -179,9 +142,10 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 
 
 #pragma mark - Setter Getter Methods
-- (void)setGoodExceedArray:(NSArray *)goodExceedArray
+-(void)loadDataWithArray:(NSArray *)goodExceedArray and:(NSMutableArray<ADStarGoodsModel *> *)goodExceedItem
 {
-    _goodExceedArray = goodExceedArray;
+//    _goodExceedArray = goodExceedArray;
+    _goodExceedItem = goodExceedItem;
     _imagesArray = goodExceedArray;
     if (goodExceedArray.count == 0){
         [_headImageView setImage:[UIImage imageNamed:@"image_default"]];

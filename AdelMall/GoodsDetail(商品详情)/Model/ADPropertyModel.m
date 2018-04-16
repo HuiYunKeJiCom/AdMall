@@ -1,16 +1,17 @@
 //
-//  ADReceivingAddressModel.m
+//  ADPropertyModel.m
 //  AdelMall
 //
-//  Created by 张锐凌 on 2018/3/9.
+//  Created by 张锐凌 on 2018/4/10.
 //  Copyright © 2018年 Adel. All rights reserved.
 //
 
-#import "ADReceivingAddressModel.h"
+#import "ADPropertyModel.h"
 
-@implementation ADReceivingAddressModel
+@implementation ADPropertyModel
 + (NSDictionary *)mj_replacedKeyFromPropertyName
 {
     return @{@"idx": @"id"};
 }
+
 @end

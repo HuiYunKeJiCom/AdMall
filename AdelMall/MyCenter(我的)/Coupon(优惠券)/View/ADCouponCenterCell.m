@@ -82,7 +82,11 @@
     self.couponNameLab.text = model.coupon_name;
     self.symbolLab.text = @"¥";
     self.seriesTitLab1.text = @"可用于";
-    self.couponSeriesLab.text = model.class_name;
+    if(model.class_name){
+        self.couponSeriesLab.text = model.class_name;
+    }else{
+        self.couponSeriesLab.text = @"所有";
+    }
     self.seriesTitLab2.text = @"系列产品";
     self.couponInstructionsLab.text = [NSString stringWithFormat:@"(满%@元可使用)",model.coupon_order_amount];
     self.effectiveTitLab.text = @"*有效期：";

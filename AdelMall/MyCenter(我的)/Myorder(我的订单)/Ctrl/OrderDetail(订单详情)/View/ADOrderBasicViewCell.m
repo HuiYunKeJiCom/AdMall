@@ -7,6 +7,7 @@
 //  订单基本信息
 
 #import "ADOrderBasicViewCell.h"
+#import "ADOrderBasicModel.h"
 
 @interface ADOrderBasicViewCell()
 @property (nonatomic, strong) UIView  *bgView;
@@ -34,16 +35,18 @@
 
 @implementation ADOrderBasicViewCell
 #pragma mark - Intial
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-    self = [super initWithFrame:frame];
     if (self) {
         
         [self setUpUI];
         [self setUpData];
     }
+    
     return self;
 }
+
 
 - (void)setUpUI{
     [self addSubview:self.bgView];
@@ -57,25 +60,31 @@
     [self addSubview:self.wayLab];
     [self addSubview:self.distributionWayLab];
     [self addSubview:self.distributionLab];
+    
+    [self makeConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self makeConstraints];
+    
 }
 
 #pragma mark - 填充数据
 -(void)setUpData{
     self.titleLab.text = @"订单基本信息：";
     self.orderDateLab.text = @"下单日期：";
-    self.dateLab.text = @"2019-08-09 12:00:00";
     self.orderNumLab.text = @"订单编号：";
-    self.numLab.text = @"1456346531313";
     self.payWayLab.text = @"支付方式：";
-    self.wayLab.text = @"银联在线支付";
     self.distributionWayLab.text = @"配送方式：";
-    self.distributionLab.text = @"快递";
+}
+
+-(void)setOrderBasicModel:(ADOrderBasicModel *)orderBasicModel{
+    _orderBasicModel = orderBasicModel;
+    self.dateLab.text = orderBasicModel.addTime;
+    self.numLab.text = orderBasicModel.order_id;
+    self.wayLab.text = orderBasicModel.pay_type;
+    self.distributionLab.text = orderBasicModel.transport_type;
 }
 
 #pragma mark - Constraints
@@ -85,7 +94,7 @@
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(weakSelf.mas_left);
         make.right.equalTo(weakSelf.mas_right);
-        make.top.equalTo(weakSelf);
+        make.top.equalTo(weakSelf.mas_top);
         make.bottom.equalTo(weakSelf.mas_bottom);
     }];
     
@@ -107,7 +116,7 @@
     
     [self.dateLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(weakSelf.orderDateLab.mas_right);
-        make.top.equalTo(weakSelf.lineView.mas_bottom).with.offset(5);
+        make.top.equalTo(weakSelf.lineView.mas_bottom).with.offset(10);
     }];
     
     [self.orderNumLab mas_makeConstraints:^(MASConstraintMaker *make) {

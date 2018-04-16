@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ADOrderListViewCell : UICollectionViewCell
-
+@class ADOrderModel,ADOrderBasicModel;
+@interface ADOrderListViewCell : BaseTableCell
+/* 商品数据数组 */
+@property (strong , nonatomic)NSMutableArray<ADOrderModel *> *goodsOrderArray;
+/** 订单模型 */
+@property(nonatomic,strong)ADOrderBasicModel *orderBasicModel;
 @end

@@ -25,6 +25,8 @@
 @property (nonatomic, copy) NSString      *coupon_begin_time;
 /** 失效时间 */
 @property (nonatomic, copy) NSString      *coupon_end_time;
+/*使用时间 */
+@property (nonatomic, copy) NSString      *usedTime;
 /** 订单满足金额（不包含邮费） */
 @property (nonatomic, copy) NSString      *coupon_order_amount;
 /** 是否只允许新用户使用【0=否，1=是】 */

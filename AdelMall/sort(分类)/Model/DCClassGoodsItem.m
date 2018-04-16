@@ -9,6 +9,11 @@
 #import "DCClassGoodsItem.h"
 
 @implementation DCClassGoodsItem
++ (NSDictionary *)mj_replacedKeyFromPropertyName
+{
+    return @{@"idx": @"id"};
+}
+
 +(NSDictionary *)mj_objectClassInArray
 {
     return @{

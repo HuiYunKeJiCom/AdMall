@@ -7,6 +7,8 @@
 //  下单页面
 
 #import "ADPlaceOrderViewController.h"
+#import "ADReceivingAddressViewController.h"//地址列表
+
 #import "DCHomeRefreshGifHeader.h"
 #import "ADOrderTopToolView.h"
 #import "ADGoodsListViewCell.h"
@@ -17,6 +19,11 @@
 #import "ADBottomView.h"
 #import "ADPaymentOrderViewController.h"
 
+#import "LZShopModel.h"//店铺模型
+#import "LZGoodsModel.h"//购物车商品模型
+
+#import "ADAddressModel.h"//地址模型
+
 @interface ADPlaceOrderViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 /* collectionView */
 @property (strong , nonatomic)UICollectionView *collectionView;
@@ -24,7 +31,20 @@
 @property (strong , nonatomic)ADOrderTopToolView *topToolView;
 /* 底部View */
 @property (strong , nonatomic)ADBottomView *bottomView;
-@property (strong,nonatomic)UILabel *totlePriceLabel;
+//@property (strong,nonatomic)UILabel *totlePriceLabel;
+/** 商品总价格 */
+@property (nonatomic)float totlePrice;
+/** 商品件数 */
+@property (nonatomic)NSInteger goodsNumber;
+/** 快递邮费 */
+@property (nonatomic)double expressFee;
+
+/** 地址模型 */
+@property (strong,nonatomic)ADAddressModel *addressModel;
+/** 下单店铺商品 */
+@property (strong,nonatomic)NSMutableArray<LZShopModel *> *dataArray;
+/** 商品ID */
+@property(nonatomic,copy)NSString *goodsCartId;
 @end
 
 static NSString *const ADGoodsListViewCellID = @"ADGoodsListViewCell";
@@ -42,8 +62,12 @@ static NSString *const ADTotalViewCellID = @"ADTotalViewCell";
     [self setUpGIFRrfresh];
     [self setUpNavTopView];
     [self setupCustomBottomView];
-    [self countPrice];
+    
 
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self loadDataWithNSString:self.goodsCartId];
 }
 
 #pragma mark - 导航栏处理
@@ -65,14 +89,156 @@ static NSString *const ADTotalViewCellID = @"ADTotalViewCell";
     
 }
 
+-(void)loadDataWithNSString:(NSString *)string{
+    NSLog(@"要获取的id = %@",string);
+    self.goodsCartId = string;
+    WEAKSELF
+    //获取购物车结算页数据
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getCartAccount:@{@"goodsCartId":string} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取购物车结算页数据result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+            [weakSelf withNSDictionary:result];
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"获取购物车结算页数据msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
+    
+//    //获取当前订单可用的平台优惠券
+//    MBProgressHUD *hud1 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    [RequestTool getSystemCoupon:@{@"goodsCartId":string} withSuccessBlock:^(NSDictionary *result) {
+//        NSLog(@"获取当前订单可用的平台优惠券result = %@",result);
+//        if([result[@"code"] integerValue] == 1){
+//            [hud1 hide:YES];
+////            [weakSelf withNSDictionary:result];
+//        }else if([result[@"code"] integerValue] == -2){
+//            hud1.detailsLabelText = @"登录失效";
+//            hud1.mode = MBProgressHUDModeText;
+//            [hud1 hide:YES afterDelay:1.0];
+//        }else if([result[@"code"] integerValue] == -1){
+//            hud1.detailsLabelText = @"未登录";
+//            hud1.mode = MBProgressHUDModeText;
+//            [hud1 hide:YES afterDelay:1.0];
+//        }else if([result[@"code"] integerValue] == 0){
+//            hud1.detailsLabelText = @"失败";
+//            hud1.mode = MBProgressHUDModeText;
+//            [hud1 hide:YES afterDelay:1.0];
+//        }else if([result[@"code"] integerValue] == 2){
+//            hud1.detailsLabelText = @"无返回数据";
+//            hud1.mode = MBProgressHUDModeText;
+//            [hud1 hide:YES afterDelay:1.0];
+//        }
+//    } withFailBlock:^(NSString *msg) {
+//        NSLog(@"获取当前订单可用的平台优惠券msg = %@",msg);
+//        hud1.detailsLabelText = msg;
+//        hud1.mode = MBProgressHUDModeText;
+//        [hud1 hide:YES afterDelay:1.0];
+//    }];
+}
+
+-(void)withNSDictionary:(NSDictionary *)dict
+{
+    NSArray *addressArr = dict[@"data"][@"defaultAddress"];
+    
+    self.expressFee = 0.0;
+    if(addressArr.count >0){
+        self.addressModel = [ADAddressModel mj_objectWithKeyValues:addressArr];
+        
+        self.bottomView.dict = @{@"goodsCartId":self.goodsCartId,@"addressId":self.addressModel.address_id};
+        NSString *areaId = self.addressModel.area_id;
+        //获取选购商品各种运送方式的邮费
+        MBProgressHUD *hud2 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [RequestTool getTransport:@{@"goodsCartId":self.goodsCartId,@"areaId":areaId} withSuccessBlock:^(NSDictionary *result) {
+            NSLog(@"获取选购商品各种运送方式的邮费result = %@",result);
+            if([result[@"code"] integerValue] == 1){
+                [hud2 hide:YES];
+                NSArray *dataInfo = result[@"data"][@"result"];
+                for (NSDictionary *dict in dataInfo) {
+                    self.expressFee += [dict[@"value"] doubleValue];
+                }
+                [self countPrice];
+//                NSLog(@"self.expressFee = %f",self.expressFee);
+                
+            }else if([result[@"code"] integerValue] == -2){
+                hud2.detailsLabelText = @"登录失效";
+                hud2.mode = MBProgressHUDModeText;
+                [hud2 hide:YES afterDelay:1.0];
+            }else if([result[@"code"] integerValue] == -1){
+                hud2.detailsLabelText = @"未登录";
+                hud2.mode = MBProgressHUDModeText;
+                [hud2 hide:YES afterDelay:1.0];
+            }else if([result[@"code"] integerValue] == 0){
+                hud2.detailsLabelText = @"失败";
+                hud2.mode = MBProgressHUDModeText;
+                [hud2 hide:YES afterDelay:1.0];
+            }else if([result[@"code"] integerValue] == 2){
+                hud2.detailsLabelText = @"无返回数据";
+                hud2.mode = MBProgressHUDModeText;
+                [hud2 hide:YES afterDelay:1.0];
+            }
+        } withFailBlock:^(NSString *msg) {
+            NSLog(@"获取选购商品各种运送方式的邮费msg = %@",msg);
+            hud2.detailsLabelText = msg;
+            hud2.mode = MBProgressHUDModeText;
+            [hud2 hide:YES afterDelay:1.0];
+        }];
+    }
+    
+    float totalPrice = 0.0;
+    NSInteger goodsNumber = 0;
+    _dataArray = [LZShopModel mj_objectArrayWithKeyValuesArray:dict[@"data"][@"result"]];
+    for (LZShopModel *shopModel in self.dataArray) {
+        for (LZGoodsModel *model in shopModel.goodsCarts) {
+            float price = [model.price floatValue];
+            totalPrice += price*model.count;
+            goodsNumber += model.count;
+        }
+    }
+    self.goodsNumber = goodsNumber;
+    self.totlePrice = totalPrice;
+    [self.collectionView reloadData];
+//    NSLog(@"获取购物车结算页数据dataArray = %@",_dataArray);
+}
+
+
 #pragma mark -- 自定义底部视图
 - (void)setupCustomBottomView {
     WEAKSELF
     _bottomView = [[ADBottomView alloc] initWithFrame:CGRectMake(0, kScreenHeight -  50, kScreenWidth, 50)];
     _bottomView.rightBtnClickBlock = ^{
-        //跳转到支付页面
-        ADPaymentOrderViewController *placeOrderVC = [[ADPaymentOrderViewController alloc] init];
-        [weakSelf.navigationController pushViewController:placeOrderVC animated:YES];
+//        NSLog(@"weakSelf.bottomView.dict = %@",weakSelf.bottomView.dict);
+        if(weakSelf.bottomView.dict){
+            //跳转到支付页面
+            ADPaymentOrderViewController *placeOrderVC = [[ADPaymentOrderViewController alloc] init];
+            [placeOrderVC getOrderWithNSDictionary:weakSelf.bottomView.dict];
+            [weakSelf.navigationController pushViewController:placeOrderVC animated:YES];
+        }else{
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
+            hud.detailsLabelText = @"请选择商品";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+        
     };
     
     [self.view addSubview:_bottomView];
@@ -84,7 +250,7 @@ static NSString *const ADTotalViewCellID = @"ADTotalViewCell";
     NSMutableAttributedString *LZString = [[NSMutableAttributedString alloc]initWithString:text];
     NSRange rang = [text rangeOfString:@"合计（不含运费）:"];
     [LZString addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:rang];
-    [LZString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:rang];
+    [LZString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:rang];
     return LZString;
 }
 
@@ -102,9 +268,12 @@ static NSString *const ADTotalViewCellID = @"ADTotalViewCell";
 //
 //        totlePrice += price * model.count;
 //    }
-    totlePrice = 7450;
+    totlePrice = self.totlePrice+self.expressFee;
+
     NSString *string = [NSString stringWithFormat:@"%.2f",totlePrice];
-    self.totlePriceLabel.attributedText = [self LZSetString:string];
+//    NSLog(@"string = %@",string);
+    _bottomView.titleLab.attributedText = [self LZSetString:string];
+    
 }
 
 #pragma mark - LazyLoad
@@ -169,14 +338,23 @@ static NSString *const ADTotalViewCellID = @"ADTotalViewCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *gridcell = nil;
     if (indexPath.section == 0) {
+        //下单的商品列表
         ADGoodsListViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADGoodsListViewCellID forIndexPath:indexPath];
         //            cell.gridItem = _gridItem[indexPath.row];
+        
+        [cell loadDataWithArray:self.dataArray];
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
 
     }
     else if (indexPath.section == 1) {//收货地址
         ADReceivingAddressViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADReceivingAddressViewCellID forIndexPath:indexPath];
+        cell.detailBtnClickBlock = ^{
+            //跳转到 地址列表页面
+            ADReceivingAddressViewController *receivingAddressVC = [[ADReceivingAddressViewController alloc] init];
+            [self.navigationController pushViewController:receivingAddressVC animated:YES];
+        };
+        cell.addressModel = self.addressModel;
         //            cell.gridItem = _gridItem[indexPath.row];
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
@@ -205,6 +383,8 @@ static NSString *const ADTotalViewCellID = @"ADTotalViewCell";
     }else if (indexPath.section == 5) {//统计信息
         ADTotalViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADTotalViewCellID forIndexPath:indexPath];
         cell.backgroundColor = [UIColor whiteColor];
+        NSDictionary *dict = @{@"totalPrice":[NSNumber numberWithFloat:self.totlePrice],@"goodsNumber":[NSNumber numberWithInteger:self.goodsNumber],@"expressFee":[NSNumber numberWithDouble:self.expressFee]};
+        [cell setUpDataWithNSDictionary:dict];
         gridcell = cell;
     }
     return gridcell;
@@ -281,7 +461,14 @@ static NSString *const ADTotalViewCellID = @"ADTotalViewCell";
     return UIEdgeInsetsMake(0, 0, 15, 0);//分别为上、左、下、右
 }
 
-
+#pragma mark - 初始化数组
+- (NSMutableArray *)dataArray {
+    if (_dataArray == nil) {
+        _dataArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    
+    return _dataArray;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -7,6 +7,7 @@
 //  取消订单页面
 
 #import "ADOrderStateView.h"
+#import "ADOrderBasicModel.h"
 
 @interface ADOrderStateView()
 /** 状态标签 */
@@ -34,6 +35,19 @@
     self.stateNameLab.text = @"状态：";
     self.stateLab.text = @"待支付";
     [self.cancelOrderBtn setTitle:@"取消订单" forState:UIControlStateNormal];
+}
+
+-(void)setOrderBasicModel:(ADOrderBasicModel *)orderBasicModel{
+    _orderBasicModel = orderBasicModel;
+    switch ([orderBasicModel.order_status intValue]) {
+        case 0:
+            self.stateLab.text = @"待支付";
+            break;
+            
+        default:
+            break;
+    }
+    
 }
 
 - (void)initViews {

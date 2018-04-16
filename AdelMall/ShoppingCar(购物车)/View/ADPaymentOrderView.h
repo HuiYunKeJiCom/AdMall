@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class ADBuildOrderModel;
 @interface ADPaymentOrderView : UIView
-
+/** 订单模型 */
+@property(nonatomic,strong)ADBuildOrderModel *buildOrderModel;
 @end

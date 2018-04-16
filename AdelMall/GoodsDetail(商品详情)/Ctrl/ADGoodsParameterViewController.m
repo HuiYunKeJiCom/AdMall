@@ -8,6 +8,7 @@
 
 #import "ADGoodsParameterViewController.h"
 #import "ADParameterView.h"
+#import "ADPropertyModel.h"
 
 @interface ADGoodsParameterViewController ()
 /** 参数View */
@@ -26,6 +27,15 @@
 -(void)createUI{
     [self.view addSubview:self.parameterView];
     [self makeConstraints];
+}
+
+-(void)transmitWithGoodsProperty:(NSArray<ADPropertyModel *> *)goodsProperty{
+    [self.parameterView createLabelsWithGoodsProperty:goodsProperty];
+}
+
+-(void)setGoodsProperty:(NSArray<ADPropertyModel *> *)goodsProperty{
+    
+    goodsProperty = goodsProperty;
 }
 
 - (void)makeConstraints {
@@ -51,5 +61,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
 
 @end

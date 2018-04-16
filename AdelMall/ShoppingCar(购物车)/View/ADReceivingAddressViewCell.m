@@ -7,6 +7,7 @@
 //  下单页面-收货地址
 
 #import "ADReceivingAddressViewCell.h"
+#import "ADAddressModel.h"
 
 @interface ADReceivingAddressViewCell()
 @property (nonatomic, strong) UIView  *bgView;
@@ -42,7 +43,6 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-        
         [self setUpUI];
         [self setUpData];
     }
@@ -73,15 +73,32 @@
 
 #pragma mark - 填充数据
 -(void)setUpData{
-    self.addressLab.text = @"广东省 深圳市 宝安区 松柏路南岗第二工业区";
+    
     self.defaultLab.text = @" 默认 ";
-    self.homeLab.text = @" 家 ";
-    self.receiverLab.text = @"黄先生";
     self.acceptLab.text = @"收";
-    self.phoneLab.text = @"137 0000 0000";
     self.zipCodeTitLab.text = @"邮编：";
-    self.zipCodeLab.text = @"518000";
+    
 //    [self.detailBtn setTitle:@">" forState:UIControlStateNormal];
+}
+
+-(void)setAddressModel:(ADAddressModel *)addressModel{
+    _addressModel = addressModel;
+    
+    NSString *areaName;
+    NSRange range = [addressModel.area_name rangeOfString:@","];
+    if (range.location!=NSNotFound) {
+        areaName = [addressModel.area_name stringByReplacingOccurrencesOfString:@"," withString:@" "];
+        
+    }else{
+        areaName = addressModel.area_name;
+    }
+    
+    self.addressLab.text = [NSString stringWithFormat:@"%@%@",areaName,addressModel.detail_address];
+    self.homeLab.text = addressModel.label;
+    self.receiverLab.text = addressModel.trueName;
+    self.phoneLab.text = addressModel.mobile;
+    self.zipCodeLab.text = addressModel.post_code;
+    
 }
 
 #pragma mark - Constraints
@@ -252,7 +269,7 @@
 //        _detailBtn.backgroundColor = k_UIColorFromRGB(0xffffff);
         [_detailBtn setTitleColor:KColorText878686 forState:UIControlStateNormal];
         [_detailBtn addTarget:self action:@selector(detailButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        [_detailBtn setImage:[UIImage imageNamed:@"shouye_icon_jiantou"] forState:UIControlStateNormal];
+        [_detailBtn setImage:[UIImage imageNamed:@"ico_home_back_black"] forState:UIControlStateNormal];
     }
     return _detailBtn;
 }
