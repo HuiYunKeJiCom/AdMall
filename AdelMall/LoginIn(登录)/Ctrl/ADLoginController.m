@@ -76,7 +76,7 @@
 #pragma mark - ADLLoginViewDelegate
 
 - (void)loginView:(ADLoginView *)logView userName:(NSString *)userName pwd:(NSString *)pwd {
-#if 0
+#if 1
     NSLog(@"userName = %@,pwd = %@",userName,pwd);
 //    [NSString getMd5_32Bit_String:pwd]
     

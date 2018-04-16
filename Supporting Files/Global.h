@@ -9,7 +9,10 @@
 
 
 
-#define CurrentHost @"://192.168.0.59:6108" //测试环境
+//#define CurrentHost @"://192.168.0.59:6108" //测试环境
+
+#define CurrentHost @"://2008503qw3.51mypc.cn" //外网可访问的测试环境
+
 //用于替换查找
 #define TEMPHost @"://"
 //Host

@@ -42,10 +42,14 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self buildUI];
     
+    self.goodsID = @"98461";//测试用商品ID
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    [self requestGoodsDetailInfo];
     
 }
 
@@ -69,7 +73,7 @@
     _pageSelectBar = [[PageSelectBar alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 72) options:@[@"商品详情",@"商品参数",@"用户评论",@"推荐商品"] selectBlock:^(NSString *option, NSInteger index) {
         _mainScrollView.contentOffset = CGPointMake((_mainScrollView.contentSize.width/4) * index, 0);
     }];
-    _pageSelectBar.top = StatusBarHeight;
+    _pageSelectBar.top = TopBarHeight;
     _pageSelectBar.left = 0;
     [self.view addSubview:_pageSelectBar];
     
@@ -110,7 +114,10 @@
     
 }
 
-
+- (void)requestGoodsDetailInfo{
+    
+    
+}
 
 
 

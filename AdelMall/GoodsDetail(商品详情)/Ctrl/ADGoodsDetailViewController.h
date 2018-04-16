@@ -10,4 +10,6 @@
 
 @interface ADGoodsDetailViewController : UIViewController
 
+@property (nonatomic,copy) NSString *goodsID;//商品id
+
 @end
