@@ -158,8 +158,6 @@
 -(UIImageView *)goodsIV{
     if (!_goodsIV) {
         _goodsIV = [[UIImageView alloc] init];
-//        [_goodsIV setImage:[UIImage imageNamed:@"icon"]];
-//        [_goodsIV setBackgroundColor:[UIColor greenColor]];
         [_goodsIV setContentMode:UIViewContentModeScaleAspectFill];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doTap:)];

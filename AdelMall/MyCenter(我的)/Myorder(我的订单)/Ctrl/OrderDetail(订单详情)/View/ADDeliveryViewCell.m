@@ -7,6 +7,7 @@
 //  发货信息
 
 #import "ADDeliveryViewCell.h"
+#import "ADOrderBasicModel.h"
 
 @interface ADDeliveryViewCell()
 @property (nonatomic, strong) UIView  *bgView;
@@ -35,7 +36,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if (self) {
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setUpUI];
         [self setUpData];
     }
@@ -68,9 +69,14 @@
     [self.checkBtn setTitle:@"查看物流 >" forState:UIControlStateNormal];
     self.tipLab.text = @"*订单需要发货";
     self.expressTypeLab.text = @"快递公司：";
-    self.typeLab.text = @"韵达快递";
     self.expressNumLab.text = @"快递单号：";
-    self.NumLab.text = @"20180209122334";
+}
+
+-(void)setOrderBasicModel:(ADOrderBasicModel *)orderBasicModel{
+    _orderBasicModel = orderBasicModel;
+    
+    self.typeLab.text = orderBasicModel.ship_company;
+    self.NumLab.text = orderBasicModel.ship_code;
 }
 
 #pragma mark - Constraints

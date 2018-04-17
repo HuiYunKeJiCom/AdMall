@@ -14,8 +14,7 @@
 @property(nonatomic,strong)UILabel *stateNameLab;
 /** 状态 */
 @property(nonatomic,strong)UILabel *stateLab;
-/** 取消按钮 */
-@property(nonatomic,strong)UIButton *cancelOrderBtn;
+
 @end
 
 @implementation ADOrderStateView
@@ -33,7 +32,7 @@
 
 - (void)setUpData {
     self.stateNameLab.text = @"状态：";
-    self.stateLab.text = @"待支付";
+//    self.stateLab.text = @"待支付";
     [self.cancelOrderBtn setTitle:@"取消订单" forState:UIControlStateNormal];
 }
 
@@ -41,9 +40,30 @@
     _orderBasicModel = orderBasicModel;
     switch ([orderBasicModel.order_status intValue]) {
         case 0:
-            self.stateLab.text = @"待支付";
+            self.stateLab.text = @"已取消";
+            self.cancelOrderBtn.alpha = 0.0;
             break;
-            
+        case 10:{
+            self.stateLab.text = @"待支付";
+            self.cancelOrderBtn.alpha = 1.0;
+        }
+            break;
+        case 20:
+            self.stateLab.text = @"待发货";
+            self.cancelOrderBtn.alpha = 0.0;
+            break;
+        case 30:
+            self.stateLab.text = @"待收货";
+            self.cancelOrderBtn.alpha = 0.0;
+            break;
+        case 40:
+            self.stateLab.text = @"待评价";
+            self.cancelOrderBtn.alpha = 0.0;
+            break;
+        case 50:
+            self.stateLab.text = @"已完成";
+            self.cancelOrderBtn.alpha = 0.0;
+            break;
         default:
             break;
     }

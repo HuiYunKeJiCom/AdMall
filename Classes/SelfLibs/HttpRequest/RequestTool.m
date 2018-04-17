@@ -112,6 +112,10 @@ static NSString * const kRequestCodeGetOrderList = @"kRequestGetOrderList";
 static NSString * const kApiUrlGetOrderDetail = @"auth/orderDetail.htm?";
 static NSString * const kRequestCodeGetOrderDetail = @"kRequestGetOrderDetail";
 
+/* 买家取消订单 */
+static NSString * const kApiUrlCancelOrder = @"auth/cancelOrder.htm?";
+static NSString * const kRequestCodeCancelOrder = @"kRequestCancelOrder";
+
 /* 获取当前订单可用的平台优惠券 */
 static NSString * const kApiUrlGetSystemCoupon = @"auth/getSystemCoupon.htm?";
 static NSString * const kRequestCodeGetSystemCoupon = @"kRequestGetSystemCoupon";
@@ -611,6 +615,19 @@ static NSString * const kLockItunesAppSystemCode =  @"";
 /* 订单详情 */
 +(void)getOrderDetail:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetOrderDetail params:paramsDic requestCode:kRequestCodeGetOrderDetail withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 买家取消订单 */
++(void)cancelOrder:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlCancelOrder params:paramsDic requestCode:kRequestCodeCancelOrder withSuccessBlock:^(NSDictionary *result) {
         
         successBlock(result);
         

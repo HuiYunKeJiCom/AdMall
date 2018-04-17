@@ -15,4 +15,6 @@
 @property (nonatomic, copy) dispatch_block_t cancelClickBlock;
 /** 订单模型 */
 @property(nonatomic,strong)ADOrderBasicModel *orderBasicModel;
+/** 取消按钮 */
+@property(nonatomic,strong)UIButton *cancelOrderBtn;
 @end

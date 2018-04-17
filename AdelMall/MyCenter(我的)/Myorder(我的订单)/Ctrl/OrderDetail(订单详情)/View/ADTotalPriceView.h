@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class ADOrderBasicModel;
 @interface ADTotalPriceView : UIView
-
+/** 订单模型 */
+@property(nonatomic,strong)ADOrderBasicModel *orderBasicModel;
 @end

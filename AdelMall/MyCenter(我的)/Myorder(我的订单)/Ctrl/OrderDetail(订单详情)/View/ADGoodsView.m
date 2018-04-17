@@ -7,6 +7,7 @@
 //  订单详情-商品清单
 
 #import "ADGoodsView.h"
+#import "ADOrderModel.h"
 
 @interface ADGoodsView()
 /** 商品图片 */
@@ -46,14 +47,21 @@
 }
 
 - (void)setUpData {
-    self.goodsNameLab.text = @"爱迪尔智能门锁";
     self.colorTitLab.text = @"颜色：";
     self.colorLab.text = @"黑色";
     self.numberTitLab.text = @"数量：";
-    self.numberLab.text = @"2";
     self.priceTitLab.text = @"单价：";
-    self.priceLab.text = @"¥ 2600";
-    self.priceTotalLab.text = @"5200.00 元";
+}
+
+-(void)setGoodsOrderModel:(ADOrderModel *)goodsOrderModel{
+    _goodsOrderModel = goodsOrderModel;
+    NSLog(@"spec_info = %@",goodsOrderModel.spec_info);
+    
+    [self.goodsIV sd_setImageWithURL:[NSURL URLWithString:goodsOrderModel.goods_image_path]];
+    self.goodsNameLab.text = goodsOrderModel.goods_name;
+    self.numberLab.text = goodsOrderModel.count;
+    self.priceLab.text = [NSString stringWithFormat:@"¥ %@",goodsOrderModel.price];
+    self.priceTotalLab.text = [NSString stringWithFormat:@"%.2f 元",[goodsOrderModel.total_price floatValue]];
 }
 
 - (void)initViews {
@@ -137,8 +145,7 @@
 -(UIImageView *)goodsIV{
     if (!_goodsIV) {
         _goodsIV = [[UIImageView alloc] init];
-        //        [_goodsIV setImage:[UIImage imageNamed:@"icon"]];
-        [_goodsIV setBackgroundColor:[UIColor greenColor]];
+//        [_goodsIV setBackgroundColor:[UIColor greenColor]];
         [_goodsIV setContentMode:UIViewContentModeScaleAspectFill];
         //        [_goodsIV setClipsToBounds:YES];
     }

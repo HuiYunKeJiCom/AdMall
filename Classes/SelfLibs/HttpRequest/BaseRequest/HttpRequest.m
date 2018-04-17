@@ -206,6 +206,13 @@
         fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/orderDetail.htm?"];
     }
     
+    //买家取消订单
+    if([fullUrl containsString:@"auth/cancelOrder.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/cancelOrder.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/cancelOrder.htm?"];
+    }
+    
     if (requsetType == RequsetTypeGet) {
 //        NSLog(@"get");
         requestOperation = [manager GET:fullUrl parameters:newParams progress:^(NSProgress * _Nonnull downloadProgress) {

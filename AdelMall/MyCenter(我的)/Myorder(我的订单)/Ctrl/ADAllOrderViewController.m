@@ -76,6 +76,7 @@
             hud.detailsLabelText = @"无返回数据";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
+            [self.allOrderTable reloadData];
         }
     } withFailBlock:^(NSString *msg) {
         self.currentPage -= 1;

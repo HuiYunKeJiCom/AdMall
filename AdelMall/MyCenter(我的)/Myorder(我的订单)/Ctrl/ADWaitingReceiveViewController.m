@@ -77,6 +77,7 @@
             hud.detailsLabelText = @"无返回数据";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
+            [self.allOrderTable reloadData];
         }
     } withFailBlock:^(NSString *msg) {
         self.currentPage -= 1;
@@ -160,6 +161,7 @@
         cell.detailBtnClickBlock = ^{
             //订单详情
             ADOrderDetailViewController *orderDetailVC = [[ADOrderDetailViewController alloc]init];
+            [orderDetailVC loadDataWithOrderID:model.order_id];
             [self.navigationController pushViewController:orderDetailVC animated:YES];
         };
         cell.afterSaleBtnClickBlock = ^{

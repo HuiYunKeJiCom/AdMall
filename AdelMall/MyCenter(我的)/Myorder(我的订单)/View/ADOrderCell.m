@@ -171,7 +171,7 @@
     _model = model;
     
     NSLog(@"order_status = %@",model.order_status);
-    
+    [self.goodsIV sd_setImageWithURL:[NSURL URLWithString:self.model.goods_image_path]];
     self.orderLab.text = [NSString stringWithFormat:@"订单号:%@",model.order_id];
     
     NSString *goodsName;
@@ -238,7 +238,6 @@
 -(UIImageView *)goodsIV{
     if (!_goodsIV) {
         _goodsIV = [[UIImageView alloc] init];
-        [self.goodsIV sd_setImageWithURL:[NSURL URLWithString:self.model.goods_image_path]];
 //        [_goodsIV setBackgroundColor:[UIColor greenColor]];
         [_goodsIV setContentMode:UIViewContentModeScaleAspectFill];
         //        [_goodsIV setClipsToBounds:YES];

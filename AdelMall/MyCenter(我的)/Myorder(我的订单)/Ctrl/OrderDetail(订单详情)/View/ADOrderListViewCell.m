@@ -10,6 +10,9 @@
 #import "ADGoodsView.h"
 #import "ADTotalPriceView.h"
 
+#import "ADOrderBasicModel.h"
+#import "ADOrderModel.h"
+
 @interface ADOrderListViewCell()
 @property (nonatomic, strong) UIView  *bgView;
 /** 标题 */
@@ -29,7 +32,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if (self) {
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setUpUI];
         [self setUpData];
     }
@@ -41,15 +44,17 @@
     [self addSubview:self.bgView];
     [self.bgView addSubview:self.lineView];
     [self.bgView addSubview:self.titleLab];
-    [self createGoodsViewsWithNSInteger:2];
+//    [self createGoodsViewsWithNSInteger:2];
     [self.bgView addSubview:self.totalPriceView];
     
     [self makeConstraints];
 }
 
-- (void)createGoodsViewsWithNSInteger:(NSInteger)temp{
-    for(int i=0;i<temp;i++){
+- (void)createGoodsViewsWithNSMutableArray:(NSMutableArray *)goodsOrderArray
+{
+    for(int i=0;i<goodsOrderArray.count;i++){
         ADGoodsView *goodsView = [[ADGoodsView alloc] initWithFrame:CGRectMake(0, 38+i*109, kScreenWidth, 109)];
+        goodsView.goodsOrderModel = goodsOrderArray[i];
         goodsView.backgroundColor = [UIColor whiteColor];
         [self.bgView addSubview:goodsView];
     }
@@ -64,6 +69,14 @@
 #pragma mark - 填充数据
 -(void)setUpData{
     self.titleLab.text = @"商品清单";
+}
+
+-(void)setOrderBasicModel:(ADOrderBasicModel *)orderBasicModel{
+    _orderBasicModel = orderBasicModel;
+}
+
+-(void)setGoodsOrderArray:(NSMutableArray<ADOrderModel *> *)goodsOrderArray{
+    _goodsOrderArray = goodsOrderArray;
 }
 
 #pragma mark - Constraints
@@ -115,6 +128,7 @@
 - (ADTotalPriceView *)totalPriceView {
     if (!_totalPriceView) {
         _totalPriceView = [[ADTotalPriceView alloc] initWithFrame:CGRectMake(0, 40+109*2, kScreenWidth, 110)];
+        _totalPriceView.orderBasicModel = self.orderBasicModel;
         _totalPriceView.backgroundColor = [UIColor whiteColor];
     }
     return _totalPriceView;

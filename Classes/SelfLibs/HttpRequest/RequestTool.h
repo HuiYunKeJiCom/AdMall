@@ -121,6 +121,9 @@ typedef void (^FailBlock)(NSString *);
 /* 订单详情 */
 +(void)getOrderDetail:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 
+/* 买家取消订单 */
++(void)cancelOrder:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
 /* 获取当前订单可用的平台优惠券 */
 +(void)getSystemCoupon:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 

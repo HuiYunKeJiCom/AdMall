@@ -29,6 +29,8 @@
 @property (strong , nonatomic)ADOrderTopToolView *topToolView;
 /** 订单号 */
 @property(nonatomic,strong)NSString *orderID;
+/** 去支付 按钮 */
+@property(nonatomic,strong)UIButton *toPayButton;
 @end
 
 static NSString *const ADOrderStateViewID = @"ADOrderStateView";
@@ -49,7 +51,7 @@ static NSString *const ADOrderListViewCellID = @"ADOrderListViewCell";
     
     [self setUpBase];
     [self setUpNavTopView];
-    [self setUpToPayButton];
+    
 }
 
 #pragma mark - 导航栏处理
@@ -158,6 +160,24 @@ static NSString *const ADOrderListViewCellID = @"ADOrderListViewCell";
     
     self.orderBasicModel = [ADOrderBasicModel mj_objectWithKeyValues:result[@"data"]];
     
+    switch ([self.orderBasicModel.order_status intValue]) {
+        case 0:
+            break;
+        case 10:
+            [self setUpToPayButton];
+            break;
+        case 20:
+            break;
+        case 30:
+            break;
+        case 40:
+            break;
+        case 50:
+            break;
+        default:
+            break;
+    }
+    
     NSArray *dataArr = result[@"data"][@"goodsList"];
     
     [self.goodsOrderArray removeAllObjects];
@@ -225,7 +245,8 @@ static NSString *const ADOrderListViewCellID = @"ADOrderListViewCell";
         button.frame = CGRectMake(0, buttonY, buttonW, buttonH);
         button.layer.borderWidth=0.5;
         button.layer.borderColor=[UIColor grayColor].CGColor;
-        [self.view addSubview:button];
+        self.toPayButton = button;
+        [self.view addSubview:self.toPayButton];
 //    }
 }
 
@@ -240,14 +261,55 @@ static NSString *const ADOrderListViewCellID = @"ADOrderListViewCell";
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *sectionView = nil;
     if(section == 0){
-        sectionView = [[ADOrderStateView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+        ADOrderStateView *sectionView = [[ADOrderStateView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+        sectionView.orderBasicModel = self.orderBasicModel;
+        __weak typeof(sectionView) sectionview = sectionView;
+        sectionView.cancelClickBlock = ^{
+            //取消订单
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [RequestTool cancelOrder:@{@"orderId":self.orderID} withSuccessBlock:^(NSDictionary *result) {
+                NSLog(@"取消订单result = %@",result);
+                if([result[@"code"] integerValue] == 1){
+                    hud.detailsLabelText = @"订单取消成功";
+                    sectionview.cancelOrderBtn.backgroundColor = [UIColor lightGrayColor];
+                    sectionview.cancelOrderBtn.userInteractionEnabled = NO;
+                    [sectionview.cancelOrderBtn setTitle:@"已取消" forState:UIControlStateNormal];
+                    self.toPayButton.alpha = 0.0;
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == -2){
+                    hud.detailsLabelText = @"登录失效";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == -1){
+                    hud.detailsLabelText = @"未登录";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 0){
+                    hud.detailsLabelText = @"失败";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 2){
+                    hud.detailsLabelText = @"无返回数据";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }
+            } withFailBlock:^(NSString *msg) {
+                NSLog(@"取消订单msg = %@",msg);
+                hud.detailsLabelText = msg;
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }];
+        };
+        sectionView.backgroundColor = kBACKGROUNDCOLOR;
+        return sectionView;
     }else{
-        sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, GetScaleWidth(5))];
+        UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, GetScaleWidth(5))];
+        sectionView.backgroundColor = kBACKGROUNDCOLOR;
+        return sectionView;
     }
-    sectionView.backgroundColor = kBACKGROUNDCOLOR;
-    return sectionView;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -290,11 +352,13 @@ static NSString *const ADOrderListViewCellID = @"ADOrderListViewCell";
     }else if (indexPath.section == 1) {//发票信息
         ADInvoiceViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ADInvoiceViewCellID];
         //            cell.gridItem = _gridItem[indexPath.row];
+        cell.orderBasicModel = self.orderBasicModel;
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
     }else if (indexPath.section == 2) {//发货信息
         ADDeliveryViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ADDeliveryViewCellID forIndexPath:indexPath];
         //            cell.gridItem = _gridItem[indexPath.row];
+        cell.orderBasicModel = self.orderBasicModel;
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
     }else if (indexPath.section == 3) {//保险单信息
@@ -305,6 +369,8 @@ static NSString *const ADOrderListViewCellID = @"ADOrderListViewCell";
     }else if (indexPath.section == 4) {//商品清单
         ADOrderListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ADOrderListViewCellID forIndexPath:indexPath];
         //            cell.gridItem = _gridItem[indexPath.row];
+        cell.orderBasicModel = self.orderBasicModel;
+        cell.goodsOrderArray = self.goodsOrderArray;
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
     }
