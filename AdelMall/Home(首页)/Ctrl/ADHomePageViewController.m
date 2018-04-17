@@ -161,6 +161,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 -(void)getStarGoodsID:(NSNotification *)text{
     ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
 //    [detailVC loadDataWithGoodsID:text.userInfo[@"starGoodsID"]];
+    detailVC.goodsID = text.userInfo[@"starGoodsID"];
     
     [self.navigationController pushViewController:detailVC animated:YES];
 }

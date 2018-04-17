@@ -10,8 +10,11 @@
 #import "PageSelectBar.h"
 #import "ADDetailViewModel.h"
 #import "ADParameterView.h"
+#import "ADGoodsParameterViewModel.h"
 #import "ADUserEvaluationViewModel.h"
 #import "ADRelatedGoodsViewModel.h"
+
+#import "ADGoodsModel.h"
 
 
 @interface ADGoodsDetailViewController ()
@@ -21,7 +24,8 @@
 @property (nonatomic,strong)NSMutableArray *shellViews;//shellViews数组
 
 @property (nonatomic,strong)ADDetailViewModel *detailViewModel;//
-@property (nonatomic,strong)ADParameterView *detailParameterView;//
+//@property (nonatomic,strong)ADParameterView *detailParameterView;//
+@property (nonatomic,strong)ADGoodsParameterViewModel *parameterViewModel;//
 @property (nonatomic,strong)ADUserEvaluationViewModel *userEvaluationiViewModel;//
 @property (nonatomic,strong)ADRelatedGoodsViewModel *relatedGoodsViewModel;//
 
@@ -103,8 +107,12 @@
     _detailViewModel.detailView.frame = ((UIView *)_shellViews[0]).bounds;
     [(UIView *)_shellViews[0] addSubview:_detailViewModel.detailView];
     
-    _detailParameterView = [[ADParameterView alloc]initWithFrame:((UIView *)_shellViews[1]).bounds];
-    [(UIView *)_shellViews[1] addSubview:_detailParameterView];
+//    _detailParameterView = [[ADParameterView alloc]initWithFrame:((UIView *)_shellViews[1]).bounds];
+//    [(UIView *)_shellViews[1] addSubview:_detailParameterView];
+    _parameterViewModel = [[ADGoodsParameterViewModel alloc]init];
+    _parameterViewModel.parameterView.frame = ((UIView *)_shellViews[1]).bounds;
+    [(UIView *)_shellViews[1] addSubview:_parameterViewModel.parameterView];
+    
     
     _userEvaluationiViewModel.userEvaluationListView.frame = ((UIView *)_shellViews[2]).bounds;
     [(UIView *)_shellViews[2] addSubview:_userEvaluationiViewModel.userEvaluationListView];
@@ -115,7 +123,20 @@
 }
 
 - (void)requestGoodsDetailInfo{
-    
+    self.goodsID = @"98461";
+    [RequestTool getGoods:@{@"id":self.goodsID} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"self.goodsID : %@",self.goodsID);
+        NSLog(@"result : %@",result);
+        
+        NSDictionary *dataDic = result[@"data"];
+//        ADGoodsModel *dataModel = [ADGoodsModel mj_objectWithKeyValues:dataDic];
+        NSArray *goodsInfo = dataDic[@"goods"][@"goods_property"];
+        [_parameterViewModel layoutWithProperty:goodsInfo];
+        NSLog(@"123321");
+        
+    } withFailBlock:^(NSString *msg) {
+        
+    }];
     
 }
 
