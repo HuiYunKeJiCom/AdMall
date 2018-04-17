@@ -160,7 +160,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 //跳转到商品详情页面
 -(void)getStarGoodsID:(NSNotification *)text{
     ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
-    [detailVC loadDataWithGoodsID:text.userInfo[@"starGoodsID"]];
+//    [detailVC loadDataWithGoodsID:text.userInfo[@"starGoodsID"]];
     
     [self.navigationController pushViewController:detailVC animated:YES];
 }

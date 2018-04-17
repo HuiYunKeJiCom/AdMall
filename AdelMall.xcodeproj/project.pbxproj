@@ -220,11 +220,13 @@
 		18D4C5B2206E227A00674479 /* ADCartGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D4C5B1206E227A00674479 /* ADCartGoodsModel.m */; };
 		18D4C5B5206E3CA100674479 /* ADGoodsSpecModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D4C5B4206E3CA100674479 /* ADGoodsSpecModel.m */; };
 		18D4C5B8206E426400674479 /* ADProsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D4C5B7206E426400674479 /* ADProsModel.m */; };
-		18DDF5262085C1B9009D5D34 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF51D2085C1B8009D5D34 /* BaseModel.m */; };
 		18DDF5272085C1B9009D5D34 /* Net.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF51F2085C1B8009D5D34 /* Net.m */; };
 		18DDF5282085C1B9009D5D34 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF5222085C1B8009D5D34 /* BaseModel.m */; };
 		18DDF5292085C1B9009D5D34 /* BaseParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF5252085C1B8009D5D34 /* BaseParam.m */; };
 		18DDF52C2085C1C0009D5D34 /* PageSelectBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF52A2085C1C0009D5D34 /* PageSelectBar.m */; };
+		18DDF53E2085C584009D5D34 /* ADDetailViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF5392085C583009D5D34 /* ADDetailViewModel.m */; };
+		18DDF53F2085C584009D5D34 /* ADRelatedGoodsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF53B2085C583009D5D34 /* ADRelatedGoodsViewModel.m */; };
+		18DDF5402085C584009D5D34 /* ADUserEvaluationViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF53D2085C583009D5D34 /* ADUserEvaluationViewModel.m */; };
 		18DE2383207E1F3500010A1E /* ADCartGoodsListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DE2382207E1F3500010A1E /* ADCartGoodsListTableViewCell.m */; };
 		18DE2386207E2EB400010A1E /* ADCartTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DE2385207E2EB400010A1E /* ADCartTableHeaderView.m */; };
 		18E013DD20510DCA004A969C /* ADEvaluateDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E013DC20510DCA004A969C /* ADEvaluateDetailCell.m */; };
@@ -674,8 +676,6 @@
 		18D4C5B4206E3CA100674479 /* ADGoodsSpecModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADGoodsSpecModel.m; sourceTree = "<group>"; };
 		18D4C5B6206E426400674479 /* ADProsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADProsModel.h; sourceTree = "<group>"; };
 		18D4C5B7206E426400674479 /* ADProsModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADProsModel.m; sourceTree = "<group>"; };
-		18DDF51C2085C1B8009D5D34 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
-		18DDF51D2085C1B8009D5D34 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		18DDF51E2085C1B8009D5D34 /* Net.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Net.h; sourceTree = "<group>"; };
 		18DDF51F2085C1B8009D5D34 /* Net.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Net.m; sourceTree = "<group>"; };
 		18DDF5212085C1B8009D5D34 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
@@ -684,6 +684,12 @@
 		18DDF5252085C1B8009D5D34 /* BaseParam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseParam.m; sourceTree = "<group>"; };
 		18DDF52A2085C1C0009D5D34 /* PageSelectBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageSelectBar.m; sourceTree = "<group>"; };
 		18DDF52B2085C1C0009D5D34 /* PageSelectBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageSelectBar.h; sourceTree = "<group>"; };
+		18DDF5382085C583009D5D34 /* ADDetailViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADDetailViewModel.h; sourceTree = "<group>"; };
+		18DDF5392085C583009D5D34 /* ADDetailViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADDetailViewModel.m; sourceTree = "<group>"; };
+		18DDF53A2085C583009D5D34 /* ADRelatedGoodsViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADRelatedGoodsViewModel.h; sourceTree = "<group>"; };
+		18DDF53B2085C583009D5D34 /* ADRelatedGoodsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADRelatedGoodsViewModel.m; sourceTree = "<group>"; };
+		18DDF53C2085C583009D5D34 /* ADUserEvaluationViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADUserEvaluationViewModel.h; sourceTree = "<group>"; };
+		18DDF53D2085C583009D5D34 /* ADUserEvaluationViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADUserEvaluationViewModel.m; sourceTree = "<group>"; };
 		18DE2381207E1F3500010A1E /* ADCartGoodsListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADCartGoodsListTableViewCell.h; sourceTree = "<group>"; };
 		18DE2382207E1F3500010A1E /* ADCartGoodsListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADCartGoodsListTableViewCell.m; sourceTree = "<group>"; };
 		18DE2384207E2EB400010A1E /* ADCartTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADCartTableHeaderView.h; sourceTree = "<group>"; };
@@ -806,6 +812,7 @@
 		183766E12029B6260055FF97 /* GoodsDetail(商品详情) */ = {
 			isa = PBXGroup;
 			children = (
+				18DDF5372085C583009D5D34 /* ViewModel */,
 				183766E42029B6750055FF97 /* Ctrl */,
 				183766E32029B66E0055FF97 /* Model */,
 				183766E22029B6680055FF97 /* View */,
@@ -1784,8 +1791,6 @@
 		18DDF51B2085C1B8009D5D34 /* Net */ = {
 			isa = PBXGroup;
 			children = (
-				18DDF51C2085C1B8009D5D34 /* BaseModel.h */,
-				18DDF51D2085C1B8009D5D34 /* BaseModel.m */,
 				18DDF51E2085C1B8009D5D34 /* Net.h */,
 				18DDF51F2085C1B8009D5D34 /* Net.m */,
 				18DDF5202085C1B8009D5D34 /* New Group */,
@@ -1810,6 +1815,20 @@
 				18DDF5252085C1B8009D5D34 /* BaseParam.m */,
 			);
 			path = Param;
+			sourceTree = "<group>";
+		};
+		18DDF5372085C583009D5D34 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				18DDF5382085C583009D5D34 /* ADDetailViewModel.h */,
+				18DDF5392085C583009D5D34 /* ADDetailViewModel.m */,
+				18DDF53A2085C583009D5D34 /* ADRelatedGoodsViewModel.h */,
+				18DDF53B2085C583009D5D34 /* ADRelatedGoodsViewModel.m */,
+				18DDF53C2085C583009D5D34 /* ADUserEvaluationViewModel.h */,
+				18DDF53D2085C583009D5D34 /* ADUserEvaluationViewModel.m */,
+			);
+			name = ViewModel;
+			path = "../../../AdMall-root/AdelMall/GoodsDetail(商品详情)/ViewModel";
 			sourceTree = "<group>";
 		};
 		18E1AB4C2079F35900C5B922 /* AppToken */ = {
@@ -2159,6 +2178,7 @@
 				1880968F202846A4006BF195 /* DCNavigationController.m in Sources */,
 				18D4C5B5206E3CA100674479 /* ADGoodsSpecModel.m in Sources */,
 				18F07B8A2045624800F0761E /* DCClassGoodsItem.m in Sources */,
+				18DDF5402085C584009D5D34 /* ADUserEvaluationViewModel.m in Sources */,
 				18F1D21F20295E4100F371CB /* BaseTableView.m in Sources */,
 				186C39562049426C00CCBD37 /* ADServiceFlowViewCell.m in Sources */,
 				18DE2383207E1F3500010A1E /* ADCartGoodsListTableViewCell.m in Sources */,
@@ -2166,7 +2186,6 @@
 				1848376F205616D80070ABDA /* ADEvaluatedExposureViewController.m in Sources */,
 				1878AC4220690BA90025DC72 /* ADStarGoodsCell.m in Sources */,
 				188FB6702068D6E000F99670 /* RequestTool.m in Sources */,
-				18DDF5262085C1B9009D5D34 /* BaseModel.m in Sources */,
 				185EC67F2060F1AE00721522 /* ADAddressShowView.m in Sources */,
 				1850822E205BA2A100C80DD7 /* EdgeInsetsLabel.m in Sources */,
 				186C3959204947A000CCBD37 /* ADExpressInformationViewCell.m in Sources */,
@@ -2243,6 +2262,7 @@
 				18E013E020512471004A969C /* ADEvaluateBottomView.m in Sources */,
 				183730512044F47200136106 /* ADEvaluateDetailViewController.m in Sources */,
 				18B96528201F3AC300A6DA59 /* ADLMyInfoTableViewCell.m in Sources */,
+				18DDF53F2085C584009D5D34 /* ADRelatedGoodsViewModel.m in Sources */,
 				18B9650C201F1DF800A6DA59 /* DCConsts.m in Sources */,
 				18B964EE201EFCBF00A6DA59 /* ADMyCenterViewController.m in Sources */,
 				182B39F5204E2B7800462CAA /* ADSallingViewController.m in Sources */,
@@ -2255,6 +2275,7 @@
 				1882AC8D202D7B0800D3DE4F /* ADOrderListViewCell.m in Sources */,
 				18508225205B531300C80DD7 /* ADSallGoodsDetailViewController.m in Sources */,
 				18E013E920513A79004A969C /* ADEvaluateListTableViewCell.m in Sources */,
+				18DDF53E2085C584009D5D34 /* ADDetailViewModel.m in Sources */,
 				188CDA6420804F480033CFAE /* ADPayTypeModel.m in Sources */,
 				18653C112069DC6A00D7AE33 /* ADCountDownGoodsModel.m in Sources */,
 				1836268A2057B0710099FE10 /* ADMoreEvaluatedGoodsViewController.m in Sources */,
