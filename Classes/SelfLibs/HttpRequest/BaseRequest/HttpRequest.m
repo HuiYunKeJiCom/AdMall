@@ -101,24 +101,31 @@
         fullUrl = tempArr[0];
     }
     
+    //获取商品详情数据
+    if([fullUrl containsString:@"app/goods.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"id"];
+        fullUrl = tempArr[0];
+    }
+    
+    //获取商品列表
+    if([fullUrl containsString:@"search.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"orderBy"];
+        fullUrl = tempArr[0];
+    }
+    
     //新增收货地址
     if([fullUrl containsString:@"saveAddress.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"mobile"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"saveAddress.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"saveAddress.htm?"];
     }
     
     //设置默认收货地址
     if([fullUrl containsString:@"setDefaultAddress.htm"])
     {
         NSArray *tempArr = [fullUrl componentsSeparatedByString:@"addressId"];
-        fullUrl = tempArr[0];
-    }
-    
-    //新增/编辑收货地址
-    if([fullUrl containsString:@"saveAddress.htm"])
-    {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"mobile"];
         fullUrl = tempArr[0];
     }
     
@@ -143,6 +150,68 @@
         fullUrl = tempArr[0];
     }
     
+    //添加购物车
+    if([fullUrl containsString:@"auth/addCart.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"count"];
+        fullUrl = tempArr[0];
+    }
+    
+    //购物车商品移除
+    if([fullUrl containsString:@"auth/removeCart.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"goodsCartId"];
+        fullUrl = tempArr[0];
+    }
+    
+    //购物车商品数量增减
+    if([fullUrl containsString:@"auth/addCartCount.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"count"];
+        fullUrl = tempArr[0];
+    }
+    
+    //获取购物车结算页数据
+    if([fullUrl containsString:@"auth/cartAccount.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"goodsCartId"];
+        fullUrl = tempArr[0];
+    }
+    
+    //获取选购商品各种运送方式的邮费
+    if([fullUrl containsString:@"auth/getTransport.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/getTransport.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/getTransport.htm?"];
+    }
+    
+    //获取选购商品各种运送方式的邮费
+    if([fullUrl containsString:@"auth/bulidOrder.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/bulidOrder.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/bulidOrder.htm?"];
+    }
+    
+    //订单列表
+    if([fullUrl containsString:@"auth/orderList.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/orderList.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/orderList.htm?"];
+    }
+    
+    //订单详情
+    if([fullUrl containsString:@"auth/orderDetail.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/orderDetail.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/orderDetail.htm?"];
+    }
+    
+    //买家取消订单
+    if([fullUrl containsString:@"auth/cancelOrder.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/cancelOrder.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/cancelOrder.htm?"];
+    }
     
     if (requsetType == RequsetTypeGet) {
 //        NSLog(@"get");

@@ -7,6 +7,7 @@
 //  订单详情-商品总价
 
 #import "ADTotalPriceView.h"
+#import "ADOrderBasicModel.h"
 
 @interface ADTotalPriceView()
 
@@ -51,11 +52,16 @@
     self.couponTitLab.text = @"优惠券：";
     self.totalPriceTitLab.text = @"共计：";
     self.unitLab.text = @"元";
+
+}
+
+-(void)setOrderBasicModel:(ADOrderBasicModel *)orderBasicModel{
+    _orderBasicModel = orderBasicModel;
     
-    self.totalGoodsPriceLab.text = @"10400.00元";
-    self.freightLab.text = @"50.00元";
-    self.couponLab.text = @"-10.00元";
-    self.totalPriceLab.text = @"10440.00";
+    self.totalGoodsPriceLab.text = [NSString stringWithFormat:@"%.2f元",[orderBasicModel.goods_total_price floatValue]];
+    self.freightLab.text = [NSString stringWithFormat:@"%.2f元",[orderBasicModel.ship_price floatValue]];
+    self.couponLab.text = [NSString stringWithFormat:@"%.2f元",[orderBasicModel.coupon_amount floatValue]];
+    self.totalPriceLab.text = [NSString stringWithFormat:@"%.2f",[orderBasicModel.order_total_price floatValue]];
 }
 
 - (void)initViews {

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ADOrderBasicViewCell : UICollectionViewCell
-
+@class ADOrderBasicModel;
+@interface ADOrderBasicViewCell : BaseTableCell
+/** 订单模型 */
+@property(nonatomic,strong)ADOrderBasicModel *orderBasicModel;
 @end

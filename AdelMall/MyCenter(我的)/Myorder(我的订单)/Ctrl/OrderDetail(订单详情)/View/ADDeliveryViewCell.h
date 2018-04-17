@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ADDeliveryViewCell : UICollectionViewCell
+@class ADOrderBasicModel;
+@interface ADDeliveryViewCell : BaseTableCell
 /* 查看物流 点击回调 */
 @property (nonatomic, copy) dispatch_block_t checkBtnClickBlock;
+/** 订单模型 */
+@property(nonatomic,strong)ADOrderBasicModel *orderBasicModel;
 @end

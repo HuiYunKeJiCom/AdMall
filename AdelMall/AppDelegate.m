@@ -10,6 +10,7 @@
 //#import "ADMyCenterViewController.h"
 #import "DCTabBarController.h"
 #import "ADLoginController.h"
+#import "ADOrderDetailViewController.h"
 
 @interface AppDelegate ()
 
@@ -44,7 +45,9 @@
 //        //        NSLog(@"不更新版本");
 //        self.window.rootViewController = [[DCTabBarController alloc] init];
     self.window.rootViewController = [[ADLoginController alloc] init];
-//    }else{
+//    self.window.rootViewController = [[ADOrderDetailViewController alloc] init];
+
+    //    }else{
         //        NSLog(@"更新版本");
 //        [DCAppVersionTool dc_SaveNewAppVersion:BUNDLE_VERSION]; //储存当前版本号
     

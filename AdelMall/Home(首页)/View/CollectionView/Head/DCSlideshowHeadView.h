@@ -14,5 +14,5 @@ static const NSString *DCSlideshowHeadViewID = @"DCSlideshowHeadViewID";
 
 /* 轮播图数组 */
 @property (copy , nonatomic)NSArray *imageGroupArray;
--(void)loadDataWithAdvertID:(NSString *)string;
+-(void)loadDataWithArray:(NSArray *)imageGroupArray;
 @end

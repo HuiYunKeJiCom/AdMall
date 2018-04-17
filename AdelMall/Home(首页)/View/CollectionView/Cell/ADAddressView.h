@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 
 
-@class ADAdressModelNew;
+@class ADAddressModel;
 @interface ADAddressView : UIView
 ///** 主题 */
 //@property(nonatomic,strong)UILabel *titleLab;
 /** 地址model */
-@property (nonatomic, strong) ADAdressModelNew  *model;
+@property (nonatomic, strong) ADAddressModel  *model;
 @end

@@ -15,4 +15,5 @@
 @property (nonatomic, copy) dispatch_block_t closeViewClickBlock;
 /* 新增收货地址 点击回调 */
 @property (nonatomic, copy) dispatch_block_t addAddressClickBlock;
+-(void)loadData;
 @end

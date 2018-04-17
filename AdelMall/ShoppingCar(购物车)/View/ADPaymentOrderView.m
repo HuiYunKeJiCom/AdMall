@@ -7,6 +7,7 @@
 //
 
 #import "ADPaymentOrderView.h"
+#import "ADBuildOrderModel.h"
 
 @interface ADPaymentOrderView()
 /** 标题1  */
@@ -68,17 +69,34 @@
 }
 
 #pragma mark - 填充数据
+-(void)setBuildOrderModel:(ADBuildOrderModel *)buildOrderModel{
+    _buildOrderModel = buildOrderModel;
+    self.addresseeLab.text = buildOrderModel.trueName;
+    self.phoneLab.text = buildOrderModel.mobile;
+    
+    NSString *areaName;
+    NSRange range = [buildOrderModel.area_name rangeOfString:@","];
+    if (range.location!=NSNotFound) {
+//        areaName = [buildOrderModel.area_name stringByReplacingOccurrencesOfString:@"," withString:@""];
+        NSArray *tempArr = [buildOrderModel.area_name componentsSeparatedByString:@","];
+        areaName = [tempArr lastObject];
+    }else{
+        areaName = buildOrderModel.area_name;
+    }
+    
+    self.receiveAddressLab.text = [NSString stringWithFormat:@"%@%@",areaName,buildOrderModel.detail_address];
+    
+//    self.receiveAddressLab.text = @"宝安区松柏路南岗第二工业区";
+    self.paymentLab.text = buildOrderModel.payPrice;
+}
+
 -(void)setUpData{
     self.title1Lab.text = @"订单提交成功!";
     self.title2Lab.text = @"去付款咯~";
     self.tip1Lab.text = @"我们将尽快为您发货";
     self.tip2Lab.text = @"请在24小时0分内完成交付，超时后将取消订单";
     self.receivingInfoTitLab.text = @"收货信息：";
-    self.addresseeLab.text = @"王先生";
-    self.phoneLab.text = @"159****8917";
-    self.receiveAddressLab.text = @"宝安区松柏路南岗第二工业区";
     self.paymentTitLab.text = @"应付金额：";
-    self.paymentLab.text = @"6540";
     self.unitLab.text = @"元";
 }
 

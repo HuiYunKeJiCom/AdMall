@@ -64,7 +64,7 @@
     
 }
 
-- (void)setModel:(ADReceivingAddressModel *)model {
+- (void)setModel:(ADAddressModel *)model {
     _model = model;
     self.receiverLab.text = model.trueName;
     self.phoneLab.text = model.mobile;
@@ -219,12 +219,7 @@
         _setDefaultBtn.titleLabel.font = [UIFont systemFontOfSize:kFontNum12];
         [_setDefaultBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_setDefaultBtn addTarget:self action:@selector(setDefaultButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        
-//        [_setDefaultBtn.layer setBorderColor:[UIColor blackColor].CGColor];
-//        [_setDefaultBtn.layer setBorderWidth:1];
-//        [_setDefaultBtn.layer setMasksToBounds:YES];
-//        _setDefaultBtn.layer.cornerRadius = 3.0;
-//        [_setDefaultBtn setImage:[UIImage imageNamed:@"shouye_icon_jiantou"] forState:UIControlStateNormal];
+
     }
     return _setDefaultBtn;
 }
@@ -235,7 +230,6 @@
         _editBtn.titleLabel.font = [UIFont systemFontOfSize:kFontNum12];
         [_editBtn setTitleColor:KColorText878686 forState:UIControlStateNormal];
         [_editBtn addTarget:self action:@selector(editButtonClick) forControlEvents:UIControlEventTouchUpInside];
-//        [_editBtn setImage:[UIImage imageNamed:@"shouye_icon_jiantou"] forState:UIControlStateNormal];
     }
     return _editBtn;
 }
@@ -246,7 +240,7 @@
         _deleteBtn.titleLabel.font = [UIFont systemFontOfSize:kFontNum12];
         [_deleteBtn setTitleColor:KColorText878686 forState:UIControlStateNormal];
         [_deleteBtn addTarget:self action:@selector(deleteButtonClick) forControlEvents:UIControlEventTouchUpInside];
-//        [_deleteBtn setImage:[UIImage imageNamed:@"shouye_icon_jiantou"] forState:UIControlStateNormal];
+
     }
     return _deleteBtn;
 }

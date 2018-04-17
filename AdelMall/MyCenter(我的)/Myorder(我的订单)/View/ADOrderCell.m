@@ -7,6 +7,7 @@
 //  我的订单cell
 
 #import "ADOrderCell.h"
+#import "ADGoodsOrderModel.h"
 
 @interface ADOrderCell()
 /** 订单号 */
@@ -33,6 +34,9 @@
 /** 详情 */
 @property(nonatomic,strong)UIButton *detailBtn;
 
+/** 右箭头 */
+@property(nonatomic,strong)UIImageView *rightIV;
+
 /** 支付按钮 */
 @property(nonatomic,strong)UIButton *toPayBtn;
 @property (nonatomic, strong) UIView  *bgView;
@@ -58,6 +62,7 @@
         [self addSubview:self.priceLab];
         [self addSubview:self.unitLab];
         [self addSubview:self.stateLab];
+        [self addSubview:self.rightIV];
         [self addSubview:self.detailBtn];
         [self addSubview:self.toPayBtn];
         [self makeConstraints];
@@ -67,7 +72,7 @@
 }
 
 -(void)setFrame:(CGRect)frame {
-    frame.origin.y += 50;
+//    frame.origin.y += 10;
     [super setFrame:frame];
 }
 
@@ -153,22 +158,72 @@
         make.height.mas_equalTo(GetScaleWidth(25));
     }];
     
+    [self.rightIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(weakSelf.bgView.mas_right).with.offset(-15);
+        make.top.equalTo(weakSelf.bgView.mas_top).with.offset(12);
+        make.width.mas_equalTo(15);
+        make.height.mas_equalTo(15);
+    }];
+    
 }
 
-- (void)setModel:(ADOrderModel *)model {
+- (void)setModel:(ADGoodsOrderModel *)model {
     _model = model;
     
-    self.orderLab.text = [NSString stringWithFormat:@"订单号:%@",model.orderNo];
-    self.goodsNameLab.text = model.goodsName;
-    self.dateLab.text = model.date;
+    NSLog(@"order_status = %@",model.order_status);
+    [self.goodsIV sd_setImageWithURL:[NSURL URLWithString:self.model.goods_image_path]];
+    self.orderLab.text = [NSString stringWithFormat:@"订单号:%@",model.order_id];
+    
+    NSString *goodsName;
+    if([model.goods_name hasSuffix:@","]){
+        goodsName = [model.goods_name substringToIndex:([model.goods_name length] - 1)];
+    }else{
+        goodsName = model.goods_name;
+    }
+    
+    self.goodsNameLab.text = goodsName;
+    
+    self.dateLab.text = model.addTime;
     self.priceTitLab.text =@"共计：";
-    self.priceLab.text = [NSString stringWithFormat:@"%.2f",[model.price floatValue]];
+    self.priceLab.text = [NSString stringWithFormat:@"%.2f",[model.totalPrice floatValue]];
     self.unitLab.text =@"元";
-    self.stateLab.text = [NSString stringWithFormat:@"%@",model.state];
-    self.totalLab.text = @"共4件商品";
-    [self.toPayBtn setTitle:@"去支付" forState:UIControlStateNormal];
-    _toPayBtn.titleLabel.textColor = k_UIColorFromRGB(0xffffff);
-    _toPayBtn.backgroundColor = [UIColor redColor];
+    if([model.order_status isEqualToString:@"10"]){
+        self.stateLab.text = @"未支付";
+        [self.toPayBtn setTitle:@"去支付" forState:UIControlStateNormal];
+        [_toPayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _toPayBtn.backgroundColor = [UIColor redColor];
+        [DCSpeedy dc_chageControlCircularWith:_toPayBtn AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor redColor]canMasksToBounds:YES];
+        [DCSpeedy dc_chageControlCircularWith:_stateLab AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor redColor]canMasksToBounds:YES];
+        self.stateLab.textColor = [UIColor redColor];
+
+    }else if([model.order_status isEqualToString:@"30"]){
+        self.stateLab.text = @"待收货";
+        [self.toPayBtn setTitle:@"待收货" forState:UIControlStateNormal];
+        _toPayBtn.backgroundColor = k_UIColorFromRGB(0xffffff);
+        [DCSpeedy dc_chageControlCircularWith:_toPayBtn AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor orangeColor]canMasksToBounds:YES];
+        [DCSpeedy dc_chageControlCircularWith:_stateLab AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor blackColor]canMasksToBounds:YES];
+        [_toPayBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        self.stateLab.textColor = [UIColor blackColor];
+    }else if([model.order_status isEqualToString:@"50"]){
+        self.stateLab.text = @"已完成";
+        [self.toPayBtn setTitle:@"已完成" forState:UIControlStateNormal];
+        _toPayBtn.backgroundColor = [UIColor lightGrayColor];
+        [_toPayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [DCSpeedy dc_chageControlCircularWith:_toPayBtn AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor lightGrayColor]canMasksToBounds:YES];
+        [DCSpeedy dc_chageControlCircularWith:_stateLab AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor blackColor]canMasksToBounds:YES];
+        self.stateLab.textColor = [UIColor blackColor];
+    }else if([model.order_status isEqualToString:@"0"]){
+        self.stateLab.text = @"已关闭";
+        [self.toPayBtn setTitle:@"已关闭" forState:UIControlStateNormal];
+        _toPayBtn.backgroundColor = [UIColor lightGrayColor];
+        [_toPayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [DCSpeedy dc_chageControlCircularWith:_toPayBtn AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor lightGrayColor]canMasksToBounds:YES];
+        [DCSpeedy dc_chageControlCircularWith:_stateLab AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor blackColor]canMasksToBounds:YES];
+        self.stateLab.textColor = [UIColor blackColor];
+    }
+
+    self.totalLab.text = [NSString stringWithFormat:@"共%@件商品",model.count];
+    
     
 }
 
@@ -183,8 +238,7 @@
 -(UIImageView *)goodsIV{
     if (!_goodsIV) {
         _goodsIV = [[UIImageView alloc] init];
-        //        [_goodsIV setImage:[UIImage imageNamed:@"icon"]];
-        [_goodsIV setBackgroundColor:[UIColor greenColor]];
+//        [_goodsIV setBackgroundColor:[UIColor greenColor]];
         [_goodsIV setContentMode:UIViewContentModeScaleAspectFill];
         //        [_goodsIV setClipsToBounds:YES];
     }
@@ -268,7 +322,7 @@
 - (UILabel *)stateLab {
     if (!_stateLab) {
         _stateLab = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum14 TextColor:[UIColor redColor]];
-        [DCSpeedy dc_chageControlCircularWith:_stateLab AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor redColor]canMasksToBounds:YES];
+//        [DCSpeedy dc_chageControlCircularWith:_stateLab AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor redColor]canMasksToBounds:YES];
         _stateLab.textAlignment = NSTextAlignmentCenter;
     }
     return _stateLab;
@@ -288,12 +342,22 @@
     if (!_detailBtn) {
         _detailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _detailBtn.titleLabel.font = [UIFont systemFontOfSize:kFontNum14];
-        _detailBtn.backgroundColor = k_UIColorFromRGB(0xffffff);
-        [_detailBtn setTitle:@"订单详情 >" forState:UIControlStateNormal];
+        _detailBtn.backgroundColor = [UIColor clearColor];
+        [_detailBtn setTitle:@"订单详情" forState:UIControlStateNormal];
         [_detailBtn setTitleColor:KColorText878686 forState:UIControlStateNormal];
         [_detailBtn addTarget:self action:@selector(detailButtonClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _detailBtn;
+}
+
+-(UIImageView *)rightIV{
+    if (!_rightIV) {
+        _rightIV = [[UIImageView alloc] init];
+        [_rightIV setImage:[UIImage imageNamed:@"ico_home_back_black"]];
+        [_rightIV setContentMode:UIViewContentModeScaleAspectFill];
+        //        [_goodsIV setClipsToBounds:YES];
+    }
+    return _rightIV;
 }
 
 #pragma mark - 去支付 点击

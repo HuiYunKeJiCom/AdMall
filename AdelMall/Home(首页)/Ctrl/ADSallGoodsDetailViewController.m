@@ -324,17 +324,14 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     else if (indexPath.section == 2) {//收货地址
         ADAddressCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADAddressCellID forIndexPath:indexPath];
 //        cell.backgroundColor = [UIColor redColor];
+        __weak typeof(cell) CELL = cell;
         cell.addAddressClickBlock = ^{
             YWAddressViewController *addressVC = [[YWAddressViewController alloc] init];
             // 保存后的地址回调
-//            addressVC.addressBlock = ^(YWAddressInfoModel *model) {
-//                NSLog(@"用户地址信息填写回调：");
-//                NSLog(@"姓名：%@", model.nameStr);
-//                NSLog(@"电话：%@", model.phoneStr);
-//                NSLog(@"地区：%@", model.areaAddress);
-//                NSLog(@"详细地址：%@", model.detailAddress);
-//                NSLog(@"是否设为默认：%@", model.isDefaultAddress ? @"是" : @"不是");
-//            };
+            addressVC.addressBlock = ^(YWAddressInfoModel *model) {
+                [CELL loadData];
+                [collectionView reloadData];
+            };
             [self.navigationController pushViewController:addressVC animated:YES];
         };
         cell.openViewClickBlock = ^{
@@ -473,30 +470,7 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    //    NSLog(@"有没有来这");
-    //    if(indexPath.section == 5){
-    //        NSLog(@"有没有来这里");
-    //        ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
-    //        [self.navigationController pushViewController:detailVC animated:YES];
-    //    }
-    //    if (indexPath.section == 0) {//10
-    //
-    //        DCGoodsSetViewController *goodSetVc = [[DCGoodsSetViewController alloc] init];
-    //        goodSetVc.goodPlisName = @"ClasiftyGoods.plist";
-    //        [self.navigationController pushViewController:goodSetVc animated:YES];
-    //        NSLog(@"点击了10个属性第%zd",indexPath.row);
-    //    }else if (indexPath.section == 5){
-    //        NSLog(@"点击了推荐的第%zd个商品",indexPath.row);
-    //
-    //        DCGoodDetailViewController *dcVc = [[DCGoodDetailViewController alloc] init];
-    //        dcVc.goodTitle = _youLikeItem[indexPath.row].main_title;
-    //        dcVc.goodPrice = _youLikeItem[indexPath.row].price;
-    //        dcVc.goodSubtitle = _youLikeItem[indexPath.row].goods_title;
-    //        dcVc.shufflingArray = _youLikeItem[indexPath.row].images;
-    //        dcVc.goodImageView = _youLikeItem[indexPath.row].image_url;
-    //
-    //        [self.navigationController pushViewController:dcVc animated:YES];
-    //    }
+
 }
 
 #pragma mark - <UIScrollViewDelegate>

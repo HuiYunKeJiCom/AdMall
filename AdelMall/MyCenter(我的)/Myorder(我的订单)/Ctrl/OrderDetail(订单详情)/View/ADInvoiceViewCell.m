@@ -7,6 +7,7 @@
 //  发票信息
 
 #import "ADInvoiceViewCell.h"
+#import "ADOrderBasicModel.h"
 
 @interface ADInvoiceViewCell()
 @property (nonatomic, strong) UIView  *bgView;
@@ -28,14 +29,15 @@
 @implementation ADInvoiceViewCell
 
 #pragma mark - Intial
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-    self = [super initWithFrame:frame];
     if (self) {
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setUpUI];
         [self setUpData];
     }
+    
     return self;
 }
 
@@ -47,21 +49,39 @@
     [self addSubview:self.typeLab];
     [self addSubview:self.invoiceContentLab];
     [self addSubview:self.contentLab];
+    
+    [self makeConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self makeConstraints];
+    
 }
 
 #pragma mark - 填充数据
 -(void)setUpData{
     self.titleLab.text = @"发票信息";
     self.invoiceTypeLab.text = @"发票类型：";
-    self.typeLab.text = @"普通发票（纸质）";
     self.invoiceContentLab.text = @"发票内容：";
-    self.contentLab.text = @"购买商品明细";
+}
+
+-(void)setOrderBasicModel:(ADOrderBasicModel *)orderBasicModel{
+    _orderBasicModel = orderBasicModel;
+    
+    if([orderBasicModel.invoice_type isEqualToString:@"1"]){
+        self.typeLab.text = @"电子发票";
+    }else if([orderBasicModel.invoice_type isEqualToString:@"2"]){
+        self.typeLab.text = @"增值税专用发票";
+    }else if([orderBasicModel.invoice_type isEqualToString:@"0"]){
+        self.typeLab.text = @"普通发票";
+    }
+    if([orderBasicModel.invoice_content isEqualToString:@"1"]){
+        self.contentLab.text = @"商品类别";
+    }else if([orderBasicModel.invoice_content isEqualToString:@"0"]){
+        self.contentLab.text = @"商品明细";
+    }
+    
 }
 
 #pragma mark - Constraints

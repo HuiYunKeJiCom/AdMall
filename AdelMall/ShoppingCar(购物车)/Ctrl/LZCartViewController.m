@@ -25,7 +25,7 @@
 }
 /* 顶部Nva */
 @property (strong , nonatomic)ADOrderTopToolView *topToolView;
-@property (strong,nonatomic)NSMutableArray *dataArray;
+@property (strong,nonatomic)NSMutableArray<LZShopModel *> *dataArray;
 @property (strong,nonatomic)NSMutableArray *selectedArray;
 @property (strong,nonatomic)UITableView *myTableView;
 @property (strong,nonatomic)UIButton *allSellectedButton;
@@ -59,56 +59,54 @@
     //初始化显示状态
     _allSellectedButton.selected = NO;
     _totlePriceLabel.attributedText = [self LZSetString:@"￥0.00"];
+    
+    [self loadData];
 }
 
 -(void)creatData {
-//    for (int i = 0; i < 10; i++) {
-//        LZCartModel *model = [[LZCartModel alloc]init];
-//        
-//        model.title = [NSString stringWithFormat:@"测试数据%d",i];
-//        model.price = @"100.00";
-//        model.number = 1;
-//        model.image = [UIImage imageNamed:@"aaa.jpg"];
-//        model.dateStr = @"2016.02.18";
-//        model.subTitle = @"18*20cm";
-//        
-//        [self.dataArray addObject:model];
-//    }
     
+    WEAKSELF
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [RequestTool getCartList:nil withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"获取购物车列表result = %@",result);
         if([result[@"code"] integerValue] == 1){
 //            code【-2=登录失效，-1=未登录，0=失败，1=成功，2=无返回数据】
-//            [self withNSDictionary:result];
+            [weakSelf withNSDictionary:result];
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
         }
     } withFailBlock:^(NSString *msg) {
-         NSLog(@"获取购物车列表msg = %@",msg);
+        NSLog(@"加入购物车msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
     }];
-    
-    
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"ShopCarNew" ofType:@"plist" inDirectory:nil];
-    
-    NSDictionary *dic = [[NSDictionary alloc]initWithContentsOfFile:path];
-    NSLog(@"%@",dic);
-    NSArray *array = [dic objectForKey:@"data"];
-    if (array.count > 0) {
-        for (NSDictionary *dic in array) {
-            LZShopModel *model = [[LZShopModel alloc]init];
-            model.shopID = [dic objectForKey:@"id"];
-            model.shopName = [dic objectForKey:@"shopName"];
-            model.sID = [dic objectForKey:@"sid"];
-            [model configGoodsArrayWithArray:[dic objectForKey:@"items"]];
-            
-            [self.dataArray addObject:model];
-        }
-    }
-    
-//    if (self.myTableView != nil) {
-//        [self.myTableView reloadData];
-//    } else {
-//        [self setupCartView];
-//    }
+
 }
+
+-(void)withNSDictionary:(NSDictionary *)dict
+{
+    _dataArray = [LZShopModel mj_objectArrayWithKeyValuesArray:dict[@"data"][@"result"]];
+    [self.myTableView reloadData];
+    [self changeView];
+    NSLog(@"获取购物车列表dataArray = %@",_dataArray);
+}
+
+
 - (void)loadData {
     [self creatData];
     [self changeView];
@@ -120,8 +118,8 @@
     _isHasTabBarController = self.tabBarController?YES:NO;
     _isHasNavitationController = self.navigationController?YES:NO;
     
-#warning 模仿请求数据,延迟2s加载数据,实际使用时请移除更换
-    [self performSelector:@selector(loadData) withObject:nil afterDelay:2];
+//#warning 模仿请求数据,延迟2s加载数据,实际使用时请移除更换
+//    [self performSelector:@selector(loadData) withObject:nil afterDelay:2];
     
     [self setUpNavTopView];
 //    [self setupCustomNavigationBar];
@@ -220,7 +218,7 @@
     //全选按钮
     UIButton *selectAll = [UIButton buttonWithType:UIButtonTypeCustom];
     selectAll.titleLabel.font = [UIFont systemFontOfSize:12];
-    selectAll.frame = CGRectMake(-5, 5, 80, LZTabBarHeight - 10);
+    selectAll.frame = CGRectMake(-10, 5, 80, LZTabBarHeight - 10);
     [selectAll setTitle:@" 全选" forState:UIControlStateNormal];
     [selectAll setImage:[UIImage imageNamed:lz_Bottom_UnSelectButtonString] forState:UIControlStateNormal];
     [selectAll setImage:[UIImage imageNamed:lz_Bottom_SelectButtonString] forState:UIControlStateSelected];
@@ -263,6 +261,7 @@
 #pragma mark -- 购物车为空时的默认视图
 - (void)changeView {
     if (self.dataArray.count > 0) {
+//        NSLog(@"不空还是空");
         UIView *view = [self.view viewWithTag:TAG_CartEmptyView];
         if (view != nil) {
             [view removeFromSuperview];
@@ -270,6 +269,7 @@
         
         [self setupCartView];
     } else {
+//        NSLog(@"空还是不空");
         UIView *bottomView = [self.view viewWithTag:TAG_CartEmptyView + 1];
         [bottomView removeFromSuperview];
         
@@ -359,7 +359,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     LZShopModel *model = [self.dataArray objectAtIndex:section];
-    return model.goodsArray.count;
+    return model.goodsCarts.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -374,7 +374,9 @@
     }
     
     LZShopModel *shopModel = self.dataArray[indexPath.section];
-    LZGoodsModel *model = [shopModel.goodsArray objectAtIndex:indexPath.row];
+    LZGoodsModel *model = [shopModel.goodsCarts objectAtIndex:indexPath.row];
+    
+    cell.model = model;
     
     __block typeof(cell)wsCell = cell;
     
@@ -382,7 +384,7 @@
         wsCell.lzNumber = number;
         model.count = number;
         
-        [shopModel.goodsArray replaceObjectAtIndex:indexPath.row withObject:model];
+        [shopModel.goodsCarts replaceObjectAtIndex:indexPath.row withObject:model];
         if ([self.selectedArray containsObject:model]) {
             [self.selectedArray removeObject:model];
             [self.selectedArray addObject:model];
@@ -395,7 +397,7 @@
         wsCell.lzNumber = number;
         model.count = number;
         
-        [shopModel.goodsArray replaceObjectAtIndex:indexPath.row withObject:model];
+        [shopModel.goodsCarts replaceObjectAtIndex:indexPath.row withObject:model];
         
         //判断已选择数组里有无该对象,有就删除  重新添加
         if ([self.selectedArray containsObject:model]) {
@@ -432,13 +434,13 @@
     LZTableHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"LZHeaderView"];
     LZShopModel *model = [self.dataArray objectAtIndex:section];
 //    NSLog(@">>>>>>%d", model.select);
-    view.title = model.shopName;
+    view.title = model.store_name;
     view.select = model.select;
     view.lzClickBlock = ^(BOOL select) {
         model.select = select;
         if (select) {
 
-            for (LZGoodsModel *good in model.goodsArray) {
+            for (LZGoodsModel *good in model.goodsCarts) {
                 good.select = YES;
                 if (![self.selectedArray containsObject:good]) {
                     
@@ -447,7 +449,7 @@
             }
             
         } else {
-            for (LZGoodsModel *good in model.goodsArray) {
+            for (LZGoodsModel *good in model.goodsCarts) {
                 good.select = NO;
                 if ([self.selectedArray containsObject:good]) {
                     
@@ -481,41 +483,66 @@
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
             LZShopModel *shop = [self.dataArray objectAtIndex:indexPath.section];
-            LZGoodsModel *model = [shop.goodsArray objectAtIndex:indexPath.row];
-            
-            [shop.goodsArray removeObjectAtIndex:indexPath.row];
-            //    删除
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            
-            if (shop.goodsArray.count == 0) {
-                [self.dataArray removeObjectAtIndex:indexPath.section];
-            }
-            
-            //判断删除的商品是否已选择
-            if ([self.selectedArray containsObject:model]) {
-                //从已选中删除,重新计算价格
-                [self.selectedArray removeObject:model];
-                [self countPrice];
-            }
-            
-            NSInteger count = 0;
-            for (LZShopModel *shop in self.dataArray) {
-                count += shop.goodsArray.count;
-            }
-            
-            if (self.selectedArray.count == count) {
-                _allSellectedButton.selected = YES;
-            } else {
-                _allSellectedButton.selected = NO;
-            }
-            
-            if (count == 0) {
-                [self changeView];
-            }
-            
-            //如果删除的时候数据紊乱,可延迟0.5s刷新一下
-            [self performSelector:@selector(reloadTable) withObject:nil afterDelay:0.5];
-            
+            LZGoodsModel *model = [shop.goodsCarts objectAtIndex:indexPath.row];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [RequestTool removeCart:@{@"goodsCartId":model.goodscart_id} withSuccessBlock:^(NSDictionary *result) {
+                NSLog(@"商品移除result = %@",result);
+                if([result[@"code"] integerValue] == 1){
+                    hud.detailsLabelText = @"商品移除成功";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                    
+                    [shop.goodsCarts removeObjectAtIndex:indexPath.row];
+                    //    删除
+                    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    if (shop.goodsCarts.count == 0) {
+                        [self.dataArray removeObjectAtIndex:indexPath.section];
+                    }
+                    //判断删除的商品是否已选择
+                    if ([self.selectedArray containsObject:model]) {
+                        //从已选中删除,重新计算价格
+                        [self.selectedArray removeObject:model];
+                        [self countPrice];
+                    }
+                    NSInteger count = 0;
+                    for (LZShopModel *shop in self.dataArray) {
+                        count += shop.goodsCarts.count;
+                    }
+                    if (self.selectedArray.count == count) {
+                        _allSellectedButton.selected = YES;
+                    } else {
+                        _allSellectedButton.selected = NO;
+                    }
+                    if (count == 0) {
+                        [self changeView];
+                    }
+                    //如果删除的时候数据紊乱,可延迟0.5s刷新一下
+                    [self performSelector:@selector(reloadTable) withObject:nil afterDelay:0.5];
+ 
+                }else if([result[@"code"] integerValue] == -2){
+                    hud.detailsLabelText = @"登录失效";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == -1){
+                    hud.detailsLabelText = @"未登录";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 0){
+                    hud.detailsLabelText = @"失败";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 2){
+                    hud.detailsLabelText = @"无返回数据";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }
+            } withFailBlock:^(NSString *msg) {
+                NSLog(@"商品移除msg = %@",msg);
+                hud.detailsLabelText = msg;
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }];
+
         }];
         
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
@@ -553,7 +580,7 @@
         
         for (LZShopModel *shop in self.dataArray) {
             shop.select = YES;
-            for (LZGoodsModel *model in shop.goodsArray) {
+            for (LZGoodsModel *model in shop.goodsCarts) {
                 model.select = YES;
                 [self.selectedArray addObject:model];
             }
@@ -570,17 +597,24 @@
 }
 #pragma mark --- 确认选择,提交订单按钮点击事件
 - (void)goToPayButtonClick:(UIButton*)button {
-    //跳转到 下单页面
-    ADPlaceOrderViewController *placeOrderVC = [[ADPlaceOrderViewController alloc] init];
-    [self.navigationController pushViewController:placeOrderVC animated:YES];
-//    if (self.selectedArray.count > 0) {
-//        for (LZGoodsModel *model in self.selectedArray) {
-//            NSLog(@"选择的商品>>%@>>>%ld",model,(long)model.count);
-//        }
-//    } else {
-//        NSLog(@"你还没有选择任何商品");
-//    }
     
+    if(self.selectedArray.count > 0){
+        NSMutableString *goodsCartIdStr = [[NSMutableString alloc] init];
+        for (LZGoodsModel *model in self.selectedArray) {
+            [goodsCartIdStr appendString:[NSString stringWithFormat:@",%@",model.goodscart_id]];
+        }
+        NSString *CartIdStr = goodsCartIdStr;
+        NSLog(@"CartIdStr = %@",CartIdStr);
+        //跳转到 下单页面
+        ADPlaceOrderViewController *placeOrderVC = [[ADPlaceOrderViewController alloc] init];
+        [placeOrderVC loadDataWithNSString:CartIdStr];
+        [self.navigationController pushViewController:placeOrderVC animated:YES];
+    }else{
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.detailsLabelText = @"您还没有选择任何商品";
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }
 }
 
 - (void)verityGroupSelectState:(NSInteger)section {
@@ -589,7 +623,7 @@
     LZShopModel *tempShop = self.dataArray[section];
     // 是否全选标示符
     BOOL isShopAllSelect = YES;
-    for (LZGoodsModel *model in tempShop.goodsArray) {
+    for (LZGoodsModel *model in tempShop.goodsCarts) {
         // 当有一个为NO的是时候,将标示符置为NO,并跳出循环
         if (model.select == NO) {
             isShopAllSelect = NO;
@@ -606,7 +640,7 @@
     
     NSInteger count = 0;
     for (LZShopModel *shop in self.dataArray) {
-        count += shop.goodsArray.count;
+        count += shop.goodsCarts.count;
     }
     
     if (self.selectedArray.count == count) {

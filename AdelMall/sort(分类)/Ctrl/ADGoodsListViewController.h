@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class DCClassGoodsItem;
 @interface ADGoodsListViewController : UIViewController
 @property (nonatomic,assign) NSInteger index;
 /** 列表 标题 由分类页面或首页传过来*/
 @property(nonatomic,copy)NSString *titleString;
+/*  选中分类 */
+@property (strong , nonatomic)DCClassGoodsItem *subItem;
 @end

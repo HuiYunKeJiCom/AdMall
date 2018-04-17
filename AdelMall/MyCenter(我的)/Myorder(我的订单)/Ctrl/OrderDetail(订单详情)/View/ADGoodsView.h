@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class ADOrderModel;
 @interface ADGoodsView : UIView
-
+/** 商品模型 */
+@property(nonatomic,strong)ADOrderModel *goodsOrderModel;
 @end

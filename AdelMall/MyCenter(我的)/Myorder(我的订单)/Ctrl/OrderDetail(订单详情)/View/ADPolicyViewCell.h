@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ADPolicyViewCell : UICollectionViewCell
+@interface ADPolicyViewCell : BaseTableCell
 /* 查看 点击回调 */
 @property (nonatomic, copy) dispatch_block_t checkBtnClickBlock;
 @end

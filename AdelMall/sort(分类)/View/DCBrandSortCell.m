@@ -7,15 +7,6 @@
 //
 
 #import "DCBrandSortCell.h"
-
-// Controllers
-
-// Models
-#import "DCClassMianItem.h"
-#import "DCCalssSubItem.h"
-// Views
-
-// Vendors
 #import <UIImageView+WebCache.h>
 // Categories
 
@@ -61,10 +52,10 @@
 }
 
 #pragma mark - Setter Getter Methods
-- (void)setSubItem:(DCCalssSubItem *)subItem
+- (void)setSubItem:(DCClassGoodsItem *)subItem
 {
     _subItem = subItem;
-    [_brandImageView sd_setImageWithURL:[NSURL URLWithString:subItem.image_url]];
+//    [_brandImageView sd_setImageWithURL:[NSURL URLWithString:subItem.image_url]];
 }
 
 @end

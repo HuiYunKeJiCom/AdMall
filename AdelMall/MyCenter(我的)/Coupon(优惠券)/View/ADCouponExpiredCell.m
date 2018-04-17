@@ -7,6 +7,7 @@
 //  优惠券-已失效cell
 
 #import "ADCouponExpiredCell.h"
+#import "ADCouponModel.h"
 
 @interface ADCouponExpiredCell()
 @property (nonatomic, strong) UIView           *bgView;
@@ -76,7 +77,11 @@
     self.symbolLab.text = @"¥";
     
     self.seriesTitLab1.text = @"可用于";
-    self.couponSeriesLab.text = model.class_name;
+    if(model.class_name){
+        self.couponSeriesLab.text = model.class_name;
+    }else{
+        self.couponSeriesLab.text = @"所有";
+    }
     self.seriesTitLab2.text = @"系列产品";
     self.couponInstructionsLab.text = [NSString stringWithFormat:@"(满%@元可使用)",model.coupon_order_amount];
     self.useTimeTitLab.text = @"失效日期：";

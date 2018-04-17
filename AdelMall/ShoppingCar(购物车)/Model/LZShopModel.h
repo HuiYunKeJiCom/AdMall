@@ -8,13 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+@class LZGoodsModel;
 @interface LZShopModel : NSObject
 
 @property (assign,nonatomic)BOOL select;
-@property (copy,nonatomic)NSString *shopID;
-@property (copy,nonatomic)NSString *shopName;
-@property (copy,nonatomic)NSString *sID;
-@property (strong,nonatomic,readonly)NSMutableArray *goodsArray;
+/** 店铺项Id */
+@property (copy,nonatomic)NSString *idx;
+/** 店铺id */
+@property (copy,nonatomic)NSString *store_id;
+/** 店铺名称 */
+@property (copy,nonatomic)NSString *store_name;
+/** 店铺所属人 */
+@property (copy,nonatomic)NSString *store_ower;
+/** 店铺id */
+@property (strong,nonatomic,readonly)NSMutableArray<LZGoodsModel *> *goodsCarts;
 
-- (void)configGoodsArrayWithArray:(NSArray*)array;
+//- (void)configGoodsArrayWithArray:(NSArray*)array;
 @end

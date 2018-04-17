@@ -15,6 +15,8 @@
 ///** plist  */
 //@property (nonatomic, copy ,readonly) NSString *fileName;
 
+/** 分类id (用来获取列表数据) */
+@property (nonatomic, copy) NSString      *idx;
 /** 分类创建时间  */
 @property (nonatomic, copy) NSString *addTime;
 /** 分类名称  */

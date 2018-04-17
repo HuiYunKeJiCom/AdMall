@@ -76,8 +76,6 @@ static NSString *const ADCountDownSubclassCellID = @"ADCountDownSubclassCell";
     if (self) {
         
         [self setUpUI];
-//        [self loadData];
-        [self performSelector:@selector(loadData) withObject:nil afterDelay:2];
         
         //限时秒杀时间结束
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getTime:) name:@"countDownTimeOver" object:nil];
@@ -88,7 +86,6 @@ static NSString *const ADCountDownSubclassCellID = @"ADCountDownSubclassCell";
 -(void)getTime:(NSNotification *)text{
     [self.countDownItem removeAllObjects];
     [self.collectionView reloadData];
-    [self loadData];
 }
 
 - (void)setUpUI
@@ -104,27 +101,8 @@ static NSString *const ADCountDownSubclassCellID = @"ADCountDownSubclassCell";
     
 }
 
--(void)loadData{
-    [RequestTool getGoodsForFlashSale:nil withSuccessBlock:^(NSDictionary *result) {
-        NSLog(@"抢购result = %@",result);
-        if([result[@"code"] integerValue] == 1){
-            [self withNSDictionary:result];
-        }
-    } withFailBlock:^(NSString *msg) {
-        NSLog(@"msg = %@",msg);
-    }];
-}
-
--(void)withNSDictionary:(NSDictionary *)dict
-{
-//    NSArray *data = dict[@"data"];
-//    self.model = [ADCountDownActivityModel mj_objectWithKeyValues:data];
-    NSArray *dataInfo = dict[@"data"][@"group_goodsList"][@"resultList"];
-//    NSLog(@"抢购dataInfo = %@",dataInfo);
-    _countDownItem = [ADCountDownGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
-//    for (ADCountDownGoodsModel *model in _countDownItem) {
-////        NSLog(@"model = %@",model.mj_keyValues);
-//    }
+-(void)loadDataWithArray:(NSMutableArray<ADCountDownGoodsModel *> *)countDownItem{
+    _countDownItem = countDownItem;
     [self.collectionView reloadData];
 }
 
@@ -153,7 +131,7 @@ static NSString *const ADCountDownSubclassCellID = @"ADCountDownSubclassCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     NSLog(@"点击了计时商品%zd",indexPath.row);
-    [self lookDetailForGoods];
+//    [self lookDetailForGoods];
     
 //    [[NSNotificationCenter defaultCenter]   removeObserver:self];
     ADCountDownGoodsModel *model = _countDownItem[indexPath.row];
@@ -167,11 +145,11 @@ static NSString *const ADCountDownSubclassCellID = @"ADCountDownSubclassCell";
     
 }
 
-#pragma mark - 点击事件
-- (void)lookDetailForGoods
-{
-    !_lookDetailBlock ? : _lookDetailBlock();
-}
+//#pragma mark - 点击事件
+//- (void)lookDetailForGoods
+//{
+//    !_lookDetailBlock ? : _lookDetailBlock();
+//}
 
 -(void)dealloc
 {

@@ -17,6 +17,7 @@
 #import "YWAddressTableViewCell1.h"
 #import "YWAddressTableViewCell2.h"
 #import "YWAddressTableViewCell3.h"
+#import "ADAddressLabelTableViewCell.h"
 
 #define CELL_IDENTIFIER1     @"YWAddressTableViewCell1"
 #define CELL_IDENTIFIER2     @"YWAddressTableViewCell2"
@@ -112,14 +113,29 @@
     
     YWAddressTableViewCell1 *nameCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     YWAddressTableViewCell1 *phoneCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    YWAddressTableViewCell3 *defaultCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+    YWAddressTableViewCell3 *defaultCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    ADAddressLabelTableViewCell *labelCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
     
     _model.trueName = nameCell.textField.text;
     _model.mobile = phoneCell.textField.text;
     _model.detailAddress = _detailTextViw.text;
-    _model.areaId = _chooseAddressView.areaId;
     _model.isDefault = [NSString stringWithFormat:@"%d",defaultCell.rightSwitch.isOn];
-
+    _model.label = labelCell.labelStr;
+    
+    if(_chooseAddressView.areaId){
+        _model.areaId = _chooseAddressView.areaId;
+    }
+    NSRange range = [_model.areaId rangeOfString:@","];
+    if (range.location!=NSNotFound) {
+//        NSLog(@"Yes");
+        NSArray *tempArr = [_model.areaId componentsSeparatedByString:@","];
+        NSString *tempStr = [tempArr lastObject];
+        _model.areaId = tempStr;
+    }else {
+//        NSLog(@"NO");
+    }
+//    NSLog(@"看看这是啥areaId = %@",_model.areaId);
+    
     if (_model.trueName.length == 0) {
         [YWTool showAlterWithViewController:self Message:@"请填写收货人姓名！"];
         return;
@@ -139,8 +155,17 @@
         NSLog(@"提交地址");
         if([_model.addressId isEqualToString:@"请选择"]){
             NSLog(@"新增收货地址");
+            
+            NSDictionary *addressDict = [NSDictionary dictionary];
+            if(self.model.label){
+                addressDict = @{@"trueName":_model.trueName,@"isDefault":_model.isDefault,@"label":_model.label,@"areaId":_model.areaId,@"detailAddress":_model.detailAddress,@"mobile":_model.mobile};
+            }else{
+                addressDict = @{@"trueName":_model.trueName,@"isDefault":_model.isDefault,@"areaId":_model.areaId,@"detailAddress":_model.detailAddress,@"mobile":_model.mobile};
+            }
+            
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [RequestTool saveAddress:@{@"trueName":_model.trueName,@"areaId":_model.areaId,@"detailAddress":_model.detailAddress,@"mobile":_model.mobile,@"isDefault":_model.isDefault} withSuccessBlock:^(NSDictionary *result) {
+//            ,@"label":_model.label
+            [RequestTool saveAddress:addressDict withSuccessBlock:^(NSDictionary *result) {
                 NSLog(@"新增收货地址result = %@",result);
                 if([result[@"code"] integerValue] == 1){
                     NSLog(@"新增收货地址成功");
@@ -164,8 +189,17 @@
             }];
         }else{
             NSLog(@"编辑收货地址");
+            
+//            _model.areaId = _chooseAddressView.areaId;
+            NSDictionary *addressDict = [NSDictionary dictionary];
+            if(self.model.label){
+                addressDict = @{@"trueName":_model.trueName,@"isDefault":_model.isDefault,@"addressId":_model.addressId,@"label":_model.label,@"areaId":_model.areaId,@"detailAddress":_model.detailAddress,@"mobile":_model.mobile};
+            }else{
+                addressDict = @{@"trueName":_model.trueName,@"isDefault":_model.isDefault,@"addressId":_model.addressId,@"areaId":_model.areaId,@"detailAddress":_model.detailAddress,@"mobile":_model.mobile};
+            }
+            
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [RequestTool saveAddress:@{@"trueName":_model.trueName,@"areaId":_model.areaId,@"detailAddress":_model.detailAddress,@"mobile":_model.mobile,@"isDefault":_model.isDefault,@"addressId":_model.addressId} withSuccessBlock:^(NSDictionary *result) {
+            [RequestTool saveAddress:addressDict withSuccessBlock:^(NSDictionary *result) {
                 NSLog(@"编辑收货地址result = %@",result);
                 if([result[@"code"] integerValue] == 1){
                     NSLog(@"编辑收货地址成功");
@@ -290,9 +324,9 @@
     
     if ([_model.isDefault integerValue] ==1) {
         // 如果该地址已经是默认地址，则无需再显示 "设为默认" 这个按钮，即隐藏
-        return 1;
+        return 2;
     }
-    return 2;
+    return 3;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
@@ -326,22 +360,36 @@
                 };
             }
             return cell;
-        } else {
+        }else{
             YWAddressTableViewCell2 *cell = [tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER2 forIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.leftStr = _dataSource[indexPath.section][indexPath.row];
-            cell.rightStr = _model.areaId;
+
+            NSString *strUrl;
+            NSRange range = [_model.areaName rangeOfString:@","];
+            if (range.location!=NSNotFound) {
+                strUrl = [_model.areaName stringByReplacingOccurrencesOfString:@"," withString:@""];
+            }else{
+                strUrl = _model.areaName;
+            }
+            cell.rightStr = strUrl;
             if (![_model.areaId isEqualToString:@""] && ![_model.areaId isEqualToString:@"请选择"]) {
+                
                 cell.rightLabel.textColor = [UIColor blackColor];
             } else {
                 cell.rightLabel.textColor = [UIColor lightGrayColor];
             }
             return cell;
         }
-    } else {
+    } else if (indexPath.section == 1){
+        ADAddressLabelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADAddressLabelTableViewCell" forIndexPath:indexPath];
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
+        cell.leftStr = @"地址标签";
+        return cell;
+    }else {
         YWAddressTableViewCell3 *cell = [tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER3 forIndexPath:indexPath];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        cell.leftStr = _dataSource[indexPath.section][indexPath.row];
+        cell.leftStr = _dataSource[1][indexPath.row];
         return cell;
     }
 }
@@ -393,6 +441,9 @@
         [_tableView registerNib:[UINib nibWithNibName:CELL_IDENTIFIER1 bundle:nil] forCellReuseIdentifier:CELL_IDENTIFIER1];
         [_tableView registerNib:[UINib nibWithNibName:CELL_IDENTIFIER2 bundle:nil] forCellReuseIdentifier:CELL_IDENTIFIER2];
         [_tableView registerNib:[UINib nibWithNibName:CELL_IDENTIFIER3 bundle:nil] forCellReuseIdentifier:CELL_IDENTIFIER3];
+        
+        [_tableView registerClass:[ADAddressLabelTableViewCell class] forCellReuseIdentifier:@"ADAddressLabelTableViewCell"];
+
     }
     return _tableView;
 }
@@ -437,7 +488,8 @@
         _chooseAddressView.chooseFinish = ^{
             weakSelf.coverView.backgroundColor = [UIColor clearColor];
             NSLog(@"选择的地区为：%@", weakSelf.chooseAddressView.address);
-            weakSelf.model.areaId = weakSelf.chooseAddressView.address;
+            weakSelf.model.areaName = weakSelf.chooseAddressView.address;
+//            weakSelf.model.areaId = weakSelf.chooseAddressView.address;
             if (weakSelf.model.areaId.length == 0) {
                 weakSelf.model.areaId = @"请选择";
             }

@@ -11,7 +11,6 @@
 // Controllers
 
 // Models
-#import "DCClassMianItem.h"
 #import "DCClassGoodsItem.h"
 // Views
 #import <UIImageView+WebCache.h>

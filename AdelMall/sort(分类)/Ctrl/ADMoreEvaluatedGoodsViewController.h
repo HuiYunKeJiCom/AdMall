@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class DCClassGoodsItem;
 @interface ADMoreEvaluatedGoodsViewController : UIViewController
-
+/*  选中分类 */
+@property (strong , nonatomic)DCClassGoodsItem *subItem;
+-(void)loadDataWith:(DCClassGoodsItem *)goodsItem;
 @end

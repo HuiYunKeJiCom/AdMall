@@ -7,6 +7,7 @@
 //  发货信息
 
 #import "ADDeliveryViewCell.h"
+#import "ADOrderBasicModel.h"
 
 @interface ADDeliveryViewCell()
 @property (nonatomic, strong) UIView  *bgView;
@@ -31,14 +32,15 @@
 @implementation ADDeliveryViewCell
 
 #pragma mark - Intial
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-    self = [super initWithFrame:frame];
     if (self) {
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setUpUI];
         [self setUpData];
     }
+    
     return self;
 }
 
@@ -52,12 +54,13 @@
     [self addSubview:self.typeLab];
     [self addSubview:self.expressNumLab];
     [self addSubview:self.NumLab];
+    [self makeConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self makeConstraints];
+    
 }
 
 #pragma mark - 填充数据
@@ -66,9 +69,14 @@
     [self.checkBtn setTitle:@"查看物流 >" forState:UIControlStateNormal];
     self.tipLab.text = @"*订单需要发货";
     self.expressTypeLab.text = @"快递公司：";
-    self.typeLab.text = @"韵达快递";
     self.expressNumLab.text = @"快递单号：";
-    self.NumLab.text = @"20180209122334";
+}
+
+-(void)setOrderBasicModel:(ADOrderBasicModel *)orderBasicModel{
+    _orderBasicModel = orderBasicModel;
+    
+    self.typeLab.text = orderBasicModel.ship_company;
+    self.NumLab.text = orderBasicModel.ship_code;
 }
 
 #pragma mark - Constraints

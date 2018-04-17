@@ -101,7 +101,7 @@
         //        _detailBtn.backgroundColor = k_UIColorFromRGB(0xffffff);
         [_quickButton setTitleColor:KColorText878686 forState:UIControlStateNormal];
         [_quickButton addTarget:self action:@selector(quickButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        [_quickButton setImage:[UIImage imageNamed:@"shouye_icon_jiantou"] forState:UIControlStateNormal];
+        [_quickButton setImage:[UIImage imageNamed:@"ico_home_back_black"] forState:UIControlStateNormal];
     }
     return _quickButton;
 }

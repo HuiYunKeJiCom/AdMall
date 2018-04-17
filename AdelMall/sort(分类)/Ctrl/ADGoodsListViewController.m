@@ -11,7 +11,7 @@
 #import "orderHeader.h"
 #import "ADPriceGoodsViewController.h"//价格
 #import "ADMoreEvaluatedGoodsViewController.h"//评论最多
-
+#import "DCClassGoodsItem.h"
 
 @interface ADGoodsListViewController ()<UIScrollViewDelegate>{
     UIScrollView *_scrollView;
@@ -103,6 +103,8 @@
     ADPriceGoodsViewController * priceGoodsvc = [[ADPriceGoodsViewController alloc]init];
     //    allvc.view.backgroundColor = [UIColor redColor];
     priceGoodsvc.view.frame = CGRectMake(0, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height);
+    priceGoodsvc.subItem = self.subItem;
+    [priceGoodsvc loadDataWith:self.subItem];
     [_scrollView addSubview:priceGoodsvc.view];
     [self addChildViewController:priceGoodsvc];
 
@@ -110,6 +112,8 @@
     ADMoreEvaluatedGoodsViewController * moreEvaluatedGoodsvc = [[ADMoreEvaluatedGoodsViewController alloc]init];
     moreEvaluatedGoodsvc.view.frame = CGRectMake(_scrollView.bounds.size.width, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height);
     //    payvc.view.backgroundColor = [UIColor greenColor];
+    moreEvaluatedGoodsvc.subItem = self.subItem;
+    [moreEvaluatedGoodsvc loadDataWith:self.subItem];
     [_scrollView addSubview:moreEvaluatedGoodsvc.view];
     [self addChildViewController:moreEvaluatedGoodsvc];
 }

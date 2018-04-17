@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class ADStarGoodsModel;
 @interface ADStarGoodsCell : UICollectionViewCell
 /** 商品详情点击回调 */
-@property (nonatomic, copy) dispatch_block_t lookDetailBlock;
+//@property (nonatomic, copy) dispatch_block_t lookDetailBlock;
+-(void)loadDataWithArray:(NSMutableArray<ADStarGoodsModel *> *)tempItem;
 @end

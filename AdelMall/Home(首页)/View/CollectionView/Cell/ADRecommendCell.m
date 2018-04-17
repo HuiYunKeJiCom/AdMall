@@ -21,7 +21,7 @@
 /* 图片数组 */
 @property (copy , nonatomic)NSArray *imagesArray;
 /* 广告数据数组 */
-@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *goodExceedItem;
+@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *recommendItem;
 @end
 
 static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
@@ -65,40 +65,13 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 {
     self.backgroundColor = [UIColor whiteColor];
     self.collectionView.backgroundColor = self.backgroundColor;
-    [self loadData];
 }
 
--(void)loadData{
-    //    @"65680"
-    [RequestTool getRecommendData:nil withSuccessBlock:^(NSDictionary *result) {
-        NSLog(@"为您推荐result = %@",result);
-        
-        if([result[@"code"] integerValue] == 1){
-            [self withNSDictionary:result];
-        }else{
-            NSMutableArray *tempAdvertArr = [NSMutableArray array];
-            self.goodExceedArray = tempAdvertArr;
-        }
-        
-    } withFailBlock:^(NSString *msg) {
-        NSLog(@"智能硬件msg = %@",msg);
-        NSMutableArray *tempAdvertArr = [NSMutableArray array];
-        self.goodExceedArray = tempAdvertArr;
-    }];
-}
-
--(void)withNSDictionary:(NSDictionary *)dict
-{
-    NSArray *dataInfo = dict[@"data"][@"goodsList"];
-    NSMutableArray *tempAdvertArr = [NSMutableArray array];
-    _goodExceedItem = [ADStarGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
-    for (ADStarGoodsModel *model in _goodExceedItem) {
-        NSLog(@"model = %@",model.mj_keyValues);
-        [tempAdvertArr addObject:model.goods_image_path];
-    }
-    self.goodExceedArray = tempAdvertArr;
+-(void)loadDataWithArray:(NSArray *)recommendArray and:(NSMutableArray<ADStarGoodsModel *> *)recommendItem{
+    _recommendArray = recommendArray;
+    _imagesArray = recommendArray;
+    _recommendItem = recommendItem;
     [self.collectionView reloadData];
-    //    NSLog(@"self.imageGroupArray = %@",self.imageGroupArray);
 }
 
 - (void)layoutSubviews
@@ -125,7 +98,7 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 {
     ADStarGoodsSubclassCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADStarGoodsSubclassCellID forIndexPath:indexPath];
     NSInteger temp = indexPath.row+indexPath.section*3;
-    cell.model = _goodExceedItem[temp];
+    cell.model = _recommendItem[temp];
 //    DCGoodsHandheldCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCGoodsHandheldCellID forIndexPath:indexPath];
 //    cell.handheldImage = _imagesArray[indexPath.row + 1];
     return cell;
@@ -144,13 +117,6 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self lookDetailForGoods];
-}
-
-#pragma mark - Setter Getter Methods
-- (void)setGoodExceedArray:(NSArray *)goodExceedArray
-{
-    _goodExceedArray = goodExceedArray;
-    _imagesArray = goodExceedArray;
 }
 
 #pragma mark - 点击事件

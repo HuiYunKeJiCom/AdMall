@@ -231,7 +231,7 @@
  */
 - (void)actionLogin:(UIButton *)button {
     //测试
-    self.nameTextField.textField.text = @"test";
+    self.nameTextField.textField.text = @"test3";
     self.passTextField.textField.text = @"123456";
 //    测试账号1【账号：myshop 密码：123456】
 //    测试账号2【账号：test 密码：123456】

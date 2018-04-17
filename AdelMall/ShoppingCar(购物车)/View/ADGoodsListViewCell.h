@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class LZShopModel;
 @interface ADGoodsListViewCell : UICollectionViewCell
-
+-(void)loadDataWithArray:(NSMutableArray<LZShopModel *> *)dataArray;
 @end
