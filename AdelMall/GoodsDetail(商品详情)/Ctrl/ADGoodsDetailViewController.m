@@ -129,7 +129,6 @@
         
         NSDictionary *dataDic = result[@"data"];
         ADGoodsDetailModel *dataModel = [ADGoodsDetailModel mj_objectWithKeyValues:dataDic[@"goods"]];
-//        ADGoodsDetailModel_YY *goodsInfo = [ADGoodsDetailModel_YY yy_modelWithJSON:dataDic[@"goods"]];
 //
         [_parameterViewModel layoutWithProperty:dataModel.goods_property];
         
