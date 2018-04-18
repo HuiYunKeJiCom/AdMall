@@ -228,7 +228,6 @@
 		18DDF53F2085C584009D5D34 /* ADRelatedGoodsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF53B2085C583009D5D34 /* ADRelatedGoodsViewModel.m */; };
 		18DDF5402085C584009D5D34 /* ADUserEvaluationViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF53D2085C583009D5D34 /* ADUserEvaluationViewModel.m */; };
 		18DDF5432085DCAF009D5D34 /* ADGoodsParameterViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF5422085DCAF009D5D34 /* ADGoodsParameterViewModel.m */; };
-		18DDF5472085F228009D5D34 /* ADGoodsParameterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF5462085F228009D5D34 /* ADGoodsParameterModel.m */; };
 		18DE2383207E1F3500010A1E /* ADCartGoodsListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DE2382207E1F3500010A1E /* ADCartGoodsListTableViewCell.m */; };
 		18DE2386207E2EB400010A1E /* ADCartTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DE2385207E2EB400010A1E /* ADCartTableHeaderView.m */; };
 		18E013DD20510DCA004A969C /* ADEvaluateDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E013DC20510DCA004A969C /* ADEvaluateDetailCell.m */; };
@@ -694,8 +693,6 @@
 		18DDF53D2085C583009D5D34 /* ADUserEvaluationViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADUserEvaluationViewModel.m; sourceTree = "<group>"; };
 		18DDF5412085DCAF009D5D34 /* ADGoodsParameterViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADGoodsParameterViewModel.h; sourceTree = "<group>"; };
 		18DDF5422085DCAF009D5D34 /* ADGoodsParameterViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADGoodsParameterViewModel.m; sourceTree = "<group>"; };
-		18DDF5452085F228009D5D34 /* ADGoodsParameterModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADGoodsParameterModel.h; sourceTree = "<group>"; };
-		18DDF5462085F228009D5D34 /* ADGoodsParameterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADGoodsParameterModel.m; sourceTree = "<group>"; };
 		18DE2381207E1F3500010A1E /* ADCartGoodsListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADCartGoodsListTableViewCell.h; sourceTree = "<group>"; };
 		18DE2382207E1F3500010A1E /* ADCartGoodsListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADCartGoodsListTableViewCell.m; sourceTree = "<group>"; };
 		18DE2384207E2EB400010A1E /* ADCartTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADCartTableHeaderView.h; sourceTree = "<group>"; };
@@ -1830,7 +1827,6 @@
 				18DDF5392085C583009D5D34 /* ADDetailViewModel.m */,
 				18DDF5412085DCAF009D5D34 /* ADGoodsParameterViewModel.h */,
 				18DDF5422085DCAF009D5D34 /* ADGoodsParameterViewModel.m */,
-				18DDF5442085F204009D5D34 /* ParameterModel */,
 				18DDF53A2085C583009D5D34 /* ADRelatedGoodsViewModel.h */,
 				18DDF53B2085C583009D5D34 /* ADRelatedGoodsViewModel.m */,
 				18DDF53C2085C583009D5D34 /* ADUserEvaluationViewModel.h */,
@@ -1838,15 +1834,6 @@
 			);
 			name = ViewModel;
 			path = "../../../AdMall-root/AdelMall/GoodsDetail(商品详情)/ViewModel";
-			sourceTree = "<group>";
-		};
-		18DDF5442085F204009D5D34 /* ParameterModel */ = {
-			isa = PBXGroup;
-			children = (
-				18DDF5452085F228009D5D34 /* ADGoodsParameterModel.h */,
-				18DDF5462085F228009D5D34 /* ADGoodsParameterModel.m */,
-			);
-			path = ParameterModel;
 			sourceTree = "<group>";
 		};
 		18E1AB4C2079F35900C5B922 /* AppToken */ = {
@@ -2202,7 +2189,6 @@
 				18DE2383207E1F3500010A1E /* ADCartGoodsListTableViewCell.m in Sources */,
 				185AEB9C202C35B50059A725 /* ADGoodsCell.m in Sources */,
 				1848376F205616D80070ABDA /* ADEvaluatedExposureViewController.m in Sources */,
-				18DDF5472085F228009D5D34 /* ADGoodsParameterModel.m in Sources */,
 				1878AC4220690BA90025DC72 /* ADStarGoodsCell.m in Sources */,
 				188FB6702068D6E000F99670 /* RequestTool.m in Sources */,
 				185EC67F2060F1AE00721522 /* ADAddressShowView.m in Sources */,

@@ -14,7 +14,6 @@
 #import "ADUserEvaluationViewModel.h"
 #import "ADRelatedGoodsViewModel.h"
 
-
 #import "ADGoodsDetailModel.h"
 
 @interface ADGoodsDetailViewController ()
