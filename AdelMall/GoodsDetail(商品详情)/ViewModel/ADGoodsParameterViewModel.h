@@ -10,4 +10,7 @@
 
 @interface ADGoodsParameterViewModel : NSObject
 
+@property (nonatomic,readonly)UIScrollView *parameterView;//懒加载使用，外部需要设定frame
+- (void)layoutWithProperty:(NSArray *)propertyie;
+
 @end

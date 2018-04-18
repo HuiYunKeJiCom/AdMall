@@ -8,6 +8,19 @@
 
 #import "ADGoodsParameterViewModel.h"
 
+@interface ADGoodsParameterViewModel()
+
+
+@end
+
 @implementation ADGoodsParameterViewModel
+@synthesize parameterView = _parameterView;
+
+- (UIScrollView *)parameterView{
+    if (!_parameterView) {
+        _parameterView = [[UIScrollView alloc]initWithFrame:CGRectZero];
+    }
+    return _parameterView;
+}
 
 @end
