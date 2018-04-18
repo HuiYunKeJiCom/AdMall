@@ -51,6 +51,9 @@
 @property(nonatomic,strong)UIButton *evaluateBtn;
 /** 上传图片view */
 @property(nonatomic,strong)ADAddImage *addImageView;
+
+/** 自定义标签的高度 */
+@property(nonatomic)float btnHeight;
 @end
 
 @implementation ADScoreViewCell
@@ -86,24 +89,31 @@
     [self.bgView addSubview:self.evaluatedContentTV];
     [self.bgView addSubview:self.addImageView];
     
-    [self createLabelAndButton];
+    [self makeConstraints];
+//    [self createLabelAndButton];
 //    [self createImageViewAndButton];
     
 }
 
 -(void)createLabelAndButtonWithNSArray:(NSArray *)array{
-    for(int i=0;i<6;i++){
+    for(int i=0;i<array.count+1;i++){
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.backgroundColor = kBACKGROUNDCOLOR;
+        if(i == array.count){
+            button.backgroundColor = [UIColor whiteColor];
+            [button addTarget:self action:@selector(customLabelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+            [button setTitle:@"+ 自定义标签" forState:UIControlStateNormal];
+        }else{
+            button.backgroundColor = kBACKGROUNDCOLOR;
+            [button addTarget:self action:@selector(bottomButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+            [button setTitle:@"商品包装好看" forState:UIControlStateNormal];
+        }
         button.tag = i;
-        [button addTarget:self action:@selector(bottomButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [button setTitle:@"商品包装好看" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:kFontNum14];
         CGFloat buttonW = kScreenWidth/3.5;
         CGFloat buttonH = 25;
         CGFloat buttonX = (20+(buttonW +10)* (i%3));
-        CGFloat buttonY = (220+30 * (i/3));
+        CGFloat buttonY = (210+30 * (i/3));
         button.frame = CGRectMake(buttonX, buttonY, buttonW, buttonH);
         button.layer.borderWidth=0.5;
         button.layer.borderColor=[UIColor grayColor].CGColor;
@@ -111,26 +121,10 @@
         button.layer.cornerRadius = 5;
         [button.layer setMasksToBounds:YES];
         [self.bgView addSubview:button];
+        
+        self.btnHeight = buttonY + buttonH;
     }
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.backgroundColor = [UIColor whiteColor];
-    button.tag = 6;
-    [button addTarget:self action:@selector(customLabelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"+ 自定义标签" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:kFontNum14];
-    CGFloat buttonW = kScreenWidth/3.5;
-    CGFloat buttonH = 25;
-    CGFloat buttonX = 20;
-    CGFloat buttonY = (220+30 * 2);
-    button.frame = CGRectMake(buttonX, buttonY, buttonW, buttonH);
-    button.layer.borderWidth=0.5;
-    button.layer.borderColor=[UIColor grayColor].CGColor;
-    // 设置圆角的大小
-    button.layer.cornerRadius = 5;
-    [button.layer setMasksToBounds:YES];
-    [self.bgView addSubview:button];
+    [self changeFrame];
 }
 
 //标签按钮点击事件
@@ -151,7 +145,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self makeConstraints];
+    
 }
 
 #pragma mark - 填充数据
@@ -166,9 +160,27 @@
     self.deliverySpeedFavorLab.text = @"喜欢";
 }
 
-- (void)makeConstraints {
+-(void)changeFrame{
+//    NSLog(@"btnHeight = %.2f",self.btnHeight);
     WEAKSELF
+    [self.evaluatedContentTV mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(weakSelf.bgView.mas_centerX);
+        make.top.equalTo(weakSelf.bgView.mas_top).with.offset(self.btnHeight+10);
+        make.size.mas_equalTo(CGSizeMake(kScreenWidth-40, 120));
+    }];
     
+    [self.addImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(weakSelf.bgView.mas_left).with.offset(15);
+        make.top.equalTo(weakSelf.evaluatedContentTV.mas_bottom).with.offset(10);
+        make.width.mas_equalTo(kScreenWidth-30);
+        make.height.mas_equalTo(kScreenWidth-60);
+        //        make.left.right.top.bottom.mas_equalTo(weak_self.view);
+    }];
+}
+
+- (void)makeConstraints {
+//    NSLog(@"btnHeight = %.2f",self.btnHeight);
+    WEAKSELF
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(weakSelf.mas_left);
         make.right.equalTo(weakSelf.mas_right);
@@ -256,7 +268,7 @@
     
     [self.evaluatedContentTV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(weakSelf.bgView.mas_centerX);
-        make.top.equalTo(weakSelf.bgView.mas_top).with.offset(315);
+        make.top.equalTo(weakSelf.bgView.mas_top).with.offset(self.btnHeight+10);
         make.size.mas_equalTo(CGSizeMake(kScreenWidth-40, 120));
     }];
     

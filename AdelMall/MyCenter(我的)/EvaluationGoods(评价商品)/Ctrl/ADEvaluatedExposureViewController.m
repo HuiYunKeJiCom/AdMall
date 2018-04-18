@@ -19,7 +19,8 @@
 @property (strong , nonatomic)ADOrderTopToolView *topToolView;
 /* 底部View */
 @property (strong , nonatomic)ADPaymentOrderBottonView *bottomView;
-
+/** <#注释#> */
+@property(nonatomic,strong)NSArray *labelArray;
 @end
 
 static NSString *const ADScoreViewCellID = @"ADScoreViewCell";
@@ -46,7 +47,7 @@ static NSString *const ADScoreViewCellID = @"ADScoreViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.labelArray = [NSArray array];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     
@@ -88,7 +89,8 @@ static NSString *const ADScoreViewCellID = @"ADScoreViewCell";
 }
 
 - (void)handleTransferNSArray:(NSArray *)dataInfo{
-    
+    self.labelArray = dataInfo;
+    [self.collectionView reloadData];
 }
 
 #pragma mark - initialize
@@ -168,7 +170,7 @@ static NSString *const ADScoreViewCellID = @"ADScoreViewCell";
     if (indexPath.section == 0) {
         ADScoreViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADScoreViewCellID forIndexPath:indexPath];
         //            cell.gridItem = _gridItem[indexPath.row];
-        
+        [cell createLabelAndButtonWithNSArray:self.labelArray];
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
         

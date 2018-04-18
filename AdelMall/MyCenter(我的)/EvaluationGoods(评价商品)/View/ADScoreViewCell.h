@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ADScoreViewCell : UICollectionViewCell
-
+-(void)createLabelAndButtonWithNSArray:(NSArray *)array;
 @end

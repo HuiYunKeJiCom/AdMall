@@ -241,6 +241,13 @@
         fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/evaluationList.htm?"];
     }
     
+    //获取评价标签
+    if([fullUrl containsString:@"auth/getEvaluateLabel.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/getEvaluateLabel.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/getEvaluateLabel.htm?"];
+    }
+    
     if (requsetType == RequsetTypeGet) {
 //        NSLog(@"get");
         requestOperation = [manager GET:fullUrl parameters:newParams progress:^(NSProgress * _Nonnull downloadProgress) {
