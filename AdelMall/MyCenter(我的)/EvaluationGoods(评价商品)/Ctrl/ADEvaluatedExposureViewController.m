@@ -56,6 +56,41 @@ static NSString *const ADScoreViewCellID = @"ADScoreViewCell";
     [self setUpGIFRrfresh];
 }
 
+-(void)loadDataWithGoodsID:(NSString *)goodsID{
+    WEAKSELF
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getEvaluateLabel:@{@"goodsId":goodsID} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取评价标签result = %@",result);
+        NSArray *dataInfo = result[@"data"][@"result"];
+        if([result[@"code"] integerValue] == 1){
+                [hud hide:YES];
+                [weakSelf handleTransferNSArray:dataInfo];
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+        
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"获取评价标签msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
+}
+
+- (void)handleTransferNSArray:(NSArray *)dataInfo{
+    
+}
+
 #pragma mark - initialize
 - (void)setUpBase
 {
@@ -133,6 +168,7 @@ static NSString *const ADScoreViewCellID = @"ADScoreViewCell";
     if (indexPath.section == 0) {
         ADScoreViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADScoreViewCellID forIndexPath:indexPath];
         //            cell.gridItem = _gridItem[indexPath.row];
+        
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
         

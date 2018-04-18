@@ -152,13 +152,15 @@
         ADEvaluateModel *model = self.goodsTable.data[indexPath.row];
 
         cell.model = model;
+        
+        cell.evaluateBtnClickBlock = ^{
+            //        NSLog(@"点击了去评论");
+            //跳转到评价晒单
+            ADEvaluatedExposureViewController *evaluateExposureVC = [[ADEvaluatedExposureViewController alloc] init];
+            [evaluateExposureVC loadDataWithGoodsID:model.goods_id];
+            [self.navigationController pushViewController:evaluateExposureVC animated:YES];
+        };
     }
-    cell.evaluateBtnClickBlock = ^{
-        NSLog(@"点击了去评论");
-        //跳转到评价晒单
-        ADEvaluatedExposureViewController *evaluateExposureVC = [[ADEvaluatedExposureViewController alloc] init];
-        [self.navigationController pushViewController:evaluateExposureVC animated:YES];
-    };
     return cell;
 }
 

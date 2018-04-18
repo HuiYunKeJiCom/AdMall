@@ -91,7 +91,7 @@
     
 }
 
--(void)createLabelAndButton{
+-(void)createLabelAndButtonWithNSArray:(NSArray *)array{
     for(int i=0;i<6;i++){
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.backgroundColor = kBACKGROUNDCOLOR;
