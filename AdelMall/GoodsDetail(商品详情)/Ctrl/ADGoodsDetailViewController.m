@@ -14,8 +14,8 @@
 #import "ADUserEvaluationViewModel.h"
 #import "ADRelatedGoodsViewModel.h"
 
-#import "ADGoodsModel.h"
 
+#import "ADGoodsDetailModel.h"
 
 @interface ADGoodsDetailViewController ()
 
@@ -129,9 +129,13 @@
         NSLog(@"result : %@",result);
         
         NSDictionary *dataDic = result[@"data"];
-//        ADGoodsModel *dataModel = [ADGoodsModel mj_objectWithKeyValues:dataDic];
-        NSArray *goodsInfo = dataDic[@"goods"][@"goods_property"];
-        [_parameterViewModel layoutWithProperty:goodsInfo];
+        ADGoodsDetailModel *dataModel = [ADGoodsDetailModel mj_objectWithKeyValues:dataDic[@"goods"]];
+//        ADGoodsDetailModel_YY *goodsInfo = [ADGoodsDetailModel_YY yy_modelWithJSON:dataDic[@"goods"]];
+//
+        [_parameterViewModel layoutWithProperty:dataModel.goods_property];
+        
+        
+        
         NSLog(@"123321");
         
     } withFailBlock:^(NSString *msg) {
