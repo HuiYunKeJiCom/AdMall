@@ -86,10 +86,6 @@
         hud.mode = MBProgressHUDModeText;
         [hud hide:YES afterDelay:1.0];
     }];
-    
-    //    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
-    
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{

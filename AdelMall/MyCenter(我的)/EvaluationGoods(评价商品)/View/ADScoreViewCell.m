@@ -261,9 +261,9 @@
     }];
     
     [self.addImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(weakSelf.bgView.mas_left).with.offset(20);
+        make.left.equalTo(weakSelf.bgView.mas_left).with.offset(15);
         make.top.equalTo(weakSelf.evaluatedContentTV.mas_bottom).with.offset(10);
-        make.width.mas_equalTo(kScreenWidth-40);
+        make.width.mas_equalTo(kScreenWidth-30);
         make.height.mas_equalTo(kScreenWidth-60);
         //        make.left.right.top.bottom.mas_equalTo(weak_self.view);
     }];
@@ -398,7 +398,7 @@
 - (ADAddImage *)addImageView {
     if (!_addImageView) {
         _addImageView = [[ADAddImage alloc] initWithFrame:CGRectZero];
-        _addImageView.backgroundColor = k_UIColorFromRGB(0xffffff);
+        _addImageView.backgroundColor = k_UIColorFromRGB(0xffffff);//k_UIColorFromRGB(0xffffff)
     }
     return _addImageView;
 }

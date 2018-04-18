@@ -14,6 +14,6 @@
 @property (nonatomic, copy) dispatch_block_t lookDetailBlock;
 ///* 推荐图片数组 */
 //@property (copy , nonatomic)NSArray *goodExceedArray;
--(void)loadDataWithArray:(NSArray *)goodExceedArray and:(NSMutableArray<ADStarGoodsModel *> *)goodExceedItem;
+-(void)loadDataWithNSString:(NSString *)exceedPath and:(NSMutableArray<ADStarGoodsModel *> *)goodExceedItem;
 
 @end

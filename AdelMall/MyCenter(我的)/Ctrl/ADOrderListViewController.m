@@ -49,7 +49,7 @@
     //消除强引用
     __weak typeof(self) weakSelf = self;
     _headView = [[orderHeader alloc]initWithFrame:CGRectMake(0, 65, self.view.bounds.size.width, 40)];
-    _headView.items = @[@"全部",@"待付款",@"待收货",@"已完成"];
+    _headView.items = @[@"全部有效订单",@"待支付",@"待收货",@"已完成"];
     _headView.itemClickAtIndex = ^(NSInteger index){
         [weakSelf adjustScrollView:index];
     };

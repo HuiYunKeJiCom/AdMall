@@ -142,7 +142,7 @@
 {
     //规格页面
     NSArray *specArr = dict[@"data"][@"specs"];
-//    NSLog(@"specArr = %@",specArr);
+    NSLog(@"specArr = %@",specArr);
     if(specArr){
         _specItem = [ADGoodsSpecModel mj_objectArrayWithKeyValuesArray:specArr];
         for(int i=0;i<_specItem.count;i++){

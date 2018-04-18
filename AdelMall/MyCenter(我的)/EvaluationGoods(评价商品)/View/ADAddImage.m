@@ -6,13 +6,13 @@
 //  Copyright © 2018年 huiyun. All rights reserved.
 //  评论上传图片
 
-#define imageH ((kScreenWidth-60)/3.0) // 图片高度
-#define imageW ((kScreenWidth-60)/3.0) // 图片宽度
+#define imageH ((kScreenWidth-60)/3.0-20) // 图片高度
+#define imageW ((kScreenWidth-60)/3.0-20) // 图片宽度
 #define kMaxColumn 3 // 每行显示数量
 #define MaxImageCount 9 // 最多显示图片个数
 #define deleImageWH 25 // 删除按钮的宽高
 #define kAdeleImage @"StarSelectHeaf.png" // 删除按钮图片
-#define kAddImage @"pingjia_xing_red.png" // 添加按钮图片
+#define kAddImage @"ico_my_upload.png" // 添加按钮图片
 
 #import "ADAddImage.h"
 
@@ -32,6 +32,7 @@
         self = [super initWithFrame:frame];
        if (self) {
                UIButton *btn = [self createButtonWithImage:kAddImage andSeletor:@selector(addNew:)];
+//           btn.backgroundColor = [UIColor redColor];
                [self addSubview:btn];
            }
        return self;
@@ -98,11 +99,24 @@
            {
                    addImage = imageNameOrImage;
             }
+    
+//    UIImageView *addImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imageW, imageH)];
+//    addImageView.image = addImage;
+//    addImageView.contentMode = UIViewContentModeScaleToFill;
+//    [self addSubview:addImageView];
+    
        UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
        [addBtn setImage:addImage forState:UIControlStateNormal];
        [addBtn addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
        addBtn.frame = CGRectMake(0, 0, imageW, imageH);
        addBtn.tag = self.subviews.count;
+    
+        addBtn.layer.borderWidth=0.5;
+        addBtn.layer.borderColor=[UIColor grayColor].CGColor;
+        // 设置圆角的大小
+        addBtn.layer.cornerRadius = 5;
+        [addBtn.layer setMasksToBounds:YES];
+    
        // 添加长按手势,用作删除.加号按钮不添加
        if(addBtn.tag != 0)
            {
