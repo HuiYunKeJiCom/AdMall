@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface ADScoreViewCell : UICollectionViewCell
+/* 自定义标签 按钮 点击回调 */
+@property (nonatomic, copy) dispatch_block_t addLabelButtonClickBlock;
 -(void)createLabelAndButtonWithNSArray:(NSArray *)array;
+/** 分数字典 */
+@property(nonatomic,strong)NSMutableDictionary *scoreDict;
 @end

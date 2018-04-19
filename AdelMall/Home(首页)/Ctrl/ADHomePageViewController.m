@@ -454,10 +454,11 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
             [headerView setTopTitleWithNSString:@"明星产品"];
             headerView.lookAllBlock = ^{
                 //进入列表页面
-//                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
-//                goodsListVC.titleString = @"明星产品";
-//                goodsListVC.index = 0;
-//                [self.navigationController pushViewController:goodsListVC animated:YES];
+                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
+                goodsListVC.titleString = @"明星产品";
+                goodsListVC.index = 0;
+                goodsListVC.keyWord = @"明星产品";
+                [self.navigationController pushViewController:goodsListVC animated:YES];
             };
             reusableview = headerView;
         }else if(indexPath.section == 3){
@@ -466,10 +467,11 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
             [headerView setTopTitleWithNSString:@"智能硬件"];
             headerView.lookAllBlock = ^{
                 //进入列表页面
-//                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
-//                goodsListVC.titleString = @"智能硬件";
-//                goodsListVC.index = 0;
-//                [self.navigationController pushViewController:goodsListVC animated:YES];
+                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
+                goodsListVC.titleString = @"智能硬件";
+                goodsListVC.index = 0;
+                goodsListVC.keyWord = @"智能硬件";
+                [self.navigationController pushViewController:goodsListVC animated:YES];
             };
             reusableview = headerView;
         }
@@ -479,10 +481,11 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
             [headerView setTopTitleWithNSString:@"为您推荐"];
             headerView.lookAllBlock = ^{
                 //进入列表页面
-//                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
-//                goodsListVC.titleString = @"为您推荐";
-//                goodsListVC.index = 0;
-//                [self.navigationController pushViewController:goodsListVC animated:YES];
+                ADGoodsListViewController *goodsListVC = [[ADGoodsListViewController alloc] init];
+                goodsListVC.titleString = @"为您推荐";
+                goodsListVC.index = 0;
+                goodsListVC.keyWord = @"为您推荐";
+                [self.navigationController pushViewController:goodsListVC animated:YES];
             };
             reusableview = headerView;
         }

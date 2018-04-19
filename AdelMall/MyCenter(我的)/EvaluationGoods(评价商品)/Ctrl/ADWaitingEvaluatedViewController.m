@@ -157,7 +157,7 @@
             //        NSLog(@"点击了去评论");
             //跳转到评价晒单
             ADEvaluatedExposureViewController *evaluateExposureVC = [[ADEvaluatedExposureViewController alloc] init];
-            [evaluateExposureVC loadDataWithGoodsID:model.goods_id];
+            [evaluateExposureVC loadDataWithGoodsID:model.goods_id andOrderID:model.order_id];
             [self.navigationController pushViewController:evaluateExposureVC animated:YES];
         };
     }

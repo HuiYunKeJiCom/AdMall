@@ -115,6 +115,13 @@
         fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"floor.htm?"];
     }
     
+    //获取商品分类
+    if([fullUrl containsString:@"category.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"category.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"category.htm?"];
+    }
+    
     //获取指定楼层列表数据
     if([fullUrl containsString:@"floorDetail.htm"])
     {
@@ -246,6 +253,13 @@
     {
         NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/getEvaluateLabel.htm"];
         fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/getEvaluateLabel.htm?"];
+    }
+    
+    //填写评价信息
+    if([fullUrl containsString:@"auth/saveEvaluate.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/saveEvaluate.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/saveEvaluate.htm?"];
     }
     
     if (requsetType == RequsetTypeGet) {

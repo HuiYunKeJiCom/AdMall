@@ -71,7 +71,7 @@
         make.left.equalTo(weakSelf.bgView.mas_left).with.offset(15);
         make.top.equalTo(weakSelf.bgView.mas_top);
         make.bottom.equalTo(weakSelf.bgView.mas_bottom);
-        make.width.mas_equalTo(kScreenWidth*0.5);
+        make.width.mas_equalTo(kScreenWidth*0.3);
     }];
     
     [self.goodsNameLab mas_makeConstraints:^(MASConstraintMaker *make) {

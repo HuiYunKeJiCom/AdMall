@@ -167,7 +167,36 @@
         self.score = 1;
         [self.starOne setImage:[UIImage imageNamed:@"pingjia_xing_red"]];
     }
-    NSLog(@"分数 %f",self.score);
+    NSLog(@"分数 %ld",(long)self.score);
+    
+    NSString *myKey;
+    
+    switch (self.tag) {
+        case 1:
+            myKey = @"packEvaluate";
+            break;
+        case 2:
+            myKey = @"serviceEvaluate";
+            break;
+        case 3:
+            myKey = @"descriptionEvaluate";
+            break;
+        case 4:
+            myKey = @"shipEvaluate";
+            break;
+            
+        default:
+            break;
+    }
+    
+    NSDictionary *dict = @{myKey:[NSString stringWithFormat:@"%ld",(long)self.score]};
+
+    //创建通知
+    NSNotification *notification =[NSNotification notificationWithName:@"score" object:nil userInfo:dict];
+    //通过通知中心发送通知
+    NSLog(@"评价发通知了");
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
 }
 
 

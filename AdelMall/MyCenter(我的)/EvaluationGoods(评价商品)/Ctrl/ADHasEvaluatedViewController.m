@@ -48,7 +48,7 @@
     
     WEAKSELF
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [RequestTool getEvaluationList:@{@"evaluateStatus":@"2",@"currentPage":[NSNumber numberWithInteger:self.currentPage]} withSuccessBlock:^(NSDictionary *result) {
+    [RequestTool getEvaluationList:@{@"evaluateStatus":@"1",@"currentPage":[NSNumber numberWithInteger:self.currentPage]} withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"评价列表已评价result = %@",result);
         if([result[@"code"] integerValue] == 1){
             [hud hide:YES];
