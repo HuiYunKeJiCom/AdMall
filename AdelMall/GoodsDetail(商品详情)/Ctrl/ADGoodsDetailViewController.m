@@ -17,6 +17,8 @@
 #import "ADGoodsDetailModel.h"
 #import "DCClassGoodsItem.h"
 
+#import "ADGoodsModel.h"
+
 @interface ADGoodsDetailViewController ()
 
 @property (nonatomic,strong)PageSelectBar *pageSelectBar;//标签页选择bar
@@ -133,13 +135,23 @@
 //
         [_parameterViewModel layoutWithProperty:dataModel.goods_property];
         
-        [RequestTool getGoodsCategory:@{@"parentId":dataModel.gc_id} withSuccessBlock:^(NSDictionary *result) {
-            DCClassGoodsItem *categoryInfo = result[@"data"][@"result"];
-            [_relatedGoodsViewModel loadGoodsData:categoryInfo.children];
+        NSString *gc_id = @"17";
+        
+//        [RequestTool getGoodsCategory:@{@"parentId":gc_id} withSuccessBlock:^(NSDictionary *result) {
+//            DCClassGoodsItem *categoryInfo = result[@"data"][@"result"];
+//            [_relatedGoodsViewModel loadGoodsData:categoryInfo.children];
+//
+//        } withFailBlock:^(NSString *msg) {
+//
+//        }];
+        
+        [RequestTool getGoodsList:@{@"orderBy":@"store_price",@"keyword":@"为您推荐"} withSuccessBlock:^(NSDictionary *result) {
             
         } withFailBlock:^(NSString *msg) {
             
         }];
+        
+        
     } withFailBlock:^(NSString *msg) {
         
     }];
