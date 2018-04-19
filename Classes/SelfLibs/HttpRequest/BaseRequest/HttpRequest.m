@@ -97,22 +97,50 @@
     //登录
     if([fullUrl containsString:@"login.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"userName"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"login.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"login.htm?"];
+    }
+    
+    //获取广告数据
+    if([fullUrl containsString:@"advert_invoke.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"advert_invoke.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"advert_invoke.htm?"];
+    }
+    
+    //获取首页楼层数据
+    if([fullUrl containsString:@"floor.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"floor.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"floor.htm?"];
+    }
+    
+    //获取商品分类
+    if([fullUrl containsString:@"category.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"category.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"category.htm?"];
+    }
+    
+    //获取指定楼层列表数据
+    if([fullUrl containsString:@"floorDetail.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"floorDetail.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"floorDetail.htm?"];
     }
     
     //获取商品详情数据
     if([fullUrl containsString:@"app/goods.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"id"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"app/goods.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"app/goods.htm?"];
     }
     
     //获取商品列表
     if([fullUrl containsString:@"search.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"orderBy"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"search.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"search.htm?"];
     }
     
     //新增收货地址
@@ -125,57 +153,57 @@
     //设置默认收货地址
     if([fullUrl containsString:@"setDefaultAddress.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"addressId"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"setDefaultAddress.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"setDefaultAddress.htm?"];
     }
     
     //获取省市区数据
     if([fullUrl containsString:@"getArea.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"parentId"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"getArea.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"getArea.htm?"];
     }
     
     //获取已领取的优惠券列表
     if([fullUrl containsString:@"auth/getUserCoupon.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"status"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/getUserCoupon.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/getUserCoupon.htm?"];
     }
     
     //领取优惠券
     if([fullUrl containsString:@"auth/receiveCoupon.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"couponId"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/receiveCoupon.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/receiveCoupon.htm?"];
     }
     
     //添加购物车
     if([fullUrl containsString:@"auth/addCart.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"count"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/addCart.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/addCart.htm?"];
     }
     
     //购物车商品移除
     if([fullUrl containsString:@"auth/removeCart.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"goodsCartId"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/removeCart.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/removeCart.htm?"];
     }
     
     //购物车商品数量增减
     if([fullUrl containsString:@"auth/addCartCount.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"count"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/addCartCount.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/addCartCount.htm?"];
     }
     
     //获取购物车结算页数据
     if([fullUrl containsString:@"auth/cartAccount.htm"])
     {
-        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"goodsCartId"];
-        fullUrl = tempArr[0];
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/cartAccount.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/cartAccount.htm?"];
     }
     
     //获取选购商品各种运送方式的邮费
@@ -211,6 +239,27 @@
     {
         NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/cancelOrder.htm"];
         fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/cancelOrder.htm?"];
+    }
+    
+    //评价晒单列表
+    if([fullUrl containsString:@"auth/evaluationList.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/evaluationList.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/evaluationList.htm?"];
+    }
+    
+    //获取评价标签
+    if([fullUrl containsString:@"auth/getEvaluateLabel.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/getEvaluateLabel.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/getEvaluateLabel.htm?"];
+    }
+    
+    //填写评价信息
+    if([fullUrl containsString:@"auth/saveEvaluate.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/saveEvaluate.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/saveEvaluate.htm?"];
     }
     
     if (requsetType == RequsetTypeGet) {

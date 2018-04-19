@@ -12,6 +12,8 @@
 #import "ADPaymentOrderBottonView.h"
 #import "ADScoreViewCell.h"//评分View
 
+#import "ADLabelModel.h"//评价标签
+
 @interface ADEvaluatedExposureViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIGestureRecognizerDelegate>
 /* collectionView */
 @property (strong , nonatomic)UICollectionView *collectionView;
@@ -19,7 +21,15 @@
 @property (strong , nonatomic)ADOrderTopToolView *topToolView;
 /* 底部View */
 @property (strong , nonatomic)ADPaymentOrderBottonView *bottomView;
+/** 标签数组 */
+@property(nonatomic,strong)NSArray *labelArray;
+/** 分数字典 */
+@property(nonatomic,strong)NSMutableDictionary *scoreDict;
 
+/** 商品id */
+@property(nonatomic,copy)NSString *goodsID;
+/** 订单id */
+@property(nonatomic,copy)NSString *orderID;
 @end
 
 static NSString *const ADScoreViewCellID = @"ADScoreViewCell";
@@ -46,14 +56,61 @@ static NSString *const ADScoreViewCellID = @"ADScoreViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.labelArray = [NSArray array];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     
+    self.scoreDict = [NSMutableDictionary dictionary];
     [self setUpBase];
     [self setUpNavTopView];
     [self setupCustomBottomView];
     [self setUpGIFRrfresh];
+    
+    //抢购详情的商品id
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getScoreDict:) name:@"scoreDict" object:nil];
+}
+
+//跳转到抢购详情页面
+-(void)getScoreDict:(NSNotification *)text{
+    self.scoreDict = [NSMutableDictionary dictionaryWithDictionary:text.userInfo];
+}
+
+-(void)loadDataWithGoodsID:(NSString *)goodsID  andOrderID:(NSString *)orderID{
+    self.goodsID = goodsID;
+    self.orderID = orderID;
+    WEAKSELF
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getEvaluateLabel:@{@"goodsId":goodsID} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取评价标签result = %@",result);
+        NSArray *dataInfo = result[@"data"][@"result"];
+        if([result[@"code"] integerValue] == 1){
+                [hud hide:YES];
+                [weakSelf handleTransferNSArray:dataInfo];
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }
+        
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"获取评价标签msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
+}
+
+- (void)handleTransferNSArray:(NSArray *)dataInfo{
+    self.labelArray = [ADLabelModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - initialize
@@ -84,18 +141,50 @@ static NSString *const ADScoreViewCellID = @"ADScoreViewCell";
 - (void)setupCustomBottomView {
     //    WEAKSELF
     _bottomView = [[ADPaymentOrderBottonView alloc] initWithFrame:CGRectMake(0, kScreenHeight -  50, kScreenWidth, 50)];
+    WEAKSELF
     [_bottomView setTopTitleWithNSString:@"提交评价"];
     _bottomView.payBtnClickBlock = ^{
         NSLog(@"提交评价");
-        //        //跳转到支付页面
-        //        ADPaymentOrderViewController *placeOrderVC = [[ADPaymentOrderViewController alloc] init];
-        //        [weakSelf.navigationController pushViewController:placeOrderVC animated:YES];
+        [weakSelf submitEvaluate];
     };
     
     [self.view addSubview:_bottomView];
 }
 
-
+-(void)submitEvaluate{
+    NSArray *keyArray = [self.scoreDict allKeys];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    [hud hide:YES afterDelay:1.0];
+    if(![keyArray containsObject:@"packEvaluate"]){
+        hud.detailsLabelText = @"请评价包装";
+    }else if(![keyArray containsObject:@"serviceEvaluate"]){
+        hud.detailsLabelText = @"请评价师傅服务";
+    }else if(![keyArray containsObject:@"descriptionEvaluate"]){
+        hud.detailsLabelText = @"请评价外观";
+    }else if(![keyArray containsObject:@"shipEvaluate"]){
+        hud.detailsLabelText = @"请评价送货速度";
+    }else{
+        [self.scoreDict setValue:self.goodsID forKey:@"goodsId"];
+        [self.scoreDict setValue:self.orderID forKey:@"orderId"];
+        NSLog(@"scoreDict = %@",self.scoreDict);
+        [RequestTool saveEvaluate:self.scoreDict withSuccessBlock:^(NSDictionary *result) {
+            NSLog(@"提交评价信息result = %@",result);
+            if([result[@"code"] integerValue] == 1){
+                hud.detailsLabelText = @"评价提交成功";
+            }else if([result[@"code"] integerValue] == -2){
+                hud.detailsLabelText = @"登录失效";
+            }else if([result[@"code"] integerValue] == -1){
+                hud.detailsLabelText = @"未登录";
+            }else if([result[@"code"] integerValue] == 0){
+                hud.detailsLabelText = @"失败";
+            }
+        } withFailBlock:^(NSString *msg) {
+            NSLog(@"提交评价信息msg = %@",msg);
+            hud.detailsLabelText = msg;
+        }];
+    }
+}
 
 #pragma mark - 设置头部header
 - (void)setUpGIFRrfresh
@@ -133,11 +222,20 @@ static NSString *const ADScoreViewCellID = @"ADScoreViewCell";
     if (indexPath.section == 0) {
         ADScoreViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADScoreViewCellID forIndexPath:indexPath];
         //            cell.gridItem = _gridItem[indexPath.row];
+        [cell createLabelAndButtonWithNSArray:self.labelArray];
         cell.backgroundColor = [UIColor whiteColor];
+        WEAKSELF
+        cell.addLabelButtonClickBlock = ^{
+            [weakSelf addLabelButton];
+        };
         gridcell = cell;
         
     }
     return gridcell;
+}
+
+-(void)addLabelButton{
+    
 }
 
 

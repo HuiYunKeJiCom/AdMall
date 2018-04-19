@@ -15,7 +15,8 @@
 
 @interface ADWaitingEvaluatedViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
 @property (nonatomic, strong) BaseTableView         *goodsTable;
-
+/** 当前页数 */
+@property(nonatomic)NSInteger currentPage;
 @end
 
 @implementation ADWaitingEvaluatedViewController
@@ -25,8 +26,13 @@
     // Do any additional setup after loading the view.
     [self.view addSubview:self.goodsTable];
     [self makeConstraints];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.currentPage = 1;
     [self requestAllOrder:NO];
 }
+
 
 #pragma mark - Constraints
 - (void)makeConstraints {
@@ -42,32 +48,51 @@
     [self.goodsTable updateLoadState:more];
     
     WEAKSELF
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-    //                                       [weak_self showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getEvaluationList:@{@"currentPage":[NSNumber numberWithInteger:self.currentPage]} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"评价列表待评价result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+            [weakSelf handleTransferResult:result more:more];
+        }else if([result[@"code"] integerValue] == -2){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            self.currentPage -= 1;
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+            [self.goodsTable reloadData];
+        }
+        
+    } withFailBlock:^(NSString *msg) {
+        self.currentPage -= 1;
+        NSLog(@"评价列表待评价msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
     
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
     
-    NSArray *dataArr = @[@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"goodsPrice":@"1968.00",@"goodsType":@"智能指纹锁",@"evaluationNumber":@"618"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"goodsPrice":@"1968.00",@"goodsType":@"智能指纹锁",@"evaluationNumber":@"618"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"goodsPrice":@"1968.00",@"goodsType":@"智能指纹锁",@"evaluationNumber":@"618"}];
-    //    if ([result isKindOfClass:[NSDictionary class]]) {
-    //        NSArray *dataInfo = result[@"data"];
-    //        if ([dataInfo isKindOfClass:[NSArray class]]) {
-    //            dataArr = dataInfo;
-    //        }
-    //    }
+    NSArray *dataArr = result[@"data"][@"goodsList"];
     
     [self.goodsTable.data removeAllObjects];
+    
     for (NSDictionary *dic in dataArr) {
         
         ADEvaluateModel *model = [ADEvaluateModel mj_objectWithKeyValues:dic];
@@ -75,7 +100,6 @@
     }
     
     [self.goodsTable updatePage:more];
-    //    self.allOrderTable.isLoadMore = dataArr.count >= k_RequestPageSize ? YES : NO;
     self.goodsTable.noDataView.hidden = self.goodsTable.data.count;
     
     [self.goodsTable reloadData];
@@ -128,13 +152,15 @@
         ADEvaluateModel *model = self.goodsTable.data[indexPath.row];
 
         cell.model = model;
+        
+        cell.evaluateBtnClickBlock = ^{
+            //        NSLog(@"点击了去评论");
+            //跳转到评价晒单
+            ADEvaluatedExposureViewController *evaluateExposureVC = [[ADEvaluatedExposureViewController alloc] init];
+            [evaluateExposureVC loadDataWithGoodsID:model.goods_id andOrderID:model.order_id];
+            [self.navigationController pushViewController:evaluateExposureVC animated:YES];
+        };
     }
-    cell.evaluateBtnClickBlock = ^{
-        NSLog(@"点击了去评论");
-        //跳转到评价晒单
-        ADEvaluatedExposureViewController *evaluateExposureVC = [[ADEvaluatedExposureViewController alloc] init];
-        [self.navigationController pushViewController:evaluateExposureVC animated:YES];
-    };
     return cell;
 }
 
@@ -155,6 +181,7 @@
 }
 
 - (void)baseTableView:(BaseTableView *)tableView loadMore:(BOOL)flag {
+    self.currentPage += 1;
     [self requestAllOrder:YES];
 }
 

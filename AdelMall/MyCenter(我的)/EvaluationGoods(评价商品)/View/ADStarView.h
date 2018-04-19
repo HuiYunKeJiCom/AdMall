@@ -12,5 +12,6 @@
 
 //+ (instancetype)loadStarView;
 - (instancetype)initWithFrame:(CGRect)frame;
-@property (nonatomic, assign) CGFloat score;
+@property (nonatomic) NSInteger score;
+@property(nonatomic) NSInteger tag; 
 @end

@@ -13,6 +13,9 @@
 @property (nonatomic,assign) NSInteger index;
 /** 列表 标题 由分类页面或首页传过来*/
 @property(nonatomic,copy)NSString *titleString;
+/** 关键字 */
+@property(nonatomic,copy)NSString *keyWord;
 /*  选中分类 */
 @property (strong , nonatomic)DCClassGoodsItem *subItem;
+
 @end

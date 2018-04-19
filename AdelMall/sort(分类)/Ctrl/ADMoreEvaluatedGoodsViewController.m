@@ -15,6 +15,8 @@
 
 @interface ADMoreEvaluatedGoodsViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
 @property (nonatomic, strong) BaseTableView         *goodsTable;
+/** 关键字 */
+@property(nonatomic,copy)NSString *keyWord;
 /** 当前页数 */
 @property(nonatomic)NSInteger currentPage;
 @end
@@ -38,16 +40,29 @@
     
 }
 
--(void)loadDataWith:(DCClassGoodsItem *)goodsItem{
+-(void)loadDataWith:(DCClassGoodsItem *)goodsItem andKeyword:(NSString *)keyword{
+    self.keyWord = keyword;
     self.currentPage = 1;
     [self requestAllOrder:NO];
 }
 
 - (void)requestAllOrder:(BOOL)more {
     [self.goodsTable updateLoadState:more];
+    
+    NSLog(@"商品列表goodsID = %@",self.subItem.idx);
+    
+    NSMutableDictionary *paraDict = [NSMutableDictionary dictionary];
+    [paraDict setValue:@"evaluates_size" forKey:@"orderBy"];
+    if(self.subItem.idx){
+        [paraDict setValue:self.subItem.idx forKey:@"gc_id"];
+    }else{
+        [paraDict setValue:self.keyWord forKey:@"keyword"];
+    }
+    NSLog(@"paraDict = %@",paraDict);
+    
     WEAKSELF
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [RequestTool getGoodsList:@{@"orderBy":@"evaluates_size",@"gc_id":self.subItem.idx,@"orderType":@"desc"} withSuccessBlock:^(NSDictionary *result) {
+    [RequestTool getGoodsList:paraDict withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"获取列表result = %@",result);
         if([result[@"code"] integerValue] == 1){
             [hud hide:YES];

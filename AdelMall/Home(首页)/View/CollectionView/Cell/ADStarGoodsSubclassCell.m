@@ -118,7 +118,7 @@
 - (UILabel *)goodsNameLabel {
     if (!_goodsNameLabel) {
         _goodsNameLabel = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum12 TextColor:[UIColor blackColor]];
-        _goodsNameLabel.numberOfLines = 2;
+        _goodsNameLabel.numberOfLines = 1;
     }
     return _goodsNameLabel;
 }

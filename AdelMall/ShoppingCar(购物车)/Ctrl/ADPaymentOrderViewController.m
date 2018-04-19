@@ -4,7 +4,7 @@
 //
 //  Created by 张锐凌 on 2018/3/5.
 //  Copyright © 2018年 Adel. All rights reserved.
-//  购物车-下单页面-支付订单
+//  购物车-下单页面-支付订单(支付页面)
 
 #import "ADPaymentOrderViewController.h"
 #import "ADOrderTopToolView.h"

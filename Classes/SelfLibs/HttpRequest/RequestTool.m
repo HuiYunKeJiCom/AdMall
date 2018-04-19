@@ -116,6 +116,18 @@ static NSString * const kRequestCodeGetOrderDetail = @"kRequestGetOrderDetail";
 static NSString * const kApiUrlCancelOrder = @"auth/cancelOrder.htm?";
 static NSString * const kRequestCodeCancelOrder = @"kRequestCancelOrder";
 
+/* 评价晒单列表 */
+static NSString * const kApiUrlGetEvaluationList = @"auth/evaluationList.htm?";
+static NSString * const kRequestCodeGetEvaluationList = @"kRequestGetEvaluationList";
+
+/* 获取评价标签 */
+static NSString * const kApiUrlGetEvaluateLabel = @"auth/getEvaluateLabel.htm?";
+static NSString * const kRequestCodeGetEvaluateLabel = @"kRequestGetEvaluateLabel";
+
+/* 填写评价信息 */
+static NSString * const kApiUrlSaveEvaluate = @"auth/saveEvaluate.htm?";
+static NSString * const kRequestCodeSaveEvaluate = @"kRequestSaveEvaluate";
+
 /* 获取当前订单可用的平台优惠券 */
 static NSString * const kApiUrlGetSystemCoupon = @"auth/getSystemCoupon.htm?";
 static NSString * const kRequestCodeGetSystemCoupon = @"kRequestGetSystemCoupon";
@@ -628,6 +640,45 @@ static NSString * const kLockItunesAppSystemCode =  @"";
 /* 买家取消订单 */
 +(void)cancelOrder:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlCancelOrder params:paramsDic requestCode:kRequestCodeCancelOrder withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 评价晒单列表 */
++(void)getEvaluationList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetEvaluationList params:paramsDic requestCode:kRequestCodeGetEvaluationList withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 获取评价标签 */
++(void)getEvaluateLabel:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetEvaluateLabel params:paramsDic requestCode:kRequestCodeGetEvaluateLabel withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 填写评价信息 */
++(void)saveEvaluate:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlSaveEvaluate params:paramsDic requestCode:kRequestCodeSaveEvaluate withSuccessBlock:^(NSDictionary *result) {
         
         successBlock(result);
         

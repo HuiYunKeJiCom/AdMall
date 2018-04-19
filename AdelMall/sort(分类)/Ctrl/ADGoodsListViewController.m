@@ -104,7 +104,8 @@
     //    allvc.view.backgroundColor = [UIColor redColor];
     priceGoodsvc.view.frame = CGRectMake(0, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height);
     priceGoodsvc.subItem = self.subItem;
-    [priceGoodsvc loadDataWith:self.subItem];
+    NSLog(@"self.keyWord = %@",self.keyWord);
+    [priceGoodsvc loadDataWith:self.subItem andKeyword:self.keyWord];
     [_scrollView addSubview:priceGoodsvc.view];
     [self addChildViewController:priceGoodsvc];
 
@@ -113,7 +114,7 @@
     moreEvaluatedGoodsvc.view.frame = CGRectMake(_scrollView.bounds.size.width, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height);
     //    payvc.view.backgroundColor = [UIColor greenColor];
     moreEvaluatedGoodsvc.subItem = self.subItem;
-    [moreEvaluatedGoodsvc loadDataWith:self.subItem];
+    [moreEvaluatedGoodsvc loadDataWith:self.subItem andKeyword:self.keyWord];
     [_scrollView addSubview:moreEvaluatedGoodsvc.view];
     [self addChildViewController:moreEvaluatedGoodsvc];
 }

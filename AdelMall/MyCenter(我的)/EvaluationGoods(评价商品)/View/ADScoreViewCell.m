@@ -12,8 +12,9 @@
 #import <ZWLimitCounter/UITextView+ZWLimitCounter.h>
 #import "ADAddImage.h"//上传图片
 
+#import "ADLabelModel.h"//评价标签
 
-@interface ADScoreViewCell()
+@interface ADScoreViewCell()<UITextViewDelegate>
 @property (nonatomic, strong) UIView           *bgView;
 /** 包装 标题 */
 @property(nonatomic,strong)UILabel *packingTItLab;
@@ -51,6 +52,12 @@
 @property(nonatomic,strong)UIButton *evaluateBtn;
 /** 上传图片view */
 @property(nonatomic,strong)ADAddImage *addImageView;
+
+
+/** 自定义标签的高度 */
+@property(nonatomic)float btnHeight;
+/** 标签数组 */
+@property(nonatomic,strong)NSArray *labelArray;
 @end
 
 @implementation ADScoreViewCell
@@ -61,7 +68,9 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.imageViewArray = [NSMutableArray array];
+        self.labelArray = [NSArray array];
 //        self.buttonArray = [NSMutableArray array];
+        self.scoreDict = [NSMutableDictionary dictionary];
         [self setUpUI];
         [self setUpData];
     }
@@ -86,24 +95,43 @@
     [self.bgView addSubview:self.evaluatedContentTV];
     [self.bgView addSubview:self.addImageView];
     
-    [self createLabelAndButton];
+    [self makeConstraints];
+//    [self createLabelAndButton];
 //    [self createImageViewAndButton];
+    
+    //抢购详情的商品id
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getScore:) name:@"score" object:nil];
     
 }
 
--(void)createLabelAndButton{
-    for(int i=0;i<6;i++){
+//跳转到抢购详情页面
+-(void)getScore:(NSNotification *)text{
+    [self.scoreDict setValue:[[text.userInfo allValues] firstObject] forKey:[[text.userInfo allKeys] firstObject]];
+//    NSLog(@"self.scoreDict = %@",self.scoreDict);
+    [self createNotificationWithNSDictionary:self.scoreDict];
+}
+
+-(void)createLabelAndButtonWithNSArray:(NSArray *)array{
+    self.labelArray = array;
+    for(int i=0;i<array.count;i++){
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.backgroundColor = kBACKGROUNDCOLOR;
+        if(i == array.count){
+            button.backgroundColor = [UIColor whiteColor];
+            [button addTarget:self action:@selector(customLabelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+            [button setTitle:@"+ 自定义标签" forState:UIControlStateNormal];
+        }else{
+            ADLabelModel *model = array[i];
+            button.backgroundColor = kBACKGROUNDCOLOR;
+            [button addTarget:self action:@selector(bottomButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+            [button setTitle:model.label_name forState:UIControlStateNormal];
+        }
         button.tag = i;
-        [button addTarget:self action:@selector(bottomButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [button setTitle:@"商品包装好看" forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:kFontNum14];
         CGFloat buttonW = kScreenWidth/3.5;
         CGFloat buttonH = 25;
         CGFloat buttonX = (20+(buttonW +10)* (i%3));
-        CGFloat buttonY = (220+30 * (i/3));
+        CGFloat buttonY = (210+30 * (i/3));
         button.frame = CGRectMake(buttonX, buttonY, buttonW, buttonH);
         button.layer.borderWidth=0.5;
         button.layer.borderColor=[UIColor grayColor].CGColor;
@@ -111,26 +139,10 @@
         button.layer.cornerRadius = 5;
         [button.layer setMasksToBounds:YES];
         [self.bgView addSubview:button];
+        
+        self.btnHeight = buttonY + buttonH;
     }
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.backgroundColor = [UIColor whiteColor];
-    button.tag = 6;
-    [button addTarget:self action:@selector(customLabelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"+ 自定义标签" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:kFontNum14];
-    CGFloat buttonW = kScreenWidth/3.5;
-    CGFloat buttonH = 25;
-    CGFloat buttonX = 20;
-    CGFloat buttonY = (220+30 * 2);
-    button.frame = CGRectMake(buttonX, buttonY, buttonW, buttonH);
-    button.layer.borderWidth=0.5;
-    button.layer.borderColor=[UIColor grayColor].CGColor;
-    // 设置圆角的大小
-    button.layer.cornerRadius = 5;
-    [button.layer setMasksToBounds:YES];
-    [self.bgView addSubview:button];
+    [self changeFrame];
 }
 
 //标签按钮点击事件
@@ -139,19 +151,54 @@
     btn.selected = !btn.selected;
     if(btn.selected){
         btn.backgroundColor = [UIColor cyanColor];
+        
+        ADLabelModel *model = self.labelArray[btn.tag];
+        NSArray *keyArray = [self.scoreDict allKeys];
+        if([keyArray containsObject:@"evaluateLabelId"]){
+            NSString *valueStr = [self.scoreDict valueForKey:@"evaluateLabelId"];
+            valueStr = [valueStr stringByAppendingFormat:@",%@",model.label_id];
+            
+            [self.scoreDict setValue:valueStr forKey:@"evaluateLabelId"];
+        }else{
+            [self.scoreDict setValue:model.label_id forKey:@"evaluateLabelId"];
+        }
     }else{
         btn.backgroundColor = kBACKGROUNDCOLOR;
+        
+        ADLabelModel *model = self.labelArray[btn.tag];
+        NSArray *keyArray = [self.scoreDict allKeys];
+        if([keyArray containsObject:@"evaluateLabelId"]){
+            NSString *valueStr = [self.scoreDict valueForKey:@"evaluateLabelId"];
+            NSArray *tempArr = [valueStr componentsSeparatedByString:@","];
+            NSMutableArray *valueArray = [NSMutableArray arrayWithArray:tempArr];
+            if(tempArr.count == 0){
+                [self.scoreDict removeObjectForKey:@"evaluateLabelId"];
+            }else if([tempArr containsObject:model.label_id]){
+                [valueArray removeObject:model.label_id];
+                NSString *newValue;
+                for(int i=0;i<valueArray.count;i++){
+                    if(i==0){
+                        newValue = valueArray[0];
+                    }else{
+                        newValue = [newValue stringByAppendingFormat:@",%@",valueArray[i]];
+                    }
+                }
+                [self.scoreDict setValue:newValue forKey:@"evaluateLabelId"];
+            }
+        }
     }
+    [self createNotificationWithNSDictionary:self.scoreDict];
 }
 
 -(void)customLabelButtonClick:(UIButton *)btn{
     NSLog(@"自定义标签");
+    !_addLabelButtonClickBlock ? : _addLabelButtonClickBlock();
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self makeConstraints];
+    
 }
 
 #pragma mark - 填充数据
@@ -166,9 +213,27 @@
     self.deliverySpeedFavorLab.text = @"喜欢";
 }
 
-- (void)makeConstraints {
+-(void)changeFrame{
+//    NSLog(@"btnHeight = %.2f",self.btnHeight);
     WEAKSELF
+    [self.evaluatedContentTV mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(weakSelf.bgView.mas_centerX);
+        make.top.equalTo(weakSelf.bgView.mas_top).with.offset(self.btnHeight+10);
+        make.size.mas_equalTo(CGSizeMake(kScreenWidth-40, 120));
+    }];
     
+    [self.addImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(weakSelf.bgView.mas_left).with.offset(15);
+        make.top.equalTo(weakSelf.evaluatedContentTV.mas_bottom).with.offset(10);
+        make.width.mas_equalTo(kScreenWidth-30);
+        make.height.mas_equalTo(kScreenWidth-60);
+        //        make.left.right.top.bottom.mas_equalTo(weak_self.view);
+    }];
+}
+
+- (void)makeConstraints {
+//    NSLog(@"btnHeight = %.2f",self.btnHeight);
+    WEAKSELF
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(weakSelf.mas_left);
         make.right.equalTo(weakSelf.mas_right);
@@ -256,14 +321,14 @@
     
     [self.evaluatedContentTV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(weakSelf.bgView.mas_centerX);
-        make.top.equalTo(weakSelf.bgView.mas_top).with.offset(315);
+        make.top.equalTo(weakSelf.bgView.mas_top).with.offset(self.btnHeight+10);
         make.size.mas_equalTo(CGSizeMake(kScreenWidth-40, 120));
     }];
     
     [self.addImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(weakSelf.bgView.mas_left).with.offset(20);
+        make.left.equalTo(weakSelf.bgView.mas_left).with.offset(15);
         make.top.equalTo(weakSelf.evaluatedContentTV.mas_bottom).with.offset(10);
-        make.width.mas_equalTo(kScreenWidth-40);
+        make.width.mas_equalTo(kScreenWidth-30);
         make.height.mas_equalTo(kScreenWidth-60);
         //        make.left.right.top.bottom.mas_equalTo(weak_self.view);
     }];
@@ -287,6 +352,7 @@
 - (ADStarView *)packingScoreV {
     if (!_packingScoreV) {
         _packingScoreV = [[ADStarView alloc] init];
+        _packingScoreV.tag = 1;
 //        _packingScoreV.backgroundColor = [UIColor greenColor];
     }
     return _packingScoreV;
@@ -309,6 +375,7 @@
 - (ADStarView *)masterServiceScoreV {
     if (!_masterServiceScoreV) {
         _masterServiceScoreV = [[ADStarView alloc] init];
+        _masterServiceScoreV.tag = 2;
 //        _masterServiceScoreV.backgroundColor = [UIColor greenColor];
     }
     return _masterServiceScoreV;
@@ -331,6 +398,7 @@
 - (ADStarView *)surfaceScoreV {
     if (!_surfaceScoreV) {
         _surfaceScoreV = [[ADStarView alloc] init];
+        _surfaceScoreV.tag = 3;
 //        _surfaceScoreV.backgroundColor = [UIColor greenColor];
     }
     return _surfaceScoreV;
@@ -353,6 +421,7 @@
 - (ADStarView *)deliverySpeedScoreV {
     if (!_deliverySpeedScoreV) {
         _deliverySpeedScoreV = [[ADStarView alloc] init];
+        _deliverySpeedScoreV.tag = 4;
 //        _deliverySpeedScoreV.backgroundColor = [UIColor greenColor];
     }
     
@@ -384,10 +453,11 @@
         _evaluatedContentTV.layer.borderWidth = 1;
         _evaluatedContentTV.font = [UIFont systemFontOfSize:14];
         _evaluatedContentTV.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        _evaluatedContentTV.delegate = self;
         //文字设置居右、placeHolder会跟随设置
         //    textView.textAlignment = NSTextAlignmentRight;
         _evaluatedContentTV.zw_placeHolder = @"请从产品质量、师傅服务质量、物流货运评价";
-        _evaluatedContentTV.zw_limitCount = 150;//字数限制
+//        _evaluatedContentTV.zw_limitCount = 150;//字数限制
         _evaluatedContentTV.zw_placeHolderColor = [UIColor lightGrayColor];
         _evaluatedContentTV.layer.cornerRadius = 5;
         [_evaluatedContentTV.layer setMasksToBounds:YES];
@@ -398,9 +468,29 @@
 - (ADAddImage *)addImageView {
     if (!_addImageView) {
         _addImageView = [[ADAddImage alloc] initWithFrame:CGRectZero];
-        _addImageView.backgroundColor = k_UIColorFromRGB(0xffffff);
+        _addImageView.backgroundColor = k_UIColorFromRGB(0xffffff);//k_UIColorFromRGB(0xffffff)
     }
     return _addImageView;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+//    NSLog(@"textViewDidEndEditing");
+    if(![textView.text isEmptyOrNull]){
+        [self.scoreDict setValue:textView.text forKey:@"evaluateInfo"];
+    }else{
+        [self.scoreDict removeObjectForKey:@"evaluateInfo"];
+    }
+    [self createNotificationWithNSDictionary:self.scoreDict];
+    
+//    NSLog(@"self.scoreDict = %@",self.scoreDict);
+}
+
+-(void)createNotificationWithNSDictionary:(NSDictionary *)dict{
+        //创建通知
+        NSNotification *notification =[NSNotification notificationWithName:@"scoreDict" object:nil userInfo:dict];
+        //通过通知中心发送通知
+        NSLog(@"评价字典发通知了");
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 @end

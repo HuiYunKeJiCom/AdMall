@@ -21,8 +21,8 @@
 @property (strong , nonatomic)UICollectionView *collectionView;
 /* 头部ImageView */
 @property (strong , nonatomic)UIImageView *headImageView;
-/* 图片数组 */
-@property (copy , nonatomic)NSArray *imagesArray;
+///* 图片数组 */
+//@property (copy , nonatomic)NSArray *imagesArray;
 /* 广告数据数组 */
 @property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *goodExceedItem;
 ///** 数据模型 */
@@ -38,13 +38,13 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 {
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-        layout.itemSize = CGSizeMake(kScreenWidth * 0.25, self.dc_height * 0.9+10);
+        layout.itemSize = CGSizeMake(kScreenWidth * 0.25, self.dc_height * 0.35+5);
 //        layout.minimumInteritemSpacing = 2; //X
 //        layout.minimumLineSpacing = 3;  //Y
 //        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         [self addSubview:_collectionView];
-        _collectionView.frame = CGRectMake(0, kScreenWidth * 0.35 + DCMargin, kScreenWidth, self.dc_height * 1.8+20);
+        _collectionView.frame = CGRectMake(0, kScreenWidth * 0.35 + DCMargin, kScreenWidth, self.dc_height * 0.7+10);
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.delegate = self;
@@ -116,13 +116,15 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0, 0, 10, 0);//分别为上、左、下、右
+    return UIEdgeInsetsMake(0, 0, 0, 0);//分别为上、左、下、右
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ADStarGoodsSubclassCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADStarGoodsSubclassCellID forIndexPath:indexPath];
-    cell.model = _goodExceedItem[indexPath.row];
+    NSInteger temp = indexPath.row+indexPath.section*3;
+    cell.model = _goodExceedItem[temp];
+//    cell.backgroundColor = [UIColor redColor];
     return cell;
 }
 
@@ -142,16 +144,18 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 
 
 #pragma mark - Setter Getter Methods
--(void)loadDataWithArray:(NSArray *)goodExceedArray and:(NSMutableArray<ADStarGoodsModel *> *)goodExceedItem
+-(void)loadDataWithNSString:(NSString *)exceedPath and:(NSMutableArray<ADStarGoodsModel *> *)goodExceedItem
 {
+//    NSLog(@"exceedPath = %@",exceedPath);
+//    NSLog(@"goodExceedItem.count = %lu",goodExceedItem.count);
 //    _goodExceedArray = goodExceedArray;
     _goodExceedItem = goodExceedItem;
-    _imagesArray = goodExceedArray;
-    if (goodExceedArray.count == 0){
+//    _imagesArray = goodExceedArray;
+    if (!exceedPath){
         [_headImageView setImage:[UIImage imageNamed:@"image_default"]];
         return;
     }else{
-        [_headImageView sd_setImageWithURL:[NSURL URLWithString:goodExceedArray[0]]];
+        [_headImageView sd_setImageWithURL:[NSURL URLWithString:exceedPath]];
     }
 }
 

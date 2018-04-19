@@ -251,6 +251,7 @@
 		18F07B942045648400F0761E /* DCBrandSortCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F07B932045648300F0761E /* DCBrandSortCell.m */; };
 		18F07B972045688D00F0761E /* DCBrandsSortHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F07B962045688D00F0761E /* DCBrandsSortHeadView.m */; };
 		18F07B9A2045690600F0761E /* DCCommodityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F07B992045690600F0761E /* DCCommodityViewController.m */; };
+		18F1B394208748A500320BAC /* ADLabelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F1B393208748A500320BAC /* ADLabelModel.m */; };
 		18F1D213202954E500F371CB /* ADAllOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F1D212202954E500F371CB /* ADAllOrderViewController.m */; };
 		18F1D2162029559E00F371CB /* ADWaitingPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F1D2152029559E00F371CB /* ADWaitingPayViewController.m */; };
 		18F1D2192029564D00F371CB /* ADWaitingReceiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F1D2182029564D00F371CB /* ADWaitingReceiveViewController.m */; };
@@ -741,6 +742,8 @@
 		18F07B962045688D00F0761E /* DCBrandsSortHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCBrandsSortHeadView.m; sourceTree = "<group>"; };
 		18F07B982045690500F0761E /* DCCommodityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCommodityViewController.h; sourceTree = "<group>"; };
 		18F07B992045690600F0761E /* DCCommodityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCommodityViewController.m; sourceTree = "<group>"; };
+		18F1B392208748A500320BAC /* ADLabelModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADLabelModel.h; sourceTree = "<group>"; };
+		18F1B393208748A500320BAC /* ADLabelModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADLabelModel.m; sourceTree = "<group>"; };
 		18F1D211202954E500F371CB /* ADAllOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADAllOrderViewController.h; sourceTree = "<group>"; };
 		18F1D212202954E500F371CB /* ADAllOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADAllOrderViewController.m; sourceTree = "<group>"; };
 		18F1D2142029559E00F371CB /* ADWaitingPayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADWaitingPayViewController.h; sourceTree = "<group>"; };
@@ -922,6 +925,8 @@
 			children = (
 				183BF79D2053D0AD00C1BB51 /* ADEvaluateModel.h */,
 				183BF79E2053D0AD00C1BB51 /* ADEvaluateModel.m */,
+				18F1B392208748A500320BAC /* ADLabelModel.h */,
+				18F1B393208748A500320BAC /* ADLabelModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2188,6 +2193,7 @@
 				186547D62064E2D2006E50FF /* YWAddressViewController.m in Sources */,
 				1851741420200DF200E7B8F8 /* ADLMyInfoTableViewFooterCell.m in Sources */,
 				182B3A18204EA59900462CAA /* ADNotUsedCouponCell.m in Sources */,
+				18F1B394208748A500320BAC /* ADLabelModel.m in Sources */,
 				183626812057833D0099FE10 /* ADAddImage.m in Sources */,
 				18525A3520736EBC009FA1F4 /* YWAddressTableViewCell.m in Sources */,
 				18B964D7201EF2BE00A6DA59 /* main.m in Sources */,

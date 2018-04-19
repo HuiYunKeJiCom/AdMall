@@ -76,7 +76,7 @@
         make.left.equalTo(weakSelf.bgView.mas_left).with.offset(15);
         make.top.equalTo(weakSelf.bgView.mas_top);
         make.bottom.equalTo(weakSelf.bgView.mas_bottom);
-        make.width.mas_equalTo(kScreenWidth*0.5);
+        make.width.mas_equalTo(kScreenWidth*0.34);
     }];
     
     [self.goodsNameLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -121,13 +121,27 @@
 - (void)setModel:(ADEvaluateModel *)model {
     _model = model;
     
-    self.goodsNameLab.text = model.goodsName;
-    self.typeLab.text = model.goodsType;
-    self.advertiseLab.text = model.evaluationNumber;
-    self.priceLab.text = model.goodsPrice;
+    [self.goodsIV sd_setImageWithURL:[NSURL URLWithString:self.model.goods_image_path]];
+    self.goodsNameLab.text = model.goods_name;
+//    self.typeLab.text = model.goodsType;
+    self.advertiseLab.text = model.goods_evaluates_size;
+    self.priceLab.text = model.goods_current_price;
     self.unitLab.text = @"元";
+    
+    if([model.evaluate_status isEqualToString:@"0"]){
+        [self.evaluateBtn setTitle:@"去评价" forState:UIControlStateNormal];
+        self.evaluateBtn.userInteractionEnabled = YES;
+        self.evaluateBtn.backgroundColor = [UIColor redColor];
+    }else if([model.evaluate_status isEqualToString:@"1"]){
+        [self.evaluateBtn setTitle:@"已评价" forState:UIControlStateNormal];
+        self.evaluateBtn.userInteractionEnabled = NO;
+        self.evaluateBtn.backgroundColor = [UIColor lightGrayColor];
+    }else if([model.evaluate_status isEqualToString:@"2"]){
+        [self.evaluateBtn setTitle:@"已失效" forState:UIControlStateNormal];
+        self.evaluateBtn.userInteractionEnabled = NO;
+        self.evaluateBtn.backgroundColor = [UIColor lightGrayColor];
+    }
     self.evaluateNumLab.text = @"人已评价";
-    [self.evaluateBtn setTitle:@"去评价" forState:UIControlStateNormal];
 }
 
 - (UIView *)bgView {
@@ -183,8 +197,7 @@
 -(UIImageView *)goodsIV{
     if (!_goodsIV) {
         _goodsIV = [[UIImageView alloc] init];
-        //        [_goodsIV setImage:[UIImage imageNamed:@"icon"]];
-        [_goodsIV setBackgroundColor:[UIColor greenColor]];
+//        [_goodsIV setBackgroundColor:[UIColor greenColor]];
         [_goodsIV setContentMode:UIViewContentModeScaleAspectFill];
         //        [_goodsIV setClipsToBounds:YES];
     }
@@ -195,7 +208,6 @@
     if (!_evaluateBtn) {
         _evaluateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _evaluateBtn.titleLabel.font = [UIFont systemFontOfSize:kFontNum12];
-        _evaluateBtn.backgroundColor = [UIColor redColor];
         // 设置圆角的大小
         _evaluateBtn.layer.cornerRadius = 5;
         [_evaluateBtn.layer setMasksToBounds:YES];

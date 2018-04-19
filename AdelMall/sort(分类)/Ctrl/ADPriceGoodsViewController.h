@@ -12,5 +12,5 @@
 @interface ADPriceGoodsViewController : UIViewController
 /*  选中分类 */
 @property (strong , nonatomic)DCClassGoodsItem *subItem;
--(void)loadDataWith:(DCClassGoodsItem *)goodsItem;
+-(void)loadDataWith:(DCClassGoodsItem *)goodsItem andKeyword:(NSString *)keyword;
 @end

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ADEvaluatedExposureViewController : UIViewController
-
+-(void)loadDataWithGoodsID:(NSString *)goodsID andOrderID:(NSString *)orderID;
 @end

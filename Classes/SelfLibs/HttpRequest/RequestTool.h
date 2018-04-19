@@ -124,6 +124,15 @@ typedef void (^FailBlock)(NSString *);
 /* 买家取消订单 */
 +(void)cancelOrder:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 
+/* 评价晒单列表 */
++(void)getEvaluationList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 获取评价标签 */
++(void)getEvaluateLabel:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
+/* 填写评价信息 */
++(void)saveEvaluate:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
 /* 获取当前订单可用的平台优惠券 */
 +(void)getSystemCoupon:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 
