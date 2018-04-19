@@ -15,6 +15,7 @@
 #import "ADRelatedGoodsViewModel.h"
 
 #import "ADGoodsDetailModel.h"
+#import "DCClassGoodsItem.h"
 
 @interface ADGoodsDetailViewController ()
 
@@ -116,8 +117,8 @@
     _userEvaluationiViewModel.userEvaluationListView.frame = ((UIView *)_shellViews[2]).bounds;
     [(UIView *)_shellViews[2] addSubview:_userEvaluationiViewModel.userEvaluationListView];
     
-    _relatedGoodsViewModel.goodsTable.frame = ((UIView *)_shellViews[3]).bounds;
-    [(UIView *)_shellViews[3] addSubview:_relatedGoodsViewModel.goodsTable];
+    _relatedGoodsViewModel.goodsListView.frame = ((UIView *)_shellViews[3]).bounds;
+    [(UIView *)_shellViews[3] addSubview:_relatedGoodsViewModel.goodsListView];
     
 }
 
@@ -132,10 +133,13 @@
 //
         [_parameterViewModel layoutWithProperty:dataModel.goods_property];
         
-        
-        
-        NSLog(@"123321");
-        
+        [RequestTool getGoodsCategory:@{@"parentId":dataModel.gc_id} withSuccessBlock:^(NSDictionary *result) {
+            DCClassGoodsItem *categoryInfo = result[@"data"][@"result"];
+            [_relatedGoodsViewModel loadGoodsData:categoryInfo.children];
+            
+        } withFailBlock:^(NSString *msg) {
+            
+        }];
     } withFailBlock:^(NSString *msg) {
         
     }];

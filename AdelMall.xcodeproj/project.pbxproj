@@ -228,6 +228,8 @@
 		18DDF56D208735EF009D5D34 /* ADGoodsParameterViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF567208735EF009D5D34 /* ADGoodsParameterViewModel.m */; };
 		18DDF56E208735EF009D5D34 /* ADRelatedGoodsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF569208735EF009D5D34 /* ADRelatedGoodsViewModel.m */; };
 		18DDF56F208735EF009D5D34 /* ADUserEvaluationViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF56B208735EF009D5D34 /* ADUserEvaluationViewModel.m */; };
+		18DDF57320883A00009D5D34 /* ADRelatedGoodsLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF57220883A00009D5D34 /* ADRelatedGoodsLayout.m */; };
+		18DDF57720883A7F009D5D34 /* ADRelatedGoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDF57620883A7F009D5D34 /* ADRelatedGoodsCell.m */; };
 		18DE2383207E1F3500010A1E /* ADCartGoodsListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DE2382207E1F3500010A1E /* ADCartGoodsListTableViewCell.m */; };
 		18DE2386207E2EB400010A1E /* ADCartTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DE2385207E2EB400010A1E /* ADCartTableHeaderView.m */; };
 		18E013DD20510DCA004A969C /* ADEvaluateDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E013DC20510DCA004A969C /* ADEvaluateDetailCell.m */; };
@@ -693,6 +695,10 @@
 		18DDF569208735EF009D5D34 /* ADRelatedGoodsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADRelatedGoodsViewModel.m; sourceTree = "<group>"; };
 		18DDF56A208735EF009D5D34 /* ADUserEvaluationViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADUserEvaluationViewModel.h; sourceTree = "<group>"; };
 		18DDF56B208735EF009D5D34 /* ADUserEvaluationViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADUserEvaluationViewModel.m; sourceTree = "<group>"; };
+		18DDF57120883A00009D5D34 /* ADRelatedGoodsLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADRelatedGoodsLayout.h; sourceTree = "<group>"; };
+		18DDF57220883A00009D5D34 /* ADRelatedGoodsLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADRelatedGoodsLayout.m; sourceTree = "<group>"; };
+		18DDF57520883A7F009D5D34 /* ADRelatedGoodsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADRelatedGoodsCell.h; sourceTree = "<group>"; };
+		18DDF57620883A7F009D5D34 /* ADRelatedGoodsCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADRelatedGoodsCell.m; sourceTree = "<group>"; };
 		18DE2381207E1F3500010A1E /* ADCartGoodsListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADCartGoodsListTableViewCell.h; sourceTree = "<group>"; };
 		18DE2382207E1F3500010A1E /* ADCartGoodsListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADCartGoodsListTableViewCell.m; sourceTree = "<group>"; };
 		18DE2384207E2EB400010A1E /* ADCartTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADCartTableHeaderView.h; sourceTree = "<group>"; };
@@ -1829,10 +1835,30 @@
 				18DDF567208735EF009D5D34 /* ADGoodsParameterViewModel.m */,
 				18DDF568208735EF009D5D34 /* ADRelatedGoodsViewModel.h */,
 				18DDF569208735EF009D5D34 /* ADRelatedGoodsViewModel.m */,
+				18DDF57420883A09009D5D34 /* ADRelatedGoodsCell */,
+				18DDF57020883968009D5D34 /* ADRelatedGoodsViewmodel */,
 				18DDF56A208735EF009D5D34 /* ADUserEvaluationViewModel.h */,
 				18DDF56B208735EF009D5D34 /* ADUserEvaluationViewModel.m */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		18DDF57020883968009D5D34 /* ADRelatedGoodsViewmodel */ = {
+			isa = PBXGroup;
+			children = (
+				18DDF57120883A00009D5D34 /* ADRelatedGoodsLayout.h */,
+				18DDF57220883A00009D5D34 /* ADRelatedGoodsLayout.m */,
+			);
+			path = ADRelatedGoodsViewmodel;
+			sourceTree = "<group>";
+		};
+		18DDF57420883A09009D5D34 /* ADRelatedGoodsCell */ = {
+			isa = PBXGroup;
+			children = (
+				18DDF57520883A7F009D5D34 /* ADRelatedGoodsCell.h */,
+				18DDF57620883A7F009D5D34 /* ADRelatedGoodsCell.m */,
+			);
+			path = ADRelatedGoodsCell;
 			sourceTree = "<group>";
 		};
 		18E1AB4C2079F35900C5B922 /* AppToken */ = {
@@ -2215,6 +2241,7 @@
 				18B964F2201EFD2A00A6DA59 /* ADMycenterHeaderView.m in Sources */,
 				18B9651D201F2A4300A6DA59 /* UIView+DCRolling.m in Sources */,
 				186547D92064E2D2006E50FF /* YWAddressTableViewCell1.m in Sources */,
+				18DDF57320883A00009D5D34 /* ADRelatedGoodsLayout.m in Sources */,
 				1844BB6E206B970000C260A5 /* ADFlashSaleModel.m in Sources */,
 				18454AFB2047F2AB001B9F9F /* ADOrderPublicViewCell.m in Sources */,
 				186C39462048F8CE00CCBD37 /* ADAfterSaleServiceViewCell.m in Sources */,
@@ -2304,6 +2331,7 @@
 				18A07C52205FBA9500204BE1 /* UIButton+Bootstrap.m in Sources */,
 				18DDF5292085C1B9009D5D34 /* BaseParam.m in Sources */,
 				1844BB6B206B30E300C260A5 /* ADFloorModel.m in Sources */,
+				18DDF57720883A7F009D5D34 /* ADRelatedGoodsCell.m in Sources */,
 				18F1D21C2029570500F371CB /* ADOrderClosedViewController.m in Sources */,
 				1851741120200DAA00E7B8F8 /* ADLMyInfoTableView.m in Sources */,
 				183BF7992053CC0400C1BB51 /* ADEvaluatedInvalidViewController.m in Sources */,

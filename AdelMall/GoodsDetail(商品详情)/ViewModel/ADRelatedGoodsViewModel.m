@@ -8,30 +8,46 @@
 
 #import "ADRelatedGoodsViewModel.h"
 #import "ADGoodsModel.h"
-#import "ADGoodsCell.h"
+//#import "ADGoodsCell.h"
+#import "ADRelatedGoodsLayout.h"
+#import "ADRelatedGoodsCell.h"
 
 @interface ADRelatedGoodsViewModel()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
 
-
+@property (nonatomic,strong)NSMutableArray<DCClassGoodsItem *> *goodsItem;//数据源
+@property (nonatomic,strong)NSMutableArray<ADRelatedGoodsLayout *> *layouts;//布局数据源
 
 @end
 
 @implementation ADRelatedGoodsViewModel
-@synthesize goodsTable = _goodsTable;
+@synthesize goodsListView = _goodsListView;
 
-- (BaseTableView *)goodsTable{
-    if (!_goodsTable) {
-        _goodsTable = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        _goodsTable.delegate = self;
-        _goodsTable.dataSource = self;
-        _goodsTable.isLoadMore = YES;
-        _goodsTable.isRefresh = YES;
-        _goodsTable.delegateBase = self;
-        _goodsTable.showsVerticalScrollIndicator = NO;
-        _goodsTable.showsHorizontalScrollIndicator = NO;
-        [_goodsTable registerClass:[ADGoodsCell class] forCellReuseIdentifier:@"ADGoodsCell"];
+- (void)loadGoodsData:(NSArray<DCClassGoodsItem *> *)goodsItem{
+    _goodsItem = goodsItem.mutableCopy;
+    [self.layouts removeAllObjects];
+    for (DCClassGoodsItem *item in _goodsItem) {
+        ADRelatedGoodsLayout *layout = [ADRelatedGoodsLayout layoutWithGoodsItem:item];
+        [self.layouts addObject:layout];
     }
-    return _goodsTable;
+    [_goodsListView reloadData];
+}
+
+- (NSMutableArray *)layouts{
+    if (!_layouts) {
+        _layouts = [NSMutableArray array];
+    }
+    return _layouts;
+}
+
+- (UITableView *)goodsListView{
+    if (!_goodsListView) {
+        _goodsListView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _goodsListView.delegate = self;
+        _goodsListView.dataSource = self;
+        _goodsListView.showsVerticalScrollIndicator = NO;
+        _goodsListView.showsHorizontalScrollIndicator = NO;
+    }
+    return _goodsListView;
 }
 
 #pragma mark - -- UITableView Datasource Function
@@ -41,79 +57,22 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.goodsTable.data.count;
+//    return self.goodsTable.data.count;
+    return _layouts.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return kScreenWidth == 320 ? 140 : GetScaleWidth(140);
+    return ((ADRelatedGoodsLayout *)_layouts[indexPath.row]).height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ADGoodsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADGoodsCell"];
-    if (self.goodsTable.data.count > indexPath.row) {
-        ADGoodsModel *model = self.goodsTable.data[indexPath.row];
-        cell.model = model;
+    ADRelatedGoodsCell *cell = [tableView dequeueReusableCellWithIdentifier:ADRelatedGoodsCellID];
+    if (!cell) {
+        cell = [[ADRelatedGoodsCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ADRelatedGoodsCellID];
     }
-    cell.imageViewBtnClickBlock = ^{
-        //进入商品详情
-//        ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
-//        [self.navigationController pushViewController:detailVC animated:YES];
-    };
+    cell.layout = _layouts[indexPath.row];
     
     return cell;
-}
-
-#pragma mark - -- BaseTableView Delegate Function
-- (void)baseTableVIew:(BaseTableView *)tableView refresh:(BOOL)flag {
-    [self requestAllOrder:NO];
-}
-
-- (void)baseTableView:(BaseTableView *)tableView loadMore:(BOOL)flag {
-    [self requestAllOrder:YES];
-}
-
-- (void)requestAllOrder:(BOOL)more {
-    [self.goodsTable updateLoadState:more];
-    
-    WEAKSELF
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-    //                                       [weak_self showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
-    
-}
-
-
-- (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
-    
-    NSArray *dataArr = @[@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"}];
-
-    NSMutableArray *doubleDataArr = dataArr.mutableCopy;
-    [doubleDataArr addObjectsFromArray:dataArr];
-    [doubleDataArr addObjectsFromArray:doubleDataArr];
-    dataArr = doubleDataArr.copy;
-    
-    
-    [self.goodsTable.data removeAllObjects];
-    for (NSDictionary *dic in dataArr) {
-        
-        ADGoodsModel *model = [ADGoodsModel mj_objectWithKeyValues:dic];
-        [self.goodsTable.data addObject:model];
-    }
-    
-    [self.goodsTable updatePage:more];
-    //    self.allOrderTable.isLoadMore = dataArr.count >= k_RequestPageSize ? YES : NO;
-    self.goodsTable.noDataView.hidden = self.goodsTable.data.count;
-    
-    [self.goodsTable reloadData];
 }
 
 @end
