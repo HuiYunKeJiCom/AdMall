@@ -47,7 +47,7 @@ static NSString *const ADAddressCellID = @"ADAddressCell";
 static NSString *const ADGoodsSpecCellID = @"ADGoodsSpecCell";
 static NSString *const ADRelatedTableViewCellID = @"ADRelatedTableViewCell";
 /* head */
-static NSString *const DCSlideshowHeadViewID = @"DCSlideshowHeadView";
+//static NSString *const DCSlideshowHeadViewID = @"DCSlideshowHeadView";
 static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
 
 @implementation ADSallGoodsDetailViewController

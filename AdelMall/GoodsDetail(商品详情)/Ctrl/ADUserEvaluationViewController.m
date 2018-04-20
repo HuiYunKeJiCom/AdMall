@@ -20,8 +20,8 @@
 
 @end
 
-static NSString *const ADEvaluateLabelViewCellID = @"ADEvaluateLabelViewCell";
-static NSString *const ADEvaluateViewCellID = @"ADEvaluateViewCell";
+//static NSString *const ADEvaluateLabelViewCellID = @"ADEvaluateLabelViewCell";
+//static NSString *const ADEvaluateViewCellID = @"ADEvaluateViewCell";
 
 @implementation ADUserEvaluationViewController
 

@@ -31,6 +31,8 @@ pod 'MJExtension'
 pod 'SDCycleScrollView'
 pod 'ZWLimitCounter', 		'~> 0.0.4'
 
+pod 'YYModel'
+
 end
 
 

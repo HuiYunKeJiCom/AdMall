@@ -83,7 +83,7 @@ static NSString *const DCExceedApplianceCellID = @"DCExceedApplianceCell";
 static NSString *const ADButtonViewCellID = @"ADButtonViewCell";
 static NSString *const ADRecommendCellID = @"ADRecommendCell";
 /* head */
-static NSString *const DCSlideshowHeadViewID = @"DCSlideshowHeadView";
+//static NSString *const DCSlideshowHeadViewID = @"DCSlideshowHeadView";
 static NSString *const DCCountDownHeadViewID = @"DCCountDownHeadView";
 static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 
@@ -163,7 +163,8 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 //跳转到商品详情页面
 -(void)getStarGoodsID:(NSNotification *)text{
     ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
-    [detailVC loadDataWithGoodsID:text.userInfo[@"starGoodsID"]];
+//    [detailVC loadDataWithGoodsID:text.userInfo[@"starGoodsID"]];
+    detailVC.goodsID = text.userInfo[@"starGoodsID"];
     
     [self.navigationController pushViewController:detailVC animated:YES];
 }

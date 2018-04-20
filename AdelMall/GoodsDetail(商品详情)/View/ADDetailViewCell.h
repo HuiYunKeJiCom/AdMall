@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+static const NSString *ADDetailViewCellID = @"ADDetailViewCellID";
+
 @interface ADDetailViewCell : UICollectionViewCell
 
 @end
