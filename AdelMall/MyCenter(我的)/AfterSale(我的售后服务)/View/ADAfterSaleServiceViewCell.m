@@ -85,8 +85,8 @@
 - (void)setModel:(ADAfterSaleServiceViewModel *)model {
     _model = model;
     
-        self.goodsNameLab.text = model.goodsName;
-        self.goodsStyleLab.text = model.goodsStyle;
+        self.goodsNameLab.text = model.goods_name;
+//        self.goodsStyleLab.text = model.goodsStyle;
     
 }
 

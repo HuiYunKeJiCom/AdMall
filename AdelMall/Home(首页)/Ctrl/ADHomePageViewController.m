@@ -24,7 +24,7 @@
 #import "ADHomeSearchView.h"  //搜索框
 #import "ADFlashSaleViewController.h"//限时抢购
 #import "ADSallGoodsDetailViewController.h"//抢购商品详情
-
+#import "HistoryVC.h"//搜索
 #import "ADCountDownActivityModel.h"
 #import "ADFloorModel.h"
 #import "ADAdvertModel.h"//广告轮播图模型
@@ -328,9 +328,11 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 - (void)setUpTopSearchView
 {
     _topSearchView = [[ADHomeSearchView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 50)];
-//    WEAKSELF
+    WEAKSELF
     _topSearchView.searchButtonClickBlock = ^{
         NSLog(@"点击了首页搜索");
+        HistoryVC *hVC = [HistoryVC new];
+        [weakSelf.navigationController pushViewController:hVC animated:YES];
     };
     [self.view addSubview:_topSearchView];
     

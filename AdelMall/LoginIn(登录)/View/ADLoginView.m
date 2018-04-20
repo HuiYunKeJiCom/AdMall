@@ -278,7 +278,7 @@
     [self endEditing:YES];
     
     if ([self.delegate respondsToSelector:@selector(loginView:eventType:)]) {
-//        [self.delegate loginView:self eventType:type];
+        [self.delegate loginView:self eventType:type];
     }
 }
 

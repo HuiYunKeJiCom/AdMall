@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ADApplicationRecordViewCell : UICollectionViewCell
+@interface ADApplicationRecordViewCell : BaseTableCell
 
 @end

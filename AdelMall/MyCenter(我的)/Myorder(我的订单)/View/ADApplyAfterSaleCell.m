@@ -7,6 +7,7 @@
 //
 
 #import "ADApplyAfterSaleCell.h"
+#import "ADApplyAfterSaleModel.h"
 
 @interface ADApplyAfterSaleCell()
 @property (nonatomic, strong) UIView  *bgView;
@@ -102,10 +103,19 @@
 - (void)setModel:(ADApplyAfterSaleModel *)model {
     _model = model;
     
-    self.addressLab.text = model.address;
-    self.goodsTypeLab.text = model.goodsType;
-    self.priceLab.text = model.price;
-    self.unitLab.text = @"元";
+    if(model.apply_no){
+        self.applyAfterSalebtn.backgroundColor = [UIColor lightGrayColor];
+        self.applyAfterSalebtn.enabled = NO;
+        [self.applyAfterSalebtn setTitle:@"已申请" forState:UIControlStateNormal];
+    }else{
+        
+    }
+    
+    [self.goodsIV sd_setImageWithURL:[NSURL URLWithString:model.goods_image_path]];
+    self.addressLab.text = model.goods_name;
+//    self.goodsTypeLab.text = model.goodsType;
+//    self.priceLab.text = model.price;
+//    self.unitLab.text = @"元";
     [self.applyAfterSalebtn setTitle:@"申请售后" forState:UIControlStateNormal];
 }
 
@@ -120,7 +130,7 @@
 -(UIImageView *)goodsIV{
     if (!_goodsIV) {
         _goodsIV = [[UIImageView alloc] init];
-        [_goodsIV setBackgroundColor:[UIColor greenColor]];
+//        [_goodsIV setBackgroundColor:[UIColor greenColor]];
         [_goodsIV setContentMode:UIViewContentModeScaleAspectFill];
         //        [_goodsIV setClipsToBounds:YES];
     }
@@ -172,10 +182,6 @@
 
 #pragma mark - 申请售后 点击
 - (void)afterSaleButtonClick:(UIButton *)button{
-    NSLog(@"申请售后 点击");
-    button.backgroundColor = [UIColor lightGrayColor];
-    button.enabled = NO;
-    [button setTitle:@"已申请" forState:UIControlStateNormal];
     !_applyAfterSaleBtnClickBlock ? : _applyAfterSaleBtnClickBlock();
 }
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ADExpressInformationViewCell : UICollectionViewCell
+@interface ADExpressInformationViewCell : BaseTableCell
 /* 提交 点击回调 */
 @property (nonatomic, copy) dispatch_block_t submitBtnClickBlock;
 @end

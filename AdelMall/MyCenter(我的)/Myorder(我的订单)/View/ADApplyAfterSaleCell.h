@@ -7,8 +7,8 @@
 //
 
 #import "BaseTableCell.h"
-#import "ADApplyAfterSaleModel.h"
 
+@class ADApplyAfterSaleModel;
 @interface ADApplyAfterSaleCell : BaseTableCell
 @property (nonatomic, strong) ADApplyAfterSaleModel  *model;
 /* 申请售后 点击回调 */

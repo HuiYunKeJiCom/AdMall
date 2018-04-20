@@ -201,17 +201,11 @@ static NSString *const ADOrderListViewCellID = @"ADOrderListViewCell";
         _allOrderTable.delegateBase = self;
         
         //注册
-//        [_allOrderTable registerClass:[ADOrderBasicViewCell class] forCellReuseIdentifier:@"ADOrderBasicViewCell"];
-//        [_allOrderTable registerClass:[ADInvoiceViewCell class] forCellReuseIdentifier:@"ADInvoiceViewCell"];
-        
         [_allOrderTable registerClass:[ADOrderBasicViewCell class] forCellReuseIdentifier:ADOrderBasicViewCellID];
         [_allOrderTable registerClass:[ADInvoiceViewCell class] forCellReuseIdentifier:ADInvoiceViewCellID];
         [_allOrderTable registerClass:[ADDeliveryViewCell class] forCellReuseIdentifier:ADDeliveryViewCellID];
         [_allOrderTable registerClass:[ADPolicyViewCell class] forCellReuseIdentifier:ADPolicyViewCellID];
         [_allOrderTable registerClass:[ADOrderListViewCell class] forCellReuseIdentifier:ADOrderListViewCellID];
-        
-//        [_allOrderTable registerClass:[ADOrderStateView @"ADOrderStateView"] forHeaderFooterViewReuseIdentifier:ADOrderStateViewID];
-        
     }
     return _allOrderTable;
 }

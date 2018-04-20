@@ -62,12 +62,13 @@
     [self.bgView addSubview:self.zipCodeLab];
     [self.bgView addSubview:self.phoneTitLab];
     [self.bgView addSubview:self.phoneLab];
+    [self makeConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self makeConstraints];
+    
 }
 
 #pragma mark - 填充数据

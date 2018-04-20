@@ -205,6 +205,7 @@
         [_toPayBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
         self.stateLab.textColor = [UIColor blackColor];
     }else if([model.order_status isEqualToString:@"50"]){
+        //包括已取消
         self.stateLab.text = @"已完成";
         [self.toPayBtn setTitle:@"已完成" forState:UIControlStateNormal];
         _toPayBtn.backgroundColor = [UIColor lightGrayColor];
@@ -213,8 +214,16 @@
         [DCSpeedy dc_chageControlCircularWith:_stateLab AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor blackColor]canMasksToBounds:YES];
         self.stateLab.textColor = [UIColor blackColor];
     }else if([model.order_status isEqualToString:@"0"]){
-        self.stateLab.text = @"已关闭";
-        [self.toPayBtn setTitle:@"已关闭" forState:UIControlStateNormal];
+        self.stateLab.text = @"已取消";
+        [self.toPayBtn setTitle:@"已取消" forState:UIControlStateNormal];
+        _toPayBtn.backgroundColor = [UIColor lightGrayColor];
+        [_toPayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [DCSpeedy dc_chageControlCircularWith:_toPayBtn AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor lightGrayColor]canMasksToBounds:YES];
+        [DCSpeedy dc_chageControlCircularWith:_stateLab AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor blackColor]canMasksToBounds:YES];
+        self.stateLab.textColor = [UIColor blackColor];
+    }else if([model.order_status isEqualToString:@"20"]){
+        self.stateLab.text = @"未发货";
+        [self.toPayBtn setTitle:@"未发货" forState:UIControlStateNormal];
         _toPayBtn.backgroundColor = [UIColor lightGrayColor];
         [_toPayBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [DCSpeedy dc_chageControlCircularWith:_toPayBtn AndSetCornerRadius:5 SetBorderWidth:1 SetBorderColor:[UIColor lightGrayColor]canMasksToBounds:YES];

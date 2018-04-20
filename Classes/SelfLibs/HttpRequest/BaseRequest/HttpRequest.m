@@ -241,6 +241,13 @@
         fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/cancelOrder.htm?"];
     }
     
+    //获取订单售后商品
+    if([fullUrl containsString:@"auth/orderGoodsList.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/orderGoodsList.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/orderGoodsList.htm?"];
+    }
+    
     //评价晒单列表
     if([fullUrl containsString:@"auth/evaluationList.htm"])
     {
@@ -260,6 +267,13 @@
     {
         NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/saveEvaluate.htm"];
         fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/saveEvaluate.htm?"];
+    }
+    
+    //售后服务列表
+    if([fullUrl containsString:@"auth/afterServiceList.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/afterServiceList.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/afterServiceList.htm?"];
     }
     
     if (requsetType == RequsetTypeGet) {

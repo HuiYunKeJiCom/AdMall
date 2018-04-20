@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ADApplyAfterSaleViewController : UIViewController
-
+/** 订单号 */
+@property(nonatomic,copy)NSString *orderID;
 @end

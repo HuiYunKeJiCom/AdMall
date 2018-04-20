@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class ADApplyAfterSaleModel;
 @interface ADAfterSaleServiceDetailViewController : UIViewController
-
+@property (nonatomic, strong) ADApplyAfterSaleModel  *model;
 @end

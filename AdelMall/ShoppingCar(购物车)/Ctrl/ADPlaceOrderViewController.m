@@ -394,11 +394,6 @@ static NSString *const ADTotalViewCellID = @"ADTotalViewCell";
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
     UICollectionReusableView *reusableview = nil;
-//    if (indexPath.section == 0) {
-//        ADOrderStateView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:ADOrderStateViewID forIndexPath:indexPath];
-//        //        headerView.imageGroupArray = GoodsHomeSilderImagesArray;
-//        reusableview = headerView;
-//    }
     return reusableview;
 }
 

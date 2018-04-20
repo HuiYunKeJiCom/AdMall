@@ -17,7 +17,8 @@
 @property (nonatomic, strong) BaseTableView         *allOrderTable;
 /* 顶部Nva */
 @property (strong , nonatomic)ADOrderTopToolView *topToolView;
-
+/** 当前页数 */
+@property(nonatomic)NSInteger currentPage;
 @end
 
 @implementation ADAfterSaleServiceViewController
@@ -27,10 +28,12 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = kBACKGROUNDCOLOR;
     [self.view addSubview:self.allOrderTable];
-    
     [self setUpNavTopView];
-    
     [self makeConstraints];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.currentPage = 1;
     [self requestAllOrder:NO];
 }
 
@@ -49,10 +52,7 @@
     //    _topToolView.rightItemClickBlock = ^{
     //        NSLog(@"点击设置");
     //    };
-    
     [self.view addSubview:_topToolView];
-    
-    
 }
 
 #pragma mark - Constraints
@@ -69,30 +69,53 @@
     [self.allOrderTable updateLoadState:more];
     
     WEAKSELF
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-    //                                       [weak_self showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getAfterServiceList:@{@"currentPage":[NSNumber numberWithInteger:self.currentPage]} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"售后服务列表result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+//            [weakSelf handleTransferResult:result more:more];
+        }else if([result[@"code"] integerValue] == -2){
+            [self cutCurrentPag];
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            [self cutCurrentPag];
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            [self cutCurrentPag];
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            [self cutCurrentPag];
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+            [self.allOrderTable reloadData];
+        }
+        
+    } withFailBlock:^(NSString *msg) {
+        [self cutCurrentPag];
+        NSLog(@"售后服务列表msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
+}
+
+-(void)cutCurrentPag{
+    if(self.currentPage != 1){
+        self.currentPage -= 1;
+    }
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
     
     NSArray *dataArr = @[@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"goodsStyle":@"智能指纹锁"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"goodsStyle":@"智能指纹锁"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"goodsStyle":@"智能指纹锁"}];
-    //    if ([result isKindOfClass:[NSDictionary class]]) {
-    //        NSArray *dataInfo = result[@"data"];
-    //        if ([dataInfo isKindOfClass:[NSArray class]]) {
-    //            dataArr = dataInfo;
-    //        }
-    //    }
     
     [self.allOrderTable.data removeAllObjects];
     for (NSDictionary *dic in dataArr) {
@@ -125,10 +148,6 @@
 
 #pragma mark - UITableViewDelegate
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return 30.0;
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
 }
@@ -153,19 +172,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    UITableViewCell *cell = nil;
+
     ADAfterSaleServiceViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADAfterSaleServiceViewCell"];
-//    if (cell == nil) {
-//        cell = (ADAfterSaleServiceViewCell*)[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ADAfterSaleServiceViewCell"];
-//    }
     if (self.allOrderTable.data.count > indexPath.row) {
         ADAfterSaleServiceViewModel *model = self.allOrderTable.data[indexPath.row];
         cell.model = model;
         cell.backgroundColor = [UIColor clearColor];
-//        cell.detailBtnClickBlock = ^{
-//            ADOrderDetailViewController *orderDetailVC = [[ADOrderDetailViewController alloc]init];
-//            [self.navigationController pushViewController:orderDetailVC animated:YES];
-//        };
     }
     
     return cell;
@@ -191,6 +203,7 @@
 }
 
 - (void)baseTableView:(BaseTableView *)tableView loadMore:(BOOL)flag {
+    self.currentPage += 1;
     [self requestAllOrder:YES];
 }
 

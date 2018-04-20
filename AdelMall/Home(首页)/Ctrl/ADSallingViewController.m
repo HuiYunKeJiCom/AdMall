@@ -48,51 +48,44 @@
     
     WEAKSELF
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [RequestTool getGoodsForFlashSale:@{@"type":@"start"} withSuccessBlock:^(NSDictionary *result) {
+    [RequestTool getGoodsForFlashSale:@{@"type":@"start",@"currentPage":[NSNumber numberWithInteger:self.currentPage]} withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"正在抢购result = %@",result);
         if([result[@"code"] integerValue] == 1){
             [weakSelf handleTransferResult:result more:more];
         }else if([result[@"code"] integerValue] == -2){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"登录失效";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }else if([result[@"code"] integerValue] == -1){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"未登录";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }else if([result[@"code"] integerValue] == 0){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"失败";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }else if([result[@"code"] integerValue] == 2){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"无返回数据";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }
     } withFailBlock:^(NSString *msg) {
-        self.currentPage -= 1;
+        [self cutCurrentPag];
         NSLog(@"正在抢购msg = %@",msg);
         hud.detailsLabelText = msg;
         hud.mode = MBProgressHUDModeText;
         [hud hide:YES afterDelay:1.0];
     }];
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-//                                           [weakSelf showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-//    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
-    
+}
+
+-(void)cutCurrentPag{
+    if(self.currentPage != 1){
+        self.currentPage -= 1;
+    }
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{

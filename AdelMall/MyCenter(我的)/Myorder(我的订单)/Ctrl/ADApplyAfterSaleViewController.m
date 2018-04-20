@@ -10,12 +10,14 @@
 #import "ADOrderTopToolView.h"//自定义导航栏
 #import "ADApplyAfterSaleModel.h"
 #import "ADApplyAfterSaleCell.h"
+#import "ADAfterSaleServiceDetailViewController.h"//售后服务单详情
 
 @interface ADApplyAfterSaleViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
 @property (nonatomic, strong) BaseTableView         *allOrderTable;
 /* 顶部Nva */
 @property (strong , nonatomic)ADOrderTopToolView *topToolView;
-
+/** 当前页数 */
+@property(nonatomic)NSInteger currentPage;
 @end
 
 @implementation ADApplyAfterSaleViewController
@@ -27,6 +29,10 @@
     [self setUpNavTopView];
     [self.view addSubview:self.allOrderTable];
     [self makeConstraints];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.currentPage = 1;
     [self requestAllOrder:NO];
 }
 
@@ -62,32 +68,54 @@
 
 - (void)requestAllOrder:(BOOL)more {
     [self.allOrderTable updateLoadState:more];
-    
+    NSLog(@"获取订单售后商品self.orderID = %@",self.orderID);
     WEAKSELF
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-    //                                       [weak_self showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getOrderGoodsList:@{@"orderId":self.orderID,@"currentPage":[NSNumber numberWithInteger:self.currentPage]} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"获取订单售后商品result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+            [weakSelf handleTransferResult:result more:more];
+        }else if([result[@"code"] integerValue] == -2){
+            [self cutCurrentPag];
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            [self cutCurrentPag];
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            [self cutCurrentPag];
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            [self cutCurrentPag];
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+            [self.allOrderTable reloadData];
+        }
+    } withFailBlock:^(NSString *msg) {
+        [self cutCurrentPag];
+        NSLog(@"获取订单售后商品msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
+}
+
+-(void)cutCurrentPag{
+    if(self.currentPage != 1){
+        self.currentPage -= 1;
+    }
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
     
-    NSArray *dataArr = @[@{@"id":@"123456",@"address":@"ADEL爱迪尔US3-7智能指纹锁小区",@"goodsType":@"家用木门防盗门锁密码锁感应锁",@"price":@"1888.00"},@{@"id":@"123456",@"address":@"ADEL爱迪尔US3-7智能指纹锁小区",@"goodsType":@"家用木门防盗门锁密码锁感应锁",@"price":@"1888.00"},@{@"id":@"123456",@"address":@"ADEL爱迪尔US3-7智能指纹锁小区",@"goodsType":@"家用木门防盗门锁密码锁感应锁",@"price":@"1888.00"}];
-    //    if ([result isKindOfClass:[NSDictionary class]]) {
-    //        NSArray *dataInfo = result[@"data"];
-    //        if ([dataInfo isKindOfClass:[NSArray class]]) {
-    //            dataArr = dataInfo;
-    //        }
-    //    }
+    NSArray *dataArr = result[@"data"][@"resultList"];
     
     [self.allOrderTable.data removeAllObjects];
     for (NSDictionary *dic in dataArr) {
@@ -153,21 +181,18 @@
     if (self.allOrderTable.data.count > indexPath.row) {
         ADApplyAfterSaleModel *model = self.allOrderTable.data[indexPath.row];
         cell.model = model;
+        cell.applyAfterSaleBtnClickBlock = ^{
+            //申请售后
+            ADAfterSaleServiceDetailViewController *ASSDetailVC = [[ADAfterSaleServiceDetailViewController alloc]init];
+            ASSDetailVC.model = model;
+            [self.navigationController pushViewController:ASSDetailVC animated:YES];
+        };
     }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //    if (self.allOrderTable.data.count > indexPath.row) {
-    //        WLTransferAccountModel *model = self.accountTable.data[indexPath.row];
-    //        NSLog(@"查看的信息model = %@",model.mj_keyValues);
-    //        WLInformDetailCtrl *ctrl = [[WLInformDetailCtrl alloc] init];
-    //        ctrl.accountModel = model;
-    //        ctrl.messageDetail = NO;
-    //        [self.navigationController pushViewController:ctrl animated:YES];
-    //    }
 }
 
 - (void)baseTableVIew:(BaseTableView *)tableView refresh:(BOOL)flag {
@@ -175,6 +200,7 @@
 }
 
 - (void)baseTableView:(BaseTableView *)tableView loadMore:(BOOL)flag {
+    self.currentPage += 1;
     [self requestAllOrder:YES];
 }
 

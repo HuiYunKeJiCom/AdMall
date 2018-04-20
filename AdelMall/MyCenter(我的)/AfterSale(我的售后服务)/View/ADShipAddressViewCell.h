@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ADShipAddressViewCell : UICollectionViewCell
+@interface ADShipAddressViewCell : BaseTableCell
 
 @end

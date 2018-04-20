@@ -12,6 +12,7 @@
 #import "DCGridItem.h"
 #import "ADLMyInfoTableView.h"
 #import "ADOrderListViewController.h"//订单页面
+#import "ADUnshippedDeliveryViewController.h"//未发货
 #import "ADAfterSaleServiceViewController.h"//售后
 //#import "ADGoodsDetailViewController.h"
 #import "ADCouponViewController.h"//优惠券
@@ -238,8 +239,7 @@
             break;
         case 1:{
             NSLog(@"点击了未发货");
-            ADOrderListViewController *orderListOrder=[[ADOrderListViewController alloc]init];
-            orderListOrder.index=2;
+            ADUnshippedDeliveryViewController *orderListOrder=[[ADUnshippedDeliveryViewController alloc]init];
             [self.navigationController pushViewController:orderListOrder animated:YES];
             //            [self enterSetting];
         }

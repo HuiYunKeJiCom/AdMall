@@ -15,10 +15,10 @@
 #import "ADExpressInformationViewCell.h"//快递单信息
 #import "ADShipAddressViewCell.h"//发货地址
 #import "ADApplicationRecordViewCell.h"//售后申请记录
+#import "ADApplyAfterSaleModel.h"
 
-@interface ADAfterSaleServiceDetailViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
-/* collectionView */
-@property (strong , nonatomic)UICollectionView *collectionView;
+@interface ADAfterSaleServiceDetailViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
+@property (nonatomic, strong) BaseTableView         *allOrderTable;
 
 /* 顶部Nva */
 @property (strong , nonatomic)ADOrderTopToolView *topToolView;
@@ -39,9 +39,10 @@ static NSString *const ADApplicationRecordViewCellID = @"ADApplicationRecordView
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = k_UIColorFromRGB(0xffffff);
+    [self.view addSubview:self.allOrderTable];
     [self setUpBase];
-    [self setUpGIFRrfresh];
     [self setUpNavTopView];
+    [self makeConstraints];
 }
 
 #pragma mark - 导航栏处理
@@ -58,100 +59,97 @@ static NSString *const ADApplicationRecordViewCellID = @"ADApplicationRecordView
     //    _topToolView.rightItemClickBlock = ^{
     //        NSLog(@"点击设置");
     //    };
-    
     [self.view addSubview:_topToolView];
+}
+
+#pragma mark - Constraints
+- (void)makeConstraints {
     
+    //    WEAKSELF
+    [self.allOrderTable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        make.top.equalTo(self.view.mas_top).with.offset(65);
+    }];
     
 }
 
-#pragma mark - LazyLoad
-- (UICollectionView *)collectionView
-{
-    if (!_collectionView) {
-        UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
-        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
-        _collectionView.frame = CGRectMake(0, 64, kScreenWidth, kScreenHeight -64);
-        _collectionView.showsVerticalScrollIndicator = NO;        //注册
-        [_collectionView registerClass:[ADServiceFlowViewCell class] forCellWithReuseIdentifier:ADServiceFlowViewCellID];
-        [_collectionView registerClass:[ADOrderBasicViewCell class] forCellWithReuseIdentifier:ADOrderBasicViewCellID];
-        [_collectionView registerClass:[ADExpressInformationViewCell class] forCellWithReuseIdentifier:ADExpressInformationViewCellID];
-        [_collectionView registerClass:[ADShipAddressViewCell class] forCellWithReuseIdentifier:ADShipAddressViewCellID];
-        [_collectionView registerClass:[ADApplicationRecordViewCell class] forCellWithReuseIdentifier:ADApplicationRecordViewCellID];
+- (BaseTableView *)allOrderTable {
+    if (!_allOrderTable) {
+        _allOrderTable = [[BaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _allOrderTable.delegate = self;
+        _allOrderTable.dataSource = self;
+        _allOrderTable.isLoadMore = YES;
+        _allOrderTable.isRefresh = YES;
+        _allOrderTable.delegateBase = self;
         
-            [_collectionView registerClass:[ADServiceStateView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:ADServiceStateViewID];
+        //注册
+        [_allOrderTable registerClass:[ADOrderBasicViewCell class] forCellReuseIdentifier:ADOrderBasicViewCellID];
         
-        [self.view addSubview:_collectionView];
+        //注册
+        [_allOrderTable registerClass:[ADServiceFlowViewCell class] forCellReuseIdentifier:ADServiceFlowViewCellID];
+        [_allOrderTable registerClass:[ADOrderBasicViewCell class] forCellReuseIdentifier:ADOrderBasicViewCellID];
+        [_allOrderTable registerClass:[ADExpressInformationViewCell class] forCellReuseIdentifier:ADExpressInformationViewCellID];
+        [_allOrderTable registerClass:[ADShipAddressViewCell class] forCellReuseIdentifier:ADShipAddressViewCellID];
+        [_allOrderTable registerClass:[ADApplicationRecordViewCell class] forCellReuseIdentifier:ADApplicationRecordViewCellID];
     }
-    return _collectionView;
-}
-
-#pragma mark - initialize
-- (void)setUpBase
-{
-    self.collectionView.backgroundColor = kBACKGROUNDCOLOR;
-    
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-}
-
-#pragma mark - 设置头部header
-- (void)setUpGIFRrfresh
-{
-    self.collectionView.mj_header = [DCHomeRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(setUpRecData)];
+    return _allOrderTable;
 }
 
 #pragma mark - 刷新
 - (void)setUpRecData
 {
-    WEAKSELF
+//    WEAKSELF
     if (@available(iOS 10.0, *)) {
         UIImpactFeedbackGenerator *generator = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
         [generator prepare];
         [generator impactOccurred];
     }
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ //手动延迟
-        [weakSelf.collectionView.mj_header endRefreshing];
-    });
 }
 
-#pragma mark - <UICollectionViewDataSource>
-- (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+#pragma mark - initialize
+- (void)setUpBase
+{
+    self.allOrderTable.backgroundColor = kBACKGROUNDCOLOR;
+    
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 5;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
 }
 
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *gridcell = nil;
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *gridcell = nil;
     if (indexPath.section == 0) {
-        ADServiceFlowViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADServiceFlowViewCellID forIndexPath:indexPath];
+        ADServiceFlowViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ADServiceFlowViewCellID];
         //            cell.gridItem = _gridItem[indexPath.row];
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
 
     }else if (indexPath.section == 1) {//订单基本信息
-        ADOrderBasicViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADOrderBasicViewCellID forIndexPath:indexPath];
+        ADOrderBasicViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ADOrderBasicViewCellID];
         //            cell.gridItem = _gridItem[indexPath.row];
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
     }
     else if (indexPath.section == 2) {//快递单信息
-        ADExpressInformationViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADExpressInformationViewCellID forIndexPath:indexPath];
+        ADExpressInformationViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ADExpressInformationViewCellID];
         //            cell.gridItem = _gridItem[indexPath.row];
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
     }else if (indexPath.section == 3) {//发货地址
-        ADShipAddressViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADShipAddressViewCellID forIndexPath:indexPath];
+        ADShipAddressViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ADShipAddressViewCellID];
         //            cell.gridItem = _gridItem[indexPath.row];
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
     }else if (indexPath.section == 4) {//售后申请记录
-        ADApplicationRecordViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADApplicationRecordViewCellID forIndexPath:indexPath];
+        ADApplicationRecordViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ADApplicationRecordViewCellID];
         //            cell.gridItem = _gridItem[indexPath.row];
         cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
@@ -159,75 +157,43 @@ static NSString *const ADApplicationRecordViewCellID = @"ADApplicationRecordView
     return gridcell;
 }
 
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    
-    UICollectionReusableView *reusableview = nil;
-    if (indexPath.section == 0) {
-        ADServiceStateView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:ADServiceStateViewID forIndexPath:indexPath];
-        //        headerView.imageGroupArray = GoodsHomeSilderImagesArray;
-        reusableview = headerView;
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        ADServiceStateView *headerView = [[ADServiceStateView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+        headerView.backgroundColor = kBACKGROUNDCOLOR;
+        return headerView;
+    }else{
+        UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, GetScaleWidth(10))];
+        sectionView.backgroundColor = kBACKGROUNDCOLOR;
+        return sectionView;
     }
-    return reusableview;
 }
 
-//这里我为了直观的看出每组的CGSize设置用if 后续我会用简洁的三元表示
-#pragma mark - item宽高
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if(section == 0){
+        return 40;
+    }else{
+        return GetScaleWidth(10);
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {//售后流程
-        return CGSizeMake(kScreenWidth, 150);
+        return 150;
     }
     if (indexPath.section == 1) {//基本信息
-        return CGSizeMake(kScreenWidth, 150);
+        return 150;
     }
     if (indexPath.section == 2) {//快递单信息
-        return CGSizeMake(kScreenWidth, 190);
+        return 190;
     }
     if (indexPath.section == 3) {//发货地址
-        return CGSizeMake(kScreenWidth, 145);
+        return 145;
     }
     if (indexPath.section == 4) {//售后申请记录
-        return CGSizeMake(kScreenWidth, 185);
+        return 185;
     }
-    return CGSizeZero;
-}
-
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewLayoutAttributes *layoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-    return layoutAttributes;
-}
-
-#pragma mark - head宽高
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    if (section == 0) {//
-        return CGSizeMake(kScreenWidth, 40);
-    }
-    return CGSizeZero;
-}
-
-#pragma mark - foot宽高
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    
-    return CGSizeZero;
-}
-
-#pragma mark - <UICollectionViewDelegateFlowLayout>
-#pragma mark - X间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return (section == 5) ? 4 : 0;
-}
-#pragma mark - Y间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return (section == 5) ? 4 : 0;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-}
-
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsMake(0, 0, 15, 0);//分别为上、左、下、右
+    return 0;
 }
 
 - (void)didReceiveMemoryWarning {

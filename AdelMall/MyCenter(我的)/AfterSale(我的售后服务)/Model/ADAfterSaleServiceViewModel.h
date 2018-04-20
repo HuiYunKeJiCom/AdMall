@@ -9,10 +9,20 @@
 #import <Foundation/Foundation.h>
 
 @interface ADAfterSaleServiceViewModel : NSObject
-/** id */
-@property (nonatomic, copy) NSString      *idx;
-/** name */
-@property (nonatomic, copy) NSString      *goodsName;
-/** 商品类型 */
-@property (nonatomic, copy) NSString      *goodsStyle;
+/** 售后服务单号 */
+@property (nonatomic, copy) NSString      *apply_no;
+/** 售后类型【0=退款，1=换货，2=维修】 */
+@property (nonatomic, copy) NSString      *apply_type;
+/** 售后服务当前状态【1=提交申请，2=客服审核，3=商家收货，4=商家处理，5=完成】 */
+@property (nonatomic, copy) NSString      *statues;
+/** 申请时间 */
+@property (nonatomic, copy) NSString      *addTime;
+/** 订单号 */
+@property (nonatomic, copy) NSString      *order_id;
+/** 商品ID */
+@property (nonatomic, copy) NSString      *goods_id;
+/** 商品名称 */
+@property (nonatomic, copy) NSString      *goods_name;
+/** 商品主图片 */
+@property (nonatomic, copy) NSString      *goods_image_path;
 @end

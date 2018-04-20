@@ -76,12 +76,13 @@
     [self.bgView addSubview:self.contactsLab];
     [self.bgView addSubview:self.contactPhoneTitLab];
     [self.bgView addSubview:self.contactPhoneLab];
+    [self makeConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self makeConstraints];
+    
 }
 
 #pragma mark - 填充数据

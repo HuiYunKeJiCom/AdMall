@@ -64,12 +64,13 @@
     [self addSubview:self.completionLab];
     [self addSubview:self.applyTimeTitLab];
     [self addSubview:self.applyTimeLab];
+     [self makeConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self makeConstraints];
+   
 }
 
 #pragma mark - 填充数据
@@ -270,11 +271,7 @@
 - (UIButton *)checkBtn {
     if (!_checkBtn) {
         _checkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        _checkBtn.titleLabel.font = [UIFont systemFontOfSize:kFontNum12];
         _checkBtn.backgroundColor = [UIColor clearColor];
-//        [_checkBtn setImage:[UIImage imageNamed:@"ico_home_back_black"] forState:UIControlStateNormal];
-//        _checkBtn.backgroundColor = [UIColor redColor];
-//        [_checkBtn setTitleColor:KColorText878686 forState:UIControlStateNormal];
         [_checkBtn addTarget:self action:@selector(checkButtonClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _checkBtn;

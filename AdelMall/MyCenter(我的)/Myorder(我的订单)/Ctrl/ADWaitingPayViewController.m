@@ -51,28 +51,28 @@
     
     WEAKSELF
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [RequestTool getOrderList:@{@"orderStatus":@"10"} withSuccessBlock:^(NSDictionary *result) {
+    [RequestTool getOrderList:@{@"orderStatus":@"10",@"currentPage":[NSNumber numberWithInteger:self.currentPage]} withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"订单列表待付款result = %@",result);
         if([result[@"code"] integerValue] == 1){
             [hud hide:YES];
             [weakSelf handleTransferResult:result more:more];
         }else if([result[@"code"] integerValue] == -2){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"登录失效";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }else if([result[@"code"] integerValue] == -1){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"未登录";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }else if([result[@"code"] integerValue] == 0){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"失败";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }else if([result[@"code"] integerValue] == 2){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"无返回数据";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
@@ -80,12 +80,18 @@
         }
         
     } withFailBlock:^(NSString *msg) {
-        self.currentPage -= 1;
+        [self cutCurrentPag];
         NSLog(@"订单列表待付款msg = %@",msg);
         hud.detailsLabelText = msg;
         hud.mode = MBProgressHUDModeText;
         [hud hide:YES afterDelay:1.0];
     }];
+}
+
+-(void)cutCurrentPag{
+    if(self.currentPage != 1){
+        self.currentPage -= 1;
+    }
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
@@ -163,6 +169,7 @@
         cell.afterSaleBtnClickBlock = ^{
             //申请售后
             ADApplyAfterSaleViewController *applyAfterSaleVC = [[ADApplyAfterSaleViewController alloc]init];
+            applyAfterSaleVC.orderID = model.order_id;
             [self.navigationController pushViewController:applyAfterSaleVC animated:YES];
         };
         cell.toPayBtnClickBlock = ^{

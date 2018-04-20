@@ -116,6 +116,10 @@ static NSString * const kRequestCodeGetOrderDetail = @"kRequestGetOrderDetail";
 static NSString * const kApiUrlCancelOrder = @"auth/cancelOrder.htm?";
 static NSString * const kRequestCodeCancelOrder = @"kRequestCancelOrder";
 
+/* 获取订单售后商品 */
+static NSString * const kApiUrlGetOrderGoodsList = @"auth/orderGoodsList.htm?";
+static NSString * const kRequestCodeGetOrderGoodsList = @"kRequestGetOrderGoodsList";
+
 /* 评价晒单列表 */
 static NSString * const kApiUrlGetEvaluationList = @"auth/evaluationList.htm?";
 static NSString * const kRequestCodeGetEvaluationList = @"kRequestGetEvaluationList";
@@ -127,6 +131,10 @@ static NSString * const kRequestCodeGetEvaluateLabel = @"kRequestGetEvaluateLabe
 /* 填写评价信息 */
 static NSString * const kApiUrlSaveEvaluate = @"auth/saveEvaluate.htm?";
 static NSString * const kRequestCodeSaveEvaluate = @"kRequestSaveEvaluate";
+
+/* 售后服务列表 */
+static NSString * const kApiUrlGetAfterServiceList = @"auth/afterServiceList.htm?";
+static NSString * const kRequestCodeGetAfterServiceList = @"kRequestGetAfterServiceList";
 
 /* 获取当前订单可用的平台优惠券 */
 static NSString * const kApiUrlGetSystemCoupon = @"auth/getSystemCoupon.htm?";
@@ -650,6 +658,19 @@ static NSString * const kLockItunesAppSystemCode =  @"";
     }];
 }
 
+/* 获取订单售后商品 */
++(void)getOrderGoodsList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetOrderGoodsList params:paramsDic requestCode:kRequestCodeGetOrderGoodsList withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
 /* 评价晒单列表 */
 +(void)getEvaluationList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetEvaluationList params:paramsDic requestCode:kRequestCodeGetEvaluationList withSuccessBlock:^(NSDictionary *result) {
@@ -679,6 +700,19 @@ static NSString * const kLockItunesAppSystemCode =  @"";
 /* 填写评价信息 */
 +(void)saveEvaluate:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
     [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlSaveEvaluate params:paramsDic requestCode:kRequestCodeSaveEvaluate withSuccessBlock:^(NSDictionary *result) {
+        
+        successBlock(result);
+        
+    } withFailBlock:^(NSString *msg) {
+        
+        failBlock(msg);
+        
+    }];
+}
+
+/* 售后服务列表 */
++(void)getAfterServiceList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock{
+    [RequestDataAndSafeDeal getDataDicWithUrl:kApiUrlGetAfterServiceList params:paramsDic requestCode:kRequestCodeGetAfterServiceList withSuccessBlock:^(NSDictionary *result) {
         
         successBlock(result);
         

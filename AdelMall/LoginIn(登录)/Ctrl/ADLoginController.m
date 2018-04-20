@@ -11,6 +11,8 @@
 #import "ADLUserModel.h"
 #import "ADLGlobalHandleModel.h"
 #import "ADAppToken.h"
+#import "ADRegisterCtrlViewController.h"//注册
+#import "DCTabBarController.h"
 
 @interface ADLoginController ()<ADLoginViewDelegate>
 
@@ -76,7 +78,7 @@
 #pragma mark - ADLLoginViewDelegate
 
 - (void)loginView:(ADLoginView *)logView userName:(NSString *)userName pwd:(NSString *)pwd {
-    NSLog(@"userName = %@,pwd = %@",userName,pwd);
+//    NSLog(@"userName = %@,pwd = %@",userName,pwd);
 //    [NSString getMd5_32Bit_String:pwd]
     
 //    WEAKSELF
@@ -101,7 +103,6 @@
             }
 //            NSLog(@"请头myAppToken = %@",model.app_token);
             [kAppDelegate initRootUI];
-            
         }else{
         }
     } withFailBlock:^(NSString *msg) {
@@ -127,8 +128,9 @@
         }
             break;
         case UseLoginTypeRegister:{
+            NSLog(@"跳转到注册页面");
             //注册
-//            ADLRegisterInformCtrl *ctrl = [[ADLRegisterInformCtrl alloc] init];
+//            ADRegisterCtrlViewController *ctrl = [[ADRegisterCtrlViewController alloc] init];
 //            [self.navigationController pushViewController:ctrl animated:YES];
         }
             break;

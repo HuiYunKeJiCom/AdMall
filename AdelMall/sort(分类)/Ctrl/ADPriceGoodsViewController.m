@@ -52,6 +52,7 @@
     
     NSMutableDictionary *paraDict = [NSMutableDictionary dictionary];
     [paraDict setValue:@"store_price" forKey:@"orderBy"];
+    [paraDict setValue:[NSNumber numberWithInteger:self.currentPage] forKey:@"currentPage"];
     if(self.subItem.idx){
         [paraDict setValue:self.subItem.idx forKey:@"gc_id"];
     }else{
@@ -66,37 +67,39 @@
             [hud hide:YES];
             [weakSelf handleTransferResult:result more:more];
         }else if([result[@"code"] integerValue] == -2){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"登录失效";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }else if([result[@"code"] integerValue] == -1){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"未登录";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }else if([result[@"code"] integerValue] == 0){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"失败";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }else if([result[@"code"] integerValue] == 2){
-            self.currentPage -= 1;
+            [self cutCurrentPag];
             hud.detailsLabelText = @"无返回数据";
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
         }
     } withFailBlock:^(NSString *msg) {
-        self.currentPage -= 1;
+        [self cutCurrentPag];
         NSLog(@"商品列表价格msg = %@",msg);
         hud.detailsLabelText = msg;
         hud.mode = MBProgressHUDModeText;
         [hud hide:YES afterDelay:1.0];
     }];
-    
-//    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
-    
+}
+
+-(void)cutCurrentPag{
+    if(self.currentPage != 1){
+        self.currentPage -= 1;
+    }
 }
 
 - (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{

@@ -59,12 +59,13 @@
     [self addSubview:self.expressNumTF];
     [self addSubview:self.submitBtn];
     [self addSubview:self.deleteBtn];
+    [self makeConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self makeConstraints];
+    
 }
 
 #pragma mark - 填充数据
