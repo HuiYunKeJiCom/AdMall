@@ -8,6 +8,7 @@
 
 #import "BaseViewCtrl.h"
 #import "UIView+Frame.h"
+#import "UIView+Extension.h"
 
 #define kFFVenueNoDataPromptMessage  KLocalizableStr(@"没有数据喽,点击重新刷新~")
 
