@@ -28,7 +28,7 @@
 #import "ADCountDownActivityModel.h"
 #import "ADFloorModel.h"
 #import "ADAdvertModel.h"//广告轮播图模型
-#import "ADStarGoodsModel.h"//智能硬件模型
+#import "ADGoodsModel.h"//智能硬件模型
 #import "ADCountDownGoodsModel.h"//限时秒杀模型
 
 //#import "ADGoodsTempModel.h"
@@ -53,9 +53,9 @@
 @property(nonatomic,copy)NSString *exceedPath;
 //
 /* 智能硬件数据数组 */
-@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *goodExceedItem;
+@property (strong , nonatomic)NSMutableArray<ADGoodsModel *> *goodExceedItem;
 /** 数据模型 */
-@property(nonatomic,strong)ADStarGoodsModel *model;
+@property(nonatomic,strong)ADGoodsModel *model;
 
 /* 轮播图数组 */
 @property (copy , nonatomic)NSArray *imageGroupArray;
@@ -66,14 +66,16 @@
 @property (strong , nonatomic)NSMutableArray<ADCountDownGoodsModel *> *countDownItem;
 
 /* 明星产品数据数组 */
-@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *starGoodsItem;
+@property (strong , nonatomic)NSMutableArray<ADGoodsModel *> *starGoodsItem;
 
 /* 为您推荐数据数组 */
-@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *recommendItem;
+@property (strong , nonatomic)NSMutableArray<ADGoodsModel *> *recommendItem;
 /* 为您推荐数组 */
 @property (copy , nonatomic)NSArray *recommendArray;
 ///* floorId数组 */
 //@property (copy , nonatomic)NSMutableArray *floorIdArray;
+/** 抢购活动模型 */
+@property(nonatomic,strong)ADCountDownActivityModel *countDownModel;
 @end
 
 /* cell */
@@ -143,8 +145,14 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     //抢购详情的商品id
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGoodsID:) name:@"goodsID" object:nil];
     
-    //商品详情的商品id
+    //明星产品--商品详情的商品id
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getStarGoodsID:) name:@"starGoodsID" object:nil];
+    
+    //智能硬件--商品详情的商品id
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getExceedGoodsID:) name:@"exceedID" object:nil];
+    
+    //为您推荐--商品详情的商品id
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getRecommendGoodsID:) name:@"recommendID" object:nil];
     
     [self loadData];
 }
@@ -156,6 +164,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 //跳转到抢购详情页面
 -(void)getGoodsID:(NSNotification *)text{
     ADSallGoodsDetailViewController *sallGoodsDetailVC = [[ADSallGoodsDetailViewController alloc] init];
+    sallGoodsDetailVC.countDownModel = self.countDownModel;
     [sallGoodsDetailVC loadDataWithGoodsID:text.userInfo[@"goodsID"]];
     [self.navigationController pushViewController:sallGoodsDetailVC animated:YES];
 }
@@ -165,6 +174,24 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
 //    [detailVC loadDataWithGoodsID:text.userInfo[@"starGoodsID"]];
     detailVC.goodsID = text.userInfo[@"starGoodsID"];
+    
+    [self.navigationController pushViewController:detailVC animated:YES];
+}
+
+//跳转到商品详情页面
+-(void)getExceedGoodsID:(NSNotification *)text{
+    ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
+    //    [detailVC loadDataWithGoodsID:text.userInfo[@"starGoodsID"]];
+    detailVC.goodsID = text.userInfo[@"exceedID"];
+    
+    [self.navigationController pushViewController:detailVC animated:YES];
+}
+
+//跳转到商品详情页面
+-(void)getRecommendGoodsID:(NSNotification *)text{
+    ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
+    //    [detailVC loadDataWithGoodsID:text.userInfo[@"starGoodsID"]];
+    detailVC.goodsID = text.userInfo[@"recommendID"];
     
     [self.navigationController pushViewController:detailVC animated:YES];
 }
@@ -205,7 +232,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
         NSLog(@"限时秒杀msg = %@",msg);
     }];
 
-    [RequestTool getStarGoods:nil withSuccessBlock:^(NSDictionary *result) {
+    [RequestTool getStarGoods:@{@"orderBy":@"goods_current_price",@"pageSize":@"10"} withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"明星产品result = %@",result);
         if([result[@"code"] integerValue] == 1){
             [self getStarGoodsWithNSDictionary:result];
@@ -214,7 +241,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
         NSLog(@"明星产品msg = %@",msg);
     }];
 
-    [RequestTool getRecommendData:nil withSuccessBlock:^(NSDictionary *result) {
+    [RequestTool getRecommendData:@{@"orderBy":@"goods_current_price",@"pageSize":@"10"} withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"为您推荐result = %@",result);
 
         if([result[@"code"] integerValue] == 1){
@@ -254,6 +281,10 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     NSArray *dataInfo = dict[@"data"][@"group_goodsList"][@"resultList"];
     //    NSLog(@"抢购dataInfo = %@",dataInfo);
     _countDownItem = [ADCountDownGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    
+    NSArray *data = dict[@"data"];
+    self.countDownModel = [ADCountDownActivityModel mj_objectWithKeyValues:data];
+    
     [self.collectionView reloadData];
 }
 
@@ -261,7 +292,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 -(void)getStarGoodsWithNSDictionary:(NSDictionary *)dict
 {
     NSArray *dataInfo = dict[@"data"][@"goodsList"];
-    _starGoodsItem = [ADStarGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    _starGoodsItem = [ADGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
     [self.collectionView reloadData];
 }
 
@@ -270,8 +301,8 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 {
     NSArray *dataInfo = dict[@"data"][@"goodsList"];
     NSMutableArray *tempAdvertArr = [NSMutableArray array];
-    _recommendItem = [ADStarGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
-    for (ADStarGoodsModel *model in _recommendItem) {
+    _recommendItem = [ADGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
+    for (ADGoodsModel *model in _recommendItem) {
         NSLog(@"model = %@",model.mj_keyValues);
         [tempAdvertArr addObject:model.goods_image_path];
     }
@@ -283,29 +314,10 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 //获取首页楼层数据(智能硬件)
 -(void)withNSDictionary:(NSDictionary *)dict
 {
-
     NSArray *data= dict[@"data"][@"result"];
     NSArray *dataInfo = data[0][@"goodsList"];
-//    NSMutableArray *tempAdvertArr = [NSMutableArray array];
-    _goodExceedItem = [ADStarGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
-    
-    
-    
-//    NSLog(@"_goodExceedItem = %lu",_goodExceedItem.count);
-//    for (ADStarGoodsModel *model in _goodExceedItem) {
-//        //        NSLog(@"model = %@",model.mj_keyValues);
-//        [tempAdvertArr addObject:model.goods_image_path];
-//    }
-//    self.goodExceedArray = tempAdvertArr;
+    _goodExceedItem = [ADGoodsModel mj_objectArrayWithKeyValuesArray:dataInfo];
     [self.collectionView reloadData];
-    
-//    NSArray *dataInfo = dict[@"data"][@"result"];
-//    _floorDataItem = [ADFloorModel mj_objectArrayWithKeyValuesArray:dataInfo];
-//    for (ADFloorModel *model in _floorDataItem) {
-//        if([model.floorId isEqualToString:@"1"]){
-//            [self loadDataWithFloorID:model.floorId];
-//        }
-//    }
 }
 
 - (NSMutableArray<ADFloorModel *> *)floorDataItem
@@ -395,21 +407,10 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     else if (indexPath.section == 2) {//明星产品
         ADStarGoodsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADStarGoodsCellID forIndexPath:indexPath];
         [cell loadDataWithArray:self.starGoodsItem];
-//        cell.lookDetailBlock = ^{
-//            ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
-//            [self.navigationController pushViewController:detailVC animated:YES];
-//        };
         gridcell = cell;
     }else if (indexPath.section == 3) {//智能硬件
         DCExceedApplianceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DCExceedApplianceCellID forIndexPath:indexPath];
         [cell loadDataWithNSString:self.exceedPath and:self.goodExceedItem];
-//        cell.goodExceedArray = GoodsRecommendArray;
-
-        cell.lookDetailBlock = ^{
-            ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
-            [self.navigationController pushViewController:detailVC animated:YES];
-        };
-//        cell.backgroundColor = [UIColor redColor];
         gridcell = cell;
         
     }else if (indexPath.section == 4) {//按钮
@@ -421,10 +422,6 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
     else  if (indexPath.section == 5){//为您推荐
         ADRecommendCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADRecommendCellID forIndexPath:indexPath];
         [cell loadDataWithArray:self.recommendArray and:self.recommendItem];
-        cell.lookDetailBlock = ^{
-            ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
-            [self.navigationController pushViewController:detailVC animated:YES];
-        };
         gridcell = cell;
     }
     return gridcell;
@@ -442,6 +439,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
         }else if(indexPath.section == 1){
 //            限时秒杀
             DCCountDownHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCCountDownHeadViewID forIndexPath:indexPath];
+            headerView.model = self.countDownModel;
             headerView.lookAllBlock = ^{
                 //进入限时抢购页面
                 ADFlashSaleViewController *flashSaleVC = [[ADFlashSaleViewController alloc] init];
@@ -536,7 +534,7 @@ static NSString *const ADStarProductHeadViewID = @"ADStarProductHeadView";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
-        return CGSizeMake(kScreenWidth, 230); //图片滚动的宽高
+        return CGSizeMake(kScreenWidth, 230); //图片滚动的宽高‘
     }
     if (section == 1 || section == 2 || section == 3 || section == 5) {//猜你喜欢的宽高
         return CGSizeMake(kScreenWidth, 40);  //推荐适合的宽高

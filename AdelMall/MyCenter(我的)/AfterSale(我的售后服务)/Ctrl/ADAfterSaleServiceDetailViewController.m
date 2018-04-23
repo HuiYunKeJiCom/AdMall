@@ -16,13 +16,15 @@
 #import "ADShipAddressViewCell.h"//发货地址
 #import "ADApplicationRecordViewCell.h"//售后申请记录
 #import "ADApplyAfterSaleModel.h"
+#import "ADAfterSaleServiceViewModel.h"
 
 @interface ADAfterSaleServiceDetailViewController ()<UITableViewDelegate,UITableViewDataSource,BaseTableViewDelegate>
 @property (nonatomic, strong) BaseTableView         *allOrderTable;
 
 /* 顶部Nva */
 @property (strong , nonatomic)ADOrderTopToolView *topToolView;
-
+/** 售后服务详情模型 */
+@property(nonatomic,strong)ADAfterSaleServiceViewModel *serviceViewModel;
 @end
 
 static NSString *const ADServiceStateViewID = @"ADServiceStateView";
@@ -44,6 +46,57 @@ static NSString *const ADApplicationRecordViewCellID = @"ADApplicationRecordView
     [self setUpNavTopView];
     [self makeConstraints];
 }
+
+- (void)requestAllOrder:(BOOL)more {
+    
+    NSMutableDictionary *paraDict = [NSMutableDictionary dictionary];
+    [paraDict setValue:self.model.goods_id forKey:@"goodsId"];
+    if(self.model.apply_no){
+        [paraDict setValue:self.model.apply_no forKey:@"applyNo"];
+    }
+    NSLog(@"售后服务订单详情paraDict = %@",paraDict);
+    [self.allOrderTable updateLoadState:more];
+    WEAKSELF
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [RequestTool getAfterSalesDetail:paraDict withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"售后服务订单详情result = %@",result);
+        if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
+            [weakSelf handleTransferResult:result more:more];
+        }else if([result[@"code"] integerValue] == -2){
+            hud.detailsLabelText = @"登录失效";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == -1){
+            hud.detailsLabelText = @"未登录";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 0){
+            hud.detailsLabelText = @"失败";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+        }else if([result[@"code"] integerValue] == 2){
+            hud.detailsLabelText = @"无返回数据";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.0];
+            [self.allOrderTable reloadData];
+        }
+        
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"售后服务订单详情msg = %@",msg);
+        hud.detailsLabelText = msg;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.0];
+    }];
+}
+
+- (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
+    
+    NSDictionary *dataArr = result[@"data"];
+    self.serviceViewModel = [ADAfterSaleServiceViewModel mj_objectWithKeyValues:dataArr];
+    [self.allOrderTable reloadData];
+}
+
 
 #pragma mark - 导航栏处理
 - (void)setUpNavTopView
@@ -129,7 +182,6 @@ static NSString *const ADApplicationRecordViewCellID = @"ADApplicationRecordView
     if (indexPath.section == 0) {
         ADServiceFlowViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ADServiceFlowViewCellID];
         //            cell.gridItem = _gridItem[indexPath.row];
-        cell.backgroundColor = [UIColor whiteColor];
         gridcell = cell;
 
     }else if (indexPath.section == 1) {//订单基本信息
@@ -196,9 +248,24 @@ static NSString *const ADApplicationRecordViewCellID = @"ADApplicationRecordView
     return 0;
 }
 
+- (void)baseTableVIew:(BaseTableView *)tableView refresh:(BOOL)flag {
+    [self requestAllOrder:NO];
+}
+
+- (void)baseTableView:(BaseTableView *)tableView loadMore:(BOOL)flag {
+    [self requestAllOrder:YES];
+}
+
+-(void)setModel:(ADApplyAfterSaleModel *)model{
+    _model = model;
+    [self requestAllOrder:NO];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 @end

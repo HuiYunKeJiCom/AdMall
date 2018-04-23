@@ -30,7 +30,6 @@
 @property (nonatomic, copy) NSString      *inventory_type;
 /** 商品类型（0=实物商品，1=虚拟商品） */
 @property (nonatomic, copy) NSString      *goods_choice_type;
-
 /** 商品收藏人数 */
 @property (nonatomic, copy) NSString      *goods_collect;
 /** 商品参数[{“val”:”参数值”,”id”:”2”,”name”:”参数名}] */

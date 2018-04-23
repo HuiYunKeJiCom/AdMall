@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class ADStarGoodsModel;
+@class ADGoodsModel;
 @interface ADStarGoodsSubclassCell : UICollectionViewCell
 /* 推荐商品数据 */
-@property (strong , nonatomic)ADStarGoodsModel *model;
+@property (strong , nonatomic)ADGoodsModel *model;
 @end

@@ -27,7 +27,7 @@
         _userEvaluationListView.showsVerticalScrollIndicator = NO;
         _userEvaluationListView.showsHorizontalScrollIndicator = NO;
         
-        _userEvaluationListView.backgroundColor = [UIColor whiteColor];
+        _userEvaluationListView.backgroundColor = kBACKGROUNDCOLOR;
         [_userEvaluationListView registerClass:[ADEvaluateLabelViewCell class] forCellWithReuseIdentifier:ADEvaluateLabelViewCellID];
         [_userEvaluationListView registerClass:[ADEvaluateViewCell class] forCellWithReuseIdentifier:ADEvaluateViewCellID];
         

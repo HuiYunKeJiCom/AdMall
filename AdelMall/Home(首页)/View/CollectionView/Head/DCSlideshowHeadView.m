@@ -16,9 +16,9 @@
 
 // Vendors
 #import <SDCycleScrollView.h>
+#import "ADCountDownActivityModel.h"
 // Categories
 
-// Others
 
 @interface DCSlideshowHeadView ()<SDCycleScrollViewDelegate>
 

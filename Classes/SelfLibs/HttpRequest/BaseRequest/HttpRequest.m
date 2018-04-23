@@ -108,6 +108,20 @@
         fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"advert_invoke.htm?"];
     }
     
+    //获取明星产品列表数据
+    if([fullUrl containsString:@"starGoods.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"starGoods.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"starGoods.htm?"];
+    }
+    
+    //获取为你推荐商品列表
+    if([fullUrl containsString:@"recommend.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"recommend.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"recommend.htm?"];
+    }
+    
     //获取首页楼层数据
     if([fullUrl containsString:@"floor.htm"])
     {
@@ -246,6 +260,13 @@
     {
         NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/orderGoodsList.htm"];
         fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/orderGoodsList.htm?"];
+    }
+    
+    //售后服务订单详情
+    if([fullUrl containsString:@"auth/getAfterSalesDetail.htm"])
+    {
+        NSArray *tempArr = [fullUrl componentsSeparatedByString:@"auth/getAfterSalesDetail.htm"];
+        fullUrl = [NSMutableString stringWithFormat:@"%@%@",tempArr[0],@"auth/getAfterSalesDetail.htm?"];
     }
     
     //评价晒单列表

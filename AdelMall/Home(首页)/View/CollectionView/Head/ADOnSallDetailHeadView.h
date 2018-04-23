@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class ADFlashSaleModel;
+@class ADFlashSaleModel,ADCountDownActivityModel;
 @interface ADOnSallDetailHeadView : UICollectionReusableView
 /** 抢购商品模型 */
 @property(nonatomic,strong)ADFlashSaleModel *model;
+/** 抢购活动模型 */
+@property(nonatomic,strong)ADCountDownActivityModel *countDownModel;
 @end

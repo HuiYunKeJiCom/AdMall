@@ -8,16 +8,20 @@
 
 #import "ADOnSallDetailHeadView.h"
 #import "ADFlashSaleModel.h"
+#import "ADCountDownActivityModel.h"
 
 @interface ADOnSallDetailHeadView()
+{
+    dispatch_source_t _timer;
+}
 /** 人民币 符号 */
 @property(nonatomic,strong)UILabel *symbolLabel;
 /** 最低价 */
 @property(nonatomic,strong)UILabel *lowPriceLabel;
-/** 横杠 */
-@property(nonatomic,strong)UIView *lineView;
-/** 最高价 */
-@property(nonatomic,strong)UILabel *highPriceLabel;
+///** 横杠 */
+//@property(nonatomic,strong)UIView *lineView;
+///** 最高价 */
+//@property(nonatomic,strong)UILabel *highPriceLabel;
 /** 抢购中 */
 @property (strong , nonatomic)UILabel *onSaleLabel;
 /** 时 */
@@ -53,8 +57,8 @@
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.symbolLabel];
     [self addSubview:self.lowPriceLabel];
-    [self addSubview:self.lineView];
-    [self addSubview:self.highPriceLabel];
+//    [self addSubview:self.lineView];
+//    [self addSubview:self.highPriceLabel];
     [self addSubview:self.onSaleLabel];
     [self addSubview:self.hourLabel];
     [self addSubview:self.colonLabel2];
@@ -70,8 +74,8 @@
     [super layoutSubviews];
     self.symbolLabel.frame = CGRectMake(20, 0, 10, self.dc_height);
     self.lowPriceLabel.frame = CGRectMake(CGRectGetMaxX(self.symbolLabel.frame), 0, 60, self.dc_height);
-    self.lineView.frame = CGRectMake(CGRectGetMaxX(self.lowPriceLabel.frame), 20, 5, 1);
-    self.highPriceLabel.frame = CGRectMake(CGRectGetMaxX(self.lineView.frame), 0, 60, self.dc_height);
+//    self.lineView.frame = CGRectMake(CGRectGetMaxX(self.lowPriceLabel.frame), 20, 5, 1);
+//    self.highPriceLabel.frame = CGRectMake(CGRectGetMaxX(self.lineView.frame), 0, 60, self.dc_height);
     self.tipLabel.frame = CGRectMake(self.dc_width-20-40, 0, 40, self.dc_height);
     self.secondLabel.frame = CGRectMake(CGRectGetMinX(self.tipLabel.frame)-5-20, 10, 18, self.dc_height-20);
     self.colonLabel2.frame = CGRectMake(CGRectGetMinX(self.secondLabel.frame)-5, 0, 5, self.dc_height);
@@ -101,55 +105,24 @@
     _model = model;
     
     self.lowPriceLabel.text = [NSString stringWithFormat:@"%.2f",[self.model.gg_price floatValue]];
-    self.highPriceLabel.text = [NSString stringWithFormat:@"%.2f",[self.model.goods_price floatValue]];
+//    self.highPriceLabel.text = [NSString stringWithFormat:@"%.2f",[self.model.goods_price floatValue]];
 //    NSLog(@"self.model = %@",self.model.mj_keyValues);
-    NSMutableArray *timeDifferenceArr = [self dateTimeDifferenceWithStartTime:self.model.beginTime endTime:self.model.endTime];
-    if([timeDifferenceArr[0] integerValue]>10){
-        self.hourLabel.text = timeDifferenceArr[0];
-    }else{
-        self.hourLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[0]];
-    }
-    if([timeDifferenceArr[1] integerValue]>10){
-        self.minuteLabel.text = timeDifferenceArr[1];
-    }else{
-        self.minuteLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[1]];
-    }
-    if([timeDifferenceArr[2] integerValue]>10){
-        self.secondLabel.text = timeDifferenceArr[2];
-    }else{
-        self.secondLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[2]];
-    }
-}
-
--(NSMutableArray *)dateTimeDifferenceWithStartTime:(NSString *)startTime endTime:(NSString *)endTime{
-    NSDateFormatter *date = [[NSDateFormatter alloc]init];
-    [date setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDate *startD =[date dateFromString:startTime];
-    NSDate *endD = [date dateFromString:endTime];
-    NSTimeInterval start = [startD timeIntervalSince1970]*1;
-    NSTimeInterval end = [endD timeIntervalSince1970]*1;
-    NSTimeInterval value = end - start;
-    int second = (int)value %60;//秒
-    int minute = (int)value /60%60;
-    int house = (int)value / (3600)%3600;
-    int day = (int)value / (24 *3600);
-    house = day*24+house-1;
-    //    NSLog(@"day = %d,house = %d,minute = %d,second = %ld",day,house,minute,second);
-    //    NSString *str;
-    //    if (day != 0) {
-    //        str = [NSString stringWithFormat:@"耗时%d天%d小时%d分%d秒",day,house,minute,second];
-    //    }else if (day==0 && house !=0) {
-    //        str = [NSString stringWithFormat:@"耗时%d小时%d分%d秒",house,minute,second];
-    //    }else if (day==0 && house==0 && minute!=0) {
-    //        str = [NSString stringWithFormat:@"耗时%d分%d秒",minute,second];
-    //    }else{
-    //        str = [NSString stringWithFormat:@"耗时%d秒",second];
-    //    }
-    NSMutableArray *timeArr = [NSMutableArray array];
-    [timeArr addObject:[NSString stringWithFormat:@"%d",house]];
-    [timeArr addObject:[NSString stringWithFormat:@"%d",minute]];
-    [timeArr addObject:[NSString stringWithFormat:@"%d",second]];
-    return timeArr;
+//    NSMutableArray *timeDifferenceArr = [self dateTimeDifferenceWithStartTime:self.model.beginTime endTime:self.model.endTime];
+//    if([timeDifferenceArr[0] integerValue]>10){
+//        self.hourLabel.text = timeDifferenceArr[0];
+//    }else{
+//        self.hourLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[0]];
+//    }
+//    if([timeDifferenceArr[1] integerValue]>10){
+//        self.minuteLabel.text = timeDifferenceArr[1];
+//    }else{
+//        self.minuteLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[1]];
+//    }
+//    if([timeDifferenceArr[2] integerValue]>10){
+//        self.secondLabel.text = timeDifferenceArr[2];
+//    }else{
+//        self.secondLabel.text = [NSString stringWithFormat:@"0%@",timeDifferenceArr[2]];
+//    }
 }
 
 - (UILabel *)symbolLabel {
@@ -167,21 +140,21 @@
     return _lowPriceLabel;
 }
 
-- (UIView *)lineView {
-    if (!_lineView) {
-        _lineView = [[UIView alloc] initWithFrame:CGRectZero];
-        _lineView.backgroundColor = [UIColor redColor];
-    }
-    return _lineView;
-}
+//- (UIView *)lineView {
+//    if (!_lineView) {
+//        _lineView = [[UIView alloc] initWithFrame:CGRectZero];
+//        _lineView.backgroundColor = [UIColor redColor];
+//    }
+//    return _lineView;
+//}
 
-- (UILabel *)highPriceLabel {
-    if (!_highPriceLabel) {
-        _highPriceLabel = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum14 TextColor:[UIColor redColor]];
-        _highPriceLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    return _highPriceLabel;
-}
+//- (UILabel *)highPriceLabel {
+//    if (!_highPriceLabel) {
+//        _highPriceLabel = [[UILabel alloc] initWithFrame:CGRectZero FontSize:kFontNum14 TextColor:[UIColor redColor]];
+//        _highPriceLabel.textAlignment = NSTextAlignmentCenter;
+//    }
+//    return _highPriceLabel;
+//}
 
 - (UILabel *)onSaleLabel {
     if (!_onSaleLabel) {
@@ -242,5 +215,86 @@
     }
     return _tipLabel;
 }
+
+-(void)setCountDownModel:(ADCountDownActivityModel *)countDownModel{
+    _countDownModel = countDownModel;
+    //    NSLog(@"开始时间:%@,结束时间:%@",self.model.currentTime ,self.model.closeTime);
+    [self dateTimeDifferenceWithStartTime:self.countDownModel.currentTime endTime:self.countDownModel.closeTime];
+}
+
+//倒计时
+-(void)dateTimeDifferenceWithStartTime:(NSString *)startTime endTime:(NSString *)endTime{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH-mm-sss"];
+    
+    NSDate *startDate = [formatter dateFromString:startTime];
+    NSDate *endDate = [formatter dateFromString:endTime];
+    NSTimeInterval timeInterval =[endDate timeIntervalSinceDate:startDate];
+    
+    if (_timer==nil) {
+        __block int timeout = timeInterval; //倒计时时间
+        
+        if (timeout!=0) {
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+            _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+            dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+            dispatch_source_set_event_handler(_timer, ^{
+                if(timeout<=0){ //倒计时结束，关闭
+                    dispatch_source_cancel(_timer);
+                    _timer = nil;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //                        self.dayLabel.text = @"";
+                        self.hourLabel.text = @"00";
+                        self.minuteLabel.text = @"00";
+                        self.secondLabel.text = @"00";
+                    });
+                    
+                    //                    [self loadData];
+                    
+                    NSDictionary *dict = @{@"countDownTimeOver":@"over"};
+                    //创建 倒计时结束 通知
+                    NSNotification *notification =[NSNotification notificationWithName:@"countDownTimeOver" object:nil userInfo:dict];
+                    //通过通知中心发送通知
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    
+                }else{
+                    int days = (int)(timeout/(3600*24));
+                    //                    if (days==0) {
+                    //                        self.dayLabel.text = @"";
+                    //                    }
+                    int hours = (int)((timeout-days*24*3600)/3600);
+                    int minute = (int)(timeout-days*24*3600-hours*3600)/60;
+                    int second = timeout-days*24*3600-hours*3600-minute*60;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //                        if (days==0) {
+                        //                            self.dayLabel.text = @"0天";
+                        //                        }else{
+                        //                            self.dayLabel.text = [NSString stringWithFormat:@"%d天",days];
+                        //                        }
+                        if (hours<10) {
+                            self.hourLabel.text = [NSString stringWithFormat:@"0%d",hours];
+                        }else{
+                            self.hourLabel.text = [NSString stringWithFormat:@"%d",hours];
+                        }
+                        if (minute<10) {
+                            self.minuteLabel.text = [NSString stringWithFormat:@"0%d",minute];
+                        }else{
+                            self.minuteLabel.text = [NSString stringWithFormat:@"%d",minute];
+                        }
+                        if (second<10) {
+                            self.secondLabel.text = [NSString stringWithFormat:@"0%d",second];
+                        }else{
+                            self.secondLabel.text = [NSString stringWithFormat:@"%d",second];
+                        }
+                        
+                    });
+                    timeout--;
+                }
+            });
+            dispatch_resume(_timer);
+        }
+    }
+}
+
 
 @end

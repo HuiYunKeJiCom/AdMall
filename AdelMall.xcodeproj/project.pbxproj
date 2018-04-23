@@ -180,7 +180,6 @@
 		188FB67B2068D89300F99670 /* RequestDataAndSafeDeal.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6792068D89200F99670 /* RequestDataAndSafeDeal.m */; };
 		188FB67F2068D9DE00F99670 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB67D2068D9DD00F99670 /* UIView+Frame.m */; };
 		188FB6822068E66900F99670 /* NSObject+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6812068E66900F99670 /* NSObject+MJExtension.m */; };
-		188FB6852068FA9500F99670 /* ADStarGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 188FB6842068FA9500F99670 /* ADStarGoodsModel.m */; };
 		1891F10820424627001D9426 /* ADTotalPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F10720424627001D9426 /* ADTotalPriceView.m */; };
 		1891F10B2042C72F001D9426 /* ADEvaluateLabelViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891F10A2042C72F001D9426 /* ADEvaluateLabelViewCell.m */; };
 		18A07C52205FBA9500204BE1 /* UIButton+Bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A07C50205FBA9400204BE1 /* UIButton+Bootstrap.m */; };
@@ -624,8 +623,6 @@
 		188FB67E2068D9DE00F99670 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		188FB6802068E66800F99670 /* NSObject+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJExtension.h"; sourceTree = "<group>"; };
 		188FB6812068E66900F99670 /* NSObject+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJExtension.m"; sourceTree = "<group>"; };
-		188FB6832068FA9500F99670 /* ADStarGoodsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADStarGoodsModel.h; sourceTree = "<group>"; };
-		188FB6842068FA9500F99670 /* ADStarGoodsModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADStarGoodsModel.m; sourceTree = "<group>"; };
 		1891F10620424627001D9426 /* ADTotalPriceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADTotalPriceView.h; sourceTree = "<group>"; };
 		1891F10720424627001D9426 /* ADTotalPriceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADTotalPriceView.m; sourceTree = "<group>"; };
 		1891F1092042C72F001D9426 /* ADEvaluateLabelViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADEvaluateLabelViewCell.h; sourceTree = "<group>"; };
@@ -1079,8 +1076,6 @@
 				18653C19206A2AAD00D7AE33 /* ADCountDownActivityModel.m */,
 				1844BB66206B264400C260A5 /* ADAdvertModel.h */,
 				1844BB67206B264400C260A5 /* ADAdvertModel.m */,
-				188FB6832068FA9500F99670 /* ADStarGoodsModel.h */,
-				188FB6842068FA9500F99670 /* ADStarGoodsModel.m */,
 				1844BB69206B30E300C260A5 /* ADFloorModel.h */,
 				1844BB6A206B30E300C260A5 /* ADFloorModel.m */,
 				18653C0F2069DC6A00D7AE33 /* ADCountDownGoodsModel.h */,
@@ -2466,7 +2461,6 @@
 				1883CB57204D24EB0061884E /* ADPaymentOrderView.m in Sources */,
 				186547D72064E2D2006E50FF /* YWAddressInfoModel.m in Sources */,
 				182B3A0F204E909700462CAA /* ADCouponViewController.m in Sources */,
-				188FB6852068FA9500F99670 /* ADStarGoodsModel.m in Sources */,
 				18841847206233AE001CBAE4 /* UIColor+ColorChange.m in Sources */,
 				18E013E620513814004A969C /* ADEvaluateListModel.m in Sources */,
 				186C395F20494BDA00CCBD37 /* ADApplicationRecordViewCell.m in Sources */,

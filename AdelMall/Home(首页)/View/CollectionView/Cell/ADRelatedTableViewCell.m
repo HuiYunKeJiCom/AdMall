@@ -32,6 +32,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         //        self.userInteractionEnabled = YES;
+        self.relatedGoodsItem = [NSMutableArray array];
         [self setUpUI];
         [self setUpData];
     }
@@ -43,7 +44,7 @@
     [self.bgView addSubview:self.chosenTitLabel];
     [self.bgView addSubview:self.openSpecViewBtn];
     [self.bgView addSubview:self.goodsTable];
-    [self requestAllOrder:NO];
+//    [self requestAllOrder:NO];
 }
 
 - (void)layoutSubviews
@@ -124,46 +125,14 @@
     !_imageViewBtnClickBlock ? : _imageViewBtnClickBlock();
 }
 
-- (void)requestAllOrder:(BOOL)more {
-    [self.goodsTable updateLoadState:more];
-    
-    WEAKSELF
-    //    NSLog(@"类型type = %ld",(long)weak_self.type);
-    //    [RequestTool appTransferList:@{k_Type:@(self.type),
-    //                                   k_NowPage:[NSNumber numberWithInteger:self.accountTable.currentPage],
-    //                                   k_PageSize:@(k_RequestPageSize)} success:^(NSDictionary *result) {
-    //
-    //                                       [weak_self showHUD:NO];
-    //                                       [weak_self handleTransferResult:result type:weak_self.type more:more];
-    //                                   } fail:^(NSString *msg) {
-    //                                       [weak_self showHUD:NO];
-    //                                       [NSError showHudWithView:weak_self.view Text:msg delayTime:0.5];
-    [weakSelf handleTransferResult:nil more:more];
-    //                                   }];
-    
-}
-
-- (void)handleTransferResult:(NSDictionary *)result more:(BOOL)more{
-    
-    NSArray *dataArr = @[@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"},@{@"id":@"123456",@"goodsName":@"ADEL爱迪尔4920B",@"type":@"智能指纹锁",@"price":@"1968.00"}];
-    //    if ([result isKindOfClass:[NSDictionary class]]) {
-    //        NSArray *dataInfo = result[@"data"];
-    //        if ([dataInfo isKindOfClass:[NSArray class]]) {
-    //            dataArr = dataInfo;
-    //        }
-    //    }
-    
-    [self.goodsTable.data removeAllObjects];
-    for (NSDictionary *dic in dataArr) {
-        
-        ADGoodsModel *model = [ADGoodsModel mj_objectWithKeyValues:dic];
-        [self.goodsTable.data addObject:model];
-    }
-    
-    [self.goodsTable updatePage:more];
+- (void)setRelatedGoodsItem:(NSMutableArray<ADGoodsModel *> *)relatedGoodsItem{
+    NSLog(@"传到cell了relatedGoodsItem = %@",relatedGoodsItem);
+    _relatedGoodsItem = relatedGoodsItem;
+//    [self.goodsTable.data removeAllObjects];
+//    [self.goodsTable updatePage:NO];
     //    self.allOrderTable.isLoadMore = dataArr.count >= k_RequestPageSize ? YES : NO;
-    self.goodsTable.noDataView.hidden = self.goodsTable.data.count;
-    
+//    self.goodsTable.noDataView.hidden = self.goodsTable.data.count;
+//    NSLog(@"传到cell了self.goodsTable.data = %@",self.goodsTable.data);
     [self.goodsTable reloadData];
 }
 
@@ -185,7 +154,7 @@
 #pragma mark - UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.goodsTable.data.count;
+    return self.relatedGoodsItem.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -194,8 +163,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ADGoodsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ADGoodsCell"];
-    if (self.goodsTable.data.count > indexPath.row) {
-        ADGoodsModel *model = self.goodsTable.data[indexPath.row];
+    if (self.relatedGoodsItem.count > indexPath.row) {
+        ADGoodsModel *model = self.relatedGoodsItem[indexPath.row];
         cell.model = model;
     }
     cell.imageViewBtnClickBlock = ^{
@@ -217,11 +186,12 @@
 }
 
 - (void)baseTableVIew:(BaseTableView *)tableView refresh:(BOOL)flag {
-    [self requestAllOrder:NO];
+//    [self requestAllOrder:NO];
 }
 
 - (void)baseTableView:(BaseTableView *)tableView loadMore:(BOOL)flag {
-    [self requestAllOrder:YES];
+//    [self requestAllOrder:YES];
 }
+
 
 @end

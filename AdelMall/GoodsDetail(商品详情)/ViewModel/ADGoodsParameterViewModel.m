@@ -32,7 +32,7 @@
 - (UIScrollView *)parameterView{
     if (!_parameterView) {
         _parameterView = [[UIScrollView alloc]initWithFrame:CGRectZero];
-        _parameterView.backgroundColor = [UIColor darkGrayColor];
+        _parameterView.backgroundColor = kBACKGROUNDCOLOR;
         
         _mainView = [[UIView alloc]initWithFrame:CGRectZero];
         _mainView.backgroundColor = [UIColor whiteColor];

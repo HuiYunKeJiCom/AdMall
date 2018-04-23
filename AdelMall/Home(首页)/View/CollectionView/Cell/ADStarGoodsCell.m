@@ -7,7 +7,7 @@
 //  明星产品Cell
 
 #import "ADStarGoodsCell.h"
-#import "ADStarGoodsModel.h"
+#import "ADGoodsModel.h"
 // Views
 //#import "DCGoodsSurplusCell.h"
 #import "ADStarGoodsSubclassCell.h"
@@ -24,7 +24,7 @@
 @property (strong , nonatomic)UIView *bottomLineView;
 
 /* 测试数组 */
-@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *tempItem;
+@property (strong , nonatomic)NSMutableArray<ADGoodsModel *> *tempItem;
 
 @end
 
@@ -52,7 +52,7 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
     return _collectionView;
 }
 
-- (NSMutableArray<ADStarGoodsModel *> *)tempItem
+- (NSMutableArray<ADGoodsModel *> *)tempItem
 {
     if (!_tempItem) {
         _tempItem = [NSMutableArray array];
@@ -72,7 +72,7 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
     return self;
 }
 
--(void)loadDataWithArray:(NSMutableArray<ADStarGoodsModel *> *)tempItem{
+-(void)loadDataWithArray:(NSMutableArray<ADGoodsModel *> *)tempItem{
     _tempItem = tempItem;
     [self.collectionView reloadData];
 }
@@ -114,8 +114,8 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
     
     NSLog(@"点击了明星产品%zd",indexPath.row);
 //    [self lookDetailForGoods];
-    
-    ADStarGoodsModel *model = _tempItem[indexPath.row];
+
+    ADGoodsModel *model = _tempItem[indexPath.row];
     NSDictionary *dict = @{@"starGoodsID":model.idx};
     //创建通知
     NSNotification *notification =[NSNotification notificationWithName:@"starGoodsID" object:nil userInfo:dict];

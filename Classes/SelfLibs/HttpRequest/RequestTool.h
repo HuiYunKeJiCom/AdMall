@@ -127,6 +127,9 @@ typedef void (^FailBlock)(NSString *);
 /* 获取订单售后商品 */
 +(void)getOrderGoodsList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 
+/* 售后服务订单详情 */
++(void)getAfterSalesDetail:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
+
 /* 评价晒单列表 */
 +(void)getEvaluationList:(NSDictionary *)paramsDic withSuccessBlock:(void (^)(NSDictionary *result))successBlock withFailBlock:(void (^)(NSString *msg))failBlock;
 

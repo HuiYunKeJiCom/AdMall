@@ -38,11 +38,10 @@
 
 @implementation ADServiceFlowViewCell
 #pragma mark - Intial
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-    self = [super initWithFrame:frame];
     if (self) {
-        
         [self setUpUI];
         [self setUpData];
     }
@@ -64,13 +63,12 @@
     [self addSubview:self.completionLab];
     [self addSubview:self.applyTimeTitLab];
     [self addSubview:self.applyTimeLab];
-     [self makeConstraints];
+    [self makeConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-   
 }
 
 #pragma mark - 填充数据

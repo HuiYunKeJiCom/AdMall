@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-static const NSString *ADEvaluateViewCellID = @"ADEvaluateViewCellID";
+static NSString * const ADEvaluateViewCellID = @"ADEvaluateViewCellID";
 
 @interface ADEvaluateViewCell : UICollectionViewCell
 /* 评论按钮 点击回调 */

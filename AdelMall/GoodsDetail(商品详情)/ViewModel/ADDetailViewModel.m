@@ -7,16 +7,15 @@
 //
 
 #import "ADDetailViewModel.h"
-#import "SDCycleScrollView.h"
+//#import "SDCycleScrollView.h"
 #import "ADDetailViewCell.h"
 #import "ADVideoViewCell.h"
-//#import "ADSliderHeadShowView.h"
-#import "DCSlideshowHeadView.h"
+#import "DCSlideshowHeadView.h"  //轮播图
+//#import "DCSlideshowHeadView.h"
 #import "DCHomeRefreshGifHeader.h"
+#import "ADGoodsDetailModel.h"
 
 @interface ADDetailViewModel()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
-
-
 
 @end
 
@@ -32,8 +31,8 @@
         _detailView.delegate = self;
         _detailView.showsVerticalScrollIndicator = NO;
         _detailView.showsHorizontalScrollIndicator = NO;
+        _detailView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight - DCBottomTabH);
         _detailView.backgroundColor = [UIColor whiteColor];
-        
         [_detailView registerClass:[ADDetailViewCell class] forCellWithReuseIdentifier:ADDetailViewCellID];
         [_detailView registerClass:[ADVideoViewCell class] forCellWithReuseIdentifier:ADVideoViewCellID];
         [_detailView registerClass:[DCSlideshowHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCSlideshowHeadViewID];
@@ -68,6 +67,8 @@
     UICollectionViewCell *gridCell = nil;
     if (indexPath.section == 0) {//产品详细
         ADDetailViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADDetailViewCellID forIndexPath:indexPath];
+        cell.dataModel = self.dataModel;
+        [cell changeLabelWith:self.specValueArr];
         gridCell = cell;
     }else if (indexPath.section == 1){//视频播放
         ADVideoViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADVideoViewCellID forIndexPath:indexPath];
@@ -82,7 +83,7 @@
     UICollectionReusableView *reusableview = nil;
     if (indexPath.section == 0) {
         DCSlideshowHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCSlideshowHeadViewID forIndexPath:indexPath];
-        headerView.imageGroupArray = GoodsHomeSilderImagesArray;
+       [headerView loadDataWithArray:self.imageGroupArray];
         reusableview = headerView;
     }
     return reusableview;
@@ -122,6 +123,11 @@
     return CGSizeZero;
 }
 
+- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewLayoutAttributes *layoutAttributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+    return layoutAttributes;
+}
+
 #pragma mark - -- Header 大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     if (section == 0) {
@@ -139,8 +145,23 @@
     
 }
 
+-(NSMutableArray *)imageGroupArray{
+    if (!_imageGroupArray) {
+        _imageGroupArray = [NSMutableArray array];
+    }
+    return _imageGroupArray;
+}
 
+-(NSMutableArray *)specValueArr{
+    if (!_specValueArr) {
+        _specValueArr = [NSMutableArray array];
+    }
+    return _specValueArr;
+}
 
+-(void)setDataModel:(ADGoodsDetailModel *)dataModel{
+    _dataModel = dataModel;
+}
 
 
 @end

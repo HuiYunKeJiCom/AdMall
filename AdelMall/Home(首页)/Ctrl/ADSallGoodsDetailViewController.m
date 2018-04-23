@@ -23,6 +23,9 @@
 #import "ADFlashSaleModel.h"
 #import "ADGoodsSpecModel.h"//规格模型
 #import "ADProsModel.h"//规格值模型
+#import "ADCountDownActivityModel.h"
+#import "ADGoodsModel.h"
+
 
 
 @interface ADSallGoodsDetailViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -38,6 +41,8 @@
 @property(nonatomic,strong)ADFlashSaleModel *model;
 /* 抢购商品规格数组 */
 @property (strong , nonatomic)NSMutableArray<ADGoodsSpecModel *> *specItem;
+/* 相关商品数据数组 */
+@property (strong , nonatomic)NSMutableArray<ADGoodsModel *> *relatedGoodsItem;
 
 @end
 
@@ -81,6 +86,7 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.relatedGoodsItem = [NSMutableArray array];
     self.isOpen = NO;
     self.isOpenSpec = NO;
     [self setUpBase];
@@ -110,6 +116,7 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
 //        NSMutableArray *tempAdvertArr = [NSMutableArray array];
 //        self.goodExceedArray = tempAdvertArr;
     }];
+    
 }
 
 -(void)withNSDictionary:(NSDictionary *)dict
@@ -118,6 +125,15 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     self.model = [ADFlashSaleModel mj_objectWithKeyValues:dataInfo];
     NSLog(@"self.model = %@",self.model.mj_keyValues);
 //    NSLog(@"spec_name = %@",dict[@"data"][@"specs"]);
+    
+    WEAKSELF
+    [RequestTool getGoodsList:@{@"parentId":self.model.gc_id} withSuccessBlock:^(NSDictionary *result) {
+        NSLog(@"相关商品数据result = %@",result);
+        [weakSelf handleTransferResult:result];
+    } withFailBlock:^(NSString *msg) {
+        NSLog(@"相关商品数据msg = %@",msg);
+    }];
+    
     NSArray *specArr = dict[@"data"][@"specs"];
     if(specArr){
         _specItem = [ADGoodsSpecModel mj_objectArrayWithKeyValuesArray:specArr];
@@ -129,15 +145,13 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
             //            NSLog(@"proModel = %@",proModel.mj_keyValues);
             //        }
         }
-        NSLog(@"_specItem = %@",_specItem.mj_keyValues);
-//        [self.collectionView reloadData];
         
         NSDictionary *dict = @{@"specItem":_specItem};
         //创建 倒计时结束 通知
         NSNotification *notification =[NSNotification notificationWithName:@"specItem" object:nil userInfo:dict];
         //通过通知中心发送通知
         [[NSNotificationCenter defaultCenter] postNotification:notification];
-        
+    
     }
 
 //    if(prosData){
@@ -149,6 +163,27 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     
     
     [_topToolView setTopTitleWithNSString:KLocalizableStr(self.model.gg_name)];
+    [self.collectionView reloadData];
+}
+
+- (void)handleTransferResult:(NSDictionary *)result{
+    
+    NSArray *dataArr = [NSArray array];
+    if ([result isKindOfClass:[NSDictionary class]]) {
+        //        NSLog(@"来这里了吗");
+        NSArray *dataInfo = result[@"data"][@"goodsList"];
+        
+        if ([dataInfo isKindOfClass:[NSArray class]]) {
+            dataArr = dataInfo;
+        }
+    }
+    
+    [self.relatedGoodsItem removeAllObjects];
+    for (NSDictionary *dic in dataArr) {
+        ADGoodsModel *model = [ADGoodsModel mj_objectWithKeyValues:dic];
+        [self.relatedGoodsItem addObject:model];
+    }
+//    NSLog(@"刷新前relatedGoodsItem = %@",self.relatedGoodsItem);
     [self.collectionView reloadData];
 }
 
@@ -359,12 +394,13 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     }
     else if (indexPath.section == 4) {//相关商品
         ADRelatedTableViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADRelatedTableViewCellID forIndexPath:indexPath];
-        gridcell = cell;
+        cell.relatedGoodsItem = self.relatedGoodsItem;
         cell.imageViewBtnClickBlock = ^{
             //进入商品详情
             ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
             [self.navigationController pushViewController:detailVC animated:YES];
         };
+        gridcell = cell;
     }
     return gridcell;
 }
@@ -377,7 +413,8 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
     //    if (kind == UICollectionElementKindSectionHeader){
     if (indexPath.section == 0) {
         DCSlideshowHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DCSlideshowHeadViewID forIndexPath:indexPath];
-        headerView.imageGroupArray = self.model.picPaths;
+//        headerView.imageGroupArray = self.model.picPaths;
+        [headerView loadDataWithArray:self.model.picPaths];
 //        [headerView loadDataWithAdvertID:@"1"];
         reusableview = headerView;
     }
@@ -385,6 +422,7 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
         //            抢购中
         ADOnSallDetailHeadView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:ADOnSallDetailHeadViewID forIndexPath:indexPath];
         headerView.model = self.model;
+        headerView.countDownModel = self.countDownModel;
         reusableview = headerView;
     }
     return reusableview;
@@ -504,6 +542,10 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)setCountDownModel:(ADCountDownActivityModel *)countDownModel{
+    _countDownModel = countDownModel;
 }
 
 @end

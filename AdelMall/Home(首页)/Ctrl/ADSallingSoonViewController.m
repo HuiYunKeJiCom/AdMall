@@ -51,6 +51,7 @@
     [RequestTool getGoodsForFlashSale:@{@"type":@"ready",@"currentPage":[NSNumber numberWithInteger:self.currentPage]} withSuccessBlock:^(NSDictionary *result) {
         NSLog(@"即将开始result = %@",result);
         if([result[@"code"] integerValue] == 1){
+            [hud hide:YES];
             [weakSelf handleTransferResult:result more:more];
         }else if([result[@"code"] integerValue] == -2){
             [self cutCurrentPag];

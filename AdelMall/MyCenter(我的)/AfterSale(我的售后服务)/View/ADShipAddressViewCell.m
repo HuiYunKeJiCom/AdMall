@@ -38,11 +38,10 @@
 @implementation ADShipAddressViewCell
 
 #pragma mark - Intial
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-    self = [super initWithFrame:frame];
     if (self) {
-        
         [self setUpUI];
         [self setUpData];
     }

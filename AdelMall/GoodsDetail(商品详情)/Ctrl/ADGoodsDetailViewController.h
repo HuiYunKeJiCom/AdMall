@@ -11,5 +11,6 @@
 @interface ADGoodsDetailViewController : UIViewController
 
 @property (nonatomic,copy) NSString *goodsID;//商品id
-
+/** 购买数量 */
+@property (nonatomic, assign) int buyNum;
 @end

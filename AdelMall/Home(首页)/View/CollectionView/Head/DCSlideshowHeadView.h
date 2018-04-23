@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-static const NSString *DCSlideshowHeadViewID = @"DCSlideshowHeadViewID";
+static NSString * const DCSlideshowHeadViewID = @"DCSlideshowHeadViewID";
+
 
 @interface DCSlideshowHeadView : UICollectionReusableView
-
 /* 轮播图数组 */
 @property (copy , nonatomic)NSArray *imageGroupArray;
 -(void)loadDataWithArray:(NSArray *)imageGroupArray;

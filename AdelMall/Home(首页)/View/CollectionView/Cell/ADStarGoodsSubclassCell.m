@@ -7,7 +7,7 @@
 //
 
 #import "ADStarGoodsSubclassCell.h"
-#import "ADStarGoodsModel.h"
+#import "ADGoodsModel.h"
 #import <UIImageView+WebCache.h>
 
 @interface ADStarGoodsSubclassCell()
@@ -87,7 +87,7 @@
 }
 
 #pragma mark - Setter Getter Methods
--(void)setModel:(ADStarGoodsModel *)model
+-(void)setModel:(ADGoodsModel *)model
 {
     //    NSLog(@"来这里了吗");
     _model = model;

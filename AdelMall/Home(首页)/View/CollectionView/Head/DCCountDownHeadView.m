@@ -37,8 +37,7 @@
 //@property (nonatomic, strong) NSTimer *countDownTimer;
 /* 好货秒抢 */
 @property (strong , nonatomic)DCZuoWenRightButton *quickButton;
-/** 抢购活动模型 */
-@property(nonatomic,strong)ADCountDownActivityModel *model;
+
 @end
 
 @implementation DCCountDownHeadView
@@ -50,7 +49,7 @@
     if (self) {
         
         [self setUpUI];
-        
+        [self setUpData];
     }
     return self;
 }
@@ -67,36 +66,15 @@
     [self addSubview:self.secondLabel];
     [self addSubview:self.tipLabel];
     [self addSubview:self.quickButton];
-    [self performSelector:@selector(loadData) withObject:nil afterDelay:2];
 }
 
--(void)loadData{
-    [RequestTool getGoodsForFlashSale:nil withSuccessBlock:^(NSDictionary *result) {
-        NSLog(@"抢购头result = %@",result);
-        if([result[@"code"] integerValue] == 1){
-            [self withNSDictionary:result];
-        }
-    } withFailBlock:^(NSString *msg) {
-        NSLog(@"msg = %@",msg);
-    }];
-}
-
--(void)withNSDictionary:(NSDictionary *)dict
-{
-    NSArray *data = dict[@"data"];
-    self.model = [ADCountDownActivityModel mj_objectWithKeyValues:data];
-//    [self sendActivityBeginTime:self.model.startTime andEndTime:self.model.closeTime];
-    
-//    self.countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(setUpData) userInfo:nil repeats:YES];
-//    [self.countDownTimer fire];
-    [self setUpData];
-}
-
-
--(void)setUpData{
-
+-(void)setModel:(ADCountDownActivityModel *)model{
+    _model = model;
     NSLog(@"开始时间:%@,结束时间:%@",self.model.currentTime ,self.model.closeTime);
     [self dateTimeDifferenceWithStartTime:self.model.currentTime endTime:self.model.closeTime];
+}
+
+-(void)setUpData{
 
     self.timeLabel.text = @"限时秒杀";
     self.colonLabel2.text = @":";
@@ -131,7 +109,7 @@
                         self.secondLabel.text = @"00";
                     });
                     
-                    [self loadData];
+//                    [self loadData];
                     
                     NSDictionary *dict = @{@"countDownTimeOver":@"over"};
                     //创建 倒计时结束 通知

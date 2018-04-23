@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class ADGoodsDetailModel;
 @interface ADDetailViewModel : NSObject
-
+/* 轮播图数组 */
+@property (copy , nonatomic)NSMutableArray *imageGroupArray;
+/** 商品模型 */
+@property(nonatomic,strong)ADGoodsDetailModel *dataModel;
 @property (nonatomic,readonly)UICollectionView *detailView;//相当于一个工厂方法，可以直接提取使用，加载到外部的view上，内部实现为懒加载。注意，初始的frame为(0,0,0,0)，需要重新设置frame
-
-
+/* 规格属性数组 */
+@property (copy , nonatomic)NSMutableArray *specValueArr;
 /*
     add by CTO
     测试git

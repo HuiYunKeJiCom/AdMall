@@ -10,7 +10,7 @@
 // Views
 //#import "DCGoodsHandheldCell.h"
 #import "ADStarGoodsSubclassCell.h"
-#import "ADStarGoodsModel.h"
+#import "ADGoodsModel.h"
 // Vendors
 #import <UIImageView+WebCache.h>
 
@@ -21,7 +21,7 @@
 /* 图片数组 */
 @property (copy , nonatomic)NSArray *imagesArray;
 /* 广告数据数组 */
-@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *recommendItem;
+@property (strong , nonatomic)NSMutableArray<ADGoodsModel *> *recommendItem;
 @end
 
 static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
@@ -38,6 +38,7 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
         //        layout.minimumLineSpacing = 3;  //Y
         //        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView.scrollEnabled = NO;
         [self addSubview:_collectionView];
         _collectionView.frame = CGRectMake(0, 0, kScreenWidth, self.dc_height * 0.9+20);
         _collectionView.showsHorizontalScrollIndicator = NO;
@@ -67,7 +68,7 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
     self.collectionView.backgroundColor = self.backgroundColor;
 }
 
--(void)loadDataWithArray:(NSArray *)recommendArray and:(NSMutableArray<ADStarGoodsModel *> *)recommendItem{
+-(void)loadDataWithArray:(NSArray *)recommendArray and:(NSMutableArray<ADGoodsModel *> *)recommendItem{
     _recommendArray = recommendArray;
     _imagesArray = recommendArray;
     _recommendItem = recommendItem;
@@ -116,13 +117,22 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 //}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self lookDetailForGoods];
+    NSLog(@"点击了为您推荐%zd",indexPath.row);
+    //    [self lookDetailForGoods];
+    
+    ADGoodsModel *model = _recommendItem[indexPath.row];
+    NSDictionary *dict = @{@"recommendID":model.idx};
+    //创建通知
+    NSNotification *notification =[NSNotification notificationWithName:@"recommendID" object:nil userInfo:dict];
+    //通过通知中心发送通知
+    NSLog(@"为您推荐发通知了");
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
-#pragma mark - 点击事件
-- (void)lookDetailForGoods
-{
-    !_lookDetailBlock ? : _lookDetailBlock();
-}
+//#pragma mark - 点击事件
+//- (void)lookDetailForGoods
+//{
+//    !_lookDetailBlock ? : _lookDetailBlock();
+//}
 
 @end

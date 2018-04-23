@@ -11,6 +11,8 @@
 @interface ADFlashSaleModel : NSObject
 /** 开始时间 */
 @property (nonatomic, copy) NSString      *beginTime;
+/** 商品分类id */
+@property (nonatomic, copy) NSString      *gc_id;
 /** 结束时间 */
 @property (nonatomic, copy) NSString      *endTime;
 /** 活动名称 */

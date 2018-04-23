@@ -41,6 +41,7 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake((self.frame.size.width/(_options.count)) * index, 0, self.frame.size.width/(_options.count), self.frame.size.height);
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:kFontNum15];
     [button setTitle:((NSString *)(_options[index])) forState:UIControlStateNormal];
     [button addTarget:self action:@selector(optionBtnWasClicked:) forControlEvents:UIControlEventTouchDown];
     button.tag = index;
@@ -73,14 +74,5 @@
         [self bottomBarMoveToIndex:index];
     }
 }
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

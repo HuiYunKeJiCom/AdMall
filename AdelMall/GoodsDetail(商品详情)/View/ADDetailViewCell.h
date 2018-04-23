@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-static const NSString *ADDetailViewCellID = @"ADDetailViewCellID";
+@class ADGoodsDetailModel;
+static NSString * const ADDetailViewCellID = @"ADDetailViewCellID";
 
 @interface ADDetailViewCell : UICollectionViewCell
-
+/** 商品模型 */
+@property(nonatomic,strong)ADGoodsDetailModel *dataModel;
+-(void)changeLabelWith:(NSMutableArray *)specValueArr;
 @end

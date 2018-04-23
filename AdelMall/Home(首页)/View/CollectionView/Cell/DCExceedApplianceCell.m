@@ -11,7 +11,7 @@
 // Views
 //#import "DCGoodsHandheldCell.h"
 #import "ADStarGoodsSubclassCell.h"
-#import "ADStarGoodsModel.h"
+#import "ADGoodsModel.h"
 // Vendors
 #import <UIImageView+WebCache.h>
 
@@ -24,7 +24,7 @@
 ///* 图片数组 */
 //@property (copy , nonatomic)NSArray *imagesArray;
 /* 广告数据数组 */
-@property (strong , nonatomic)NSMutableArray<ADStarGoodsModel *> *goodExceedItem;
+@property (strong , nonatomic)NSMutableArray<ADGoodsModel *> *goodExceedItem;
 ///** 数据模型 */
 //@property(nonatomic,strong)ADStarGoodsModel *model;
 @end
@@ -45,6 +45,7 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         [self addSubview:_collectionView];
         _collectionView.frame = CGRectMake(0, kScreenWidth * 0.35 + DCMargin, kScreenWidth, self.dc_height * 0.7+10);
+        _collectionView.scrollEnabled = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.delegate = self;
@@ -74,7 +75,7 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 
 }
 
-- (NSMutableArray<ADStarGoodsModel *> *)goodExceedItem
+- (NSMutableArray<ADGoodsModel *> *)goodExceedItem
 {
     if (!_goodExceedItem) {
         _goodExceedItem = [NSMutableArray array];
@@ -129,7 +130,18 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self lookDetailForGoods];
+    
+    NSLog(@"点击了智能硬件%zd",indexPath.row);
+    //    [self lookDetailForGoods];
+    
+    ADGoodsModel *model = _goodExceedItem[indexPath.row];
+    NSDictionary *dict = @{@"exceedID":model.idx};
+    //创建通知
+    NSNotification *notification =[NSNotification notificationWithName:@"exceedID" object:nil userInfo:dict];
+    //通过通知中心发送通知
+    NSLog(@"智能硬件发通知了");
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
 }
 
 //// 设置最小行间距，也就是前一行与后一行的中间最小间隔
@@ -144,7 +156,7 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
 
 
 #pragma mark - Setter Getter Methods
--(void)loadDataWithNSString:(NSString *)exceedPath and:(NSMutableArray<ADStarGoodsModel *> *)goodExceedItem
+-(void)loadDataWithNSString:(NSString *)exceedPath and:(NSMutableArray<ADGoodsModel *> *)goodExceedItem
 {
 //    NSLog(@"exceedPath = %@",exceedPath);
 //    NSLog(@"goodExceedItem.count = %lu",goodExceedItem.count);
@@ -159,10 +171,10 @@ static NSString *const ADStarGoodsSubclassCellID = @"ADStarGoodsSubclassCell";
     }
 }
 
-#pragma mark - 点击事件
-- (void)lookDetailForGoods
-{
-    !_lookDetailBlock ? : _lookDetailBlock();
-}
+//#pragma mark - 点击事件
+//- (void)lookDetailForGoods
+//{
+//    !_lookDetailBlock ? : _lookDetailBlock();
+//}
 
 @end

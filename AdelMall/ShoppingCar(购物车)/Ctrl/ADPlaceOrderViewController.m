@@ -159,7 +159,7 @@ static NSString *const ADTotalViewCellID = @"ADTotalViewCell";
 -(void)withNSDictionary:(NSDictionary *)dict
 {
     NSArray *addressArr = dict[@"data"][@"defaultAddress"];
-    
+    NSLog(@"addressArr = %@",addressArr);
     self.expressFee = 0.0;
     if(addressArr.count >0){
         self.addressModel = [ADAddressModel mj_objectWithKeyValues:addressArr];

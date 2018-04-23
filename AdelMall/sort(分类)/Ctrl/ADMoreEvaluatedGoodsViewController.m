@@ -54,48 +54,151 @@
     NSMutableDictionary *paraDict = [NSMutableDictionary dictionary];
     [paraDict setValue:@"evaluates_size" forKey:@"orderBy"];
     [paraDict setValue:[NSNumber numberWithInteger:self.currentPage] forKey:@"currentPage"];
-    if(self.subItem.idx){
-        [paraDict setValue:self.subItem.idx forKey:@"gc_id"];
-    }else{
-        [paraDict setValue:self.keyWord forKey:@"keyword"];
-    }
-    NSLog(@"paraDict = %@",paraDict);
-    
+    [paraDict setValue:@"10" forKey:@"pageSize"];
     WEAKSELF
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [RequestTool getGoodsList:paraDict withSuccessBlock:^(NSDictionary *result) {
-        NSLog(@"获取列表result = %@",result);
-        if([result[@"code"] integerValue] == 1){
-            [hud hide:YES];
-            [weakSelf handleTransferResult:result more:more];
-        }else if([result[@"code"] integerValue] == -2){
+    if(self.subItem.idx){
+        [paraDict setValue:self.subItem.idx forKey:@"gc_id"];
+        [RequestTool getGoodsList:paraDict withSuccessBlock:^(NSDictionary *result) {
+            NSLog(@"获取列表result = %@",result);
+            if([result[@"code"] integerValue] == 1){
+                [hud hide:YES];
+                [weakSelf handleTransferResult:result more:more];
+            }else if([result[@"code"] integerValue] == -2){
+                [self cutCurrentPag];
+                hud.detailsLabelText = @"登录失效";
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }else if([result[@"code"] integerValue] == -1){
+                [self cutCurrentPag];
+                hud.detailsLabelText = @"未登录";
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }else if([result[@"code"] integerValue] == 0){
+                [self cutCurrentPag];
+                hud.detailsLabelText = @"失败";
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }else if([result[@"code"] integerValue] == 2){
+                [self cutCurrentPag];
+                hud.detailsLabelText = @"无返回数据";
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }
+        } withFailBlock:^(NSString *msg) {
             [self cutCurrentPag];
-            hud.detailsLabelText = @"登录失效";
+            NSLog(@"商品列表评论msg = %@",msg);
+            hud.detailsLabelText = msg;
             hud.mode = MBProgressHUDModeText;
             [hud hide:YES afterDelay:1.0];
-        }else if([result[@"code"] integerValue] == -1){
-            [self cutCurrentPag];
-            hud.detailsLabelText = @"未登录";
-            hud.mode = MBProgressHUDModeText;
-            [hud hide:YES afterDelay:1.0];
-        }else if([result[@"code"] integerValue] == 0){
-            [self cutCurrentPag];
-            hud.detailsLabelText = @"失败";
-            hud.mode = MBProgressHUDModeText;
-            [hud hide:YES afterDelay:1.0];
-        }else if([result[@"code"] integerValue] == 2){
-            [self cutCurrentPag];
-            hud.detailsLabelText = @"无返回数据";
-            hud.mode = MBProgressHUDModeText;
-            [hud hide:YES afterDelay:1.0];
+        }];
+    }else{
+        if([self.keyWord isEqualToString:@"明星产品"]){
+            [RequestTool getStarGoods:paraDict withSuccessBlock:^(NSDictionary *result) {
+                NSLog(@"明星产品result = %@",result);
+                if([result[@"code"] integerValue] == 1){
+                    [hud hide:YES];
+                    [weakSelf handleTransferResult:result more:more];
+                }else if([result[@"code"] integerValue] == -2){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"登录失效";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == -1){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"未登录";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 0){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"失败";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 2){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"无返回数据";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }
+            } withFailBlock:^(NSString *msg) {
+                [self cutCurrentPag];
+                NSLog(@"明星产品msg = %@",msg);
+                hud.detailsLabelText = msg;
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }];
+        }else if([self.keyWord isEqualToString:@"智能硬件"]){
+            [paraDict setValue:@"6" forKey:@"pageSize"];
+            [RequestTool getFloorData:paraDict withSuccessBlock:^(NSDictionary *result) {
+                NSLog(@"智能硬件result = %@",result);
+                if([result[@"code"] integerValue] == 1){
+                    [hud hide:YES];
+                    [weakSelf handleTransferResult:result more:more];
+                }else if([result[@"code"] integerValue] == -2){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"登录失效";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == -1){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"未登录";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 0){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"失败";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 2){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"无返回数据";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }
+            } withFailBlock:^(NSString *msg) {
+                [self cutCurrentPag];
+                NSLog(@"智能硬件msg = %@",msg);
+                hud.detailsLabelText = msg;
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }];
+        }else if([self.keyWord isEqualToString:@"为您推荐"]){
+            [RequestTool getRecommendData:paraDict withSuccessBlock:^(NSDictionary *result) {
+                NSLog(@"为您推荐result = %@",result);
+                if([result[@"code"] integerValue] == 1){
+                    [hud hide:YES];
+                    [weakSelf handleTransferResult:result more:more];
+                }else if([result[@"code"] integerValue] == -2){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"登录失效";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == -1){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"未登录";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 0){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"失败";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }else if([result[@"code"] integerValue] == 2){
+                    [self cutCurrentPag];
+                    hud.detailsLabelText = @"无返回数据";
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.0];
+                }
+            } withFailBlock:^(NSString *msg) {
+                [self cutCurrentPag];
+                NSLog(@"为您推荐msg = %@",msg);
+                hud.detailsLabelText = msg;
+                hud.mode = MBProgressHUDModeText;
+                [hud hide:YES afterDelay:1.0];
+            }];
         }
-    } withFailBlock:^(NSString *msg) {
-        [self cutCurrentPag];
-        NSLog(@"商品列表评论msg = %@",msg);
-        hud.detailsLabelText = msg;
-        hud.mode = MBProgressHUDModeText;
-        [hud hide:YES afterDelay:1.0];
-    }];
+        //        [paraDict setValue:self.keyWord forKey:@"keyword"];
+    }
 }
 
 -(void)cutCurrentPag{
@@ -108,7 +211,13 @@
     
     NSArray *dataArr = [NSArray array];
     if ([result isKindOfClass:[NSDictionary class]]) {
-        NSArray *dataInfo = result[@"data"][@"goodsList"];
+        NSArray *dataInfo = [NSArray array];
+        if([self.keyWord isEqualToString:@"智能硬件"]){
+            NSArray *data= result[@"data"][@"result"];
+            dataInfo = data[0][@"goodsList"];
+        }else{
+            dataInfo = result[@"data"][@"goodsList"];
+        }
         if ([dataInfo isKindOfClass:[NSArray class]]) {
             dataArr = dataInfo;
         }
