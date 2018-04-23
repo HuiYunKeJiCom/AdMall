@@ -396,9 +396,9 @@ static NSString *const ADOnSallDetailHeadViewID = @"ADOnSallDetailHeadView";
         ADRelatedTableViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADRelatedTableViewCellID forIndexPath:indexPath];
         cell.relatedGoodsItem = self.relatedGoodsItem;
         cell.imageViewBtnClickBlock = ^{
-            //进入商品详情
-            ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
-            [self.navigationController pushViewController:detailVC animated:YES];
+//            //进入商品详情
+//            ADGoodsDetailViewController *detailVC = [[ADGoodsDetailViewController alloc] init];
+//            [self.navigationController pushViewController:detailVC animated:YES];
         };
         gridcell = cell;
     }
