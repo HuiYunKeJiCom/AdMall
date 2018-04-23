@@ -72,9 +72,9 @@
         NSString *valStr = nil;
         if ([model.val containsString:@","]) {
             valStr = [model.val replaceString:@"," withString:@"\n"];
+            labelRight.numberOfLines = 0;
         }else{
             valStr = model.val;
-            labelRight.numberOfLines = 0;
         }
         labelRight.text = valStr;
         [labelRight sizeToFit];
