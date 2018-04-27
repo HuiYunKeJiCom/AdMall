@@ -571,7 +571,7 @@
             [self.relatedGoodsItem addObject:model];
         }
     }
-    
+    [self.relatedGoodsViewModel loadGoodsData:self.relatedGoodsItem];
 }
 
 -(void)getDataWithNSDictionary:(NSDictionary *)dict

@@ -25,7 +25,7 @@
 - (void)loadGoodsData:(NSArray<DCClassGoodsItem *> *)goodsItem{
     _goodsItem = goodsItem.mutableCopy;
     [self.layouts removeAllObjects];
-    for (DCClassGoodsItem *item in _goodsItem) {
+    for (ADGoodsModel *item in _goodsItem) {
         ADRelatedGoodsLayout *layout = [ADRelatedGoodsLayout layoutWithGoodsItem:item];
         [self.layouts addObject:layout];
     }
@@ -71,7 +71,6 @@
         cell = [[ADRelatedGoodsCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ADRelatedGoodsCellID];
     }
     cell.layout = _layouts[indexPath.row];
-    
     return cell;
 }
 

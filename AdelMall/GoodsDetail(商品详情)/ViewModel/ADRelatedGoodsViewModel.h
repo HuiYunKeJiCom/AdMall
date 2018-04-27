@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DCClassGoodsItem.h"
+#import "ADGoodsModel.h"
 
 /*
     相关商品页面
@@ -18,6 +19,7 @@
 //@property (nonatomic,strong)BaseTableView *goodsTable;//懒加载，需要外部设定frame
 @property (nonatomic,readonly)UITableView *goodsListView;//懒加载，需要外部设定frame
 
-- (void)loadGoodsData:(NSArray<DCClassGoodsItem *> *)goodsItem;
+//- (void)loadGoodsData:(NSArray<DCClassGoodsItem *> *)goodsItem;
+- (void)loadGoodsData:(NSArray<ADGoodsModel *> *)goodsItem;
 
 @end
